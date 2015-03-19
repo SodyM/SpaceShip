@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceShip", "SpaceShip\SpaceShip\SpaceShip.csproj", "{CC2178C6-33A9-41DA-8EDB-3601417AB5AD}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "SpaceShipContent", "SpaceShip\SpaceShipContent\SpaceShipContent.contentproj", "{76D51093-6F1F-4684-AA78-95C9AF042CA6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC2178C6-33A9-41DA-8EDB-3601417AB5AD}.Debug|x86.ActiveCfg = Debug|x86
+		{CC2178C6-33A9-41DA-8EDB-3601417AB5AD}.Debug|x86.Build.0 = Debug|x86
+		{CC2178C6-33A9-41DA-8EDB-3601417AB5AD}.Release|x86.ActiveCfg = Release|x86
+		{CC2178C6-33A9-41DA-8EDB-3601417AB5AD}.Release|x86.Build.0 = Release|x86
+		{76D51093-6F1F-4684-AA78-95C9AF042CA6}.Debug|x86.ActiveCfg = Debug|x86
+		{76D51093-6F1F-4684-AA78-95C9AF042CA6}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

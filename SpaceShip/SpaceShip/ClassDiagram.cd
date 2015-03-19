@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SpaceShip.Objects.AnimatedUiObject" Collapsed="true">
+    <Position X="3.75" Y="1.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>gAQCAAAEgAAAAgQAUgIAIIAAAAAAAAAAAAQCAAAAAAE=</HashCode>
+      <FileName>Objects\AnimatedUiObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceShip.Objects.BaseUiObject" Collapsed="true">
+    <Position X="6" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>ABQAAAAAAAAAAgAAEAAAABAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Objects\BaseObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceShip.Objects.Enemy" Collapsed="true">
+    <Position X="8.25" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAYAAAAAAAAAAAAkAAAgAggAAQABAAAAAAAAABAAAA=</HashCode>
+      <FileName>Objects\Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceShip.Objects.Explosion" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAACAAAAAAAAAgAAAAAQAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Objects\Explosion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceShip.Objects.Hatch" Collapsed="true">
+    <Position X="3.75" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAACAAAAAAAAAgAAAAAQAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Objects\Hatch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceShip.Objects.Head" Collapsed="true">
+    <Position X="6" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAACAAAAAAAAAgAAAAAQAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Objects\Head.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceShip.Objects.ParallaxingBackground" Collapsed="true">
+    <Position X="13.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAwAAAAAAIAAAAAAAAwAAAAAAAAAAAAA=</HashCode>
+      <FileName>Objects\ParallaxingBackground.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceShip.Objects.Player" Collapsed="true">
+    <Position X="2.25" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AIUAEAAAgACAAEAAAgAAEIAAQAQEAAAIQQQAAABAQIA=</HashCode>
+      <FileName>Objects\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceShip.Objects.Projectile" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>gAQAAAAAAACAAAQAAgEAIAAAAAUAAAAAAAAAAABAAIA=</HashCode>
+      <FileName>Objects\Projectile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceShip.Objects.Text" Collapsed="true">
+    <Position X="10.5" Y="1.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>BQAAAAQAAAKAAAAAACAAAAAAAAYAAAAAAIAgAABAAIA=</HashCode>
+      <FileName>Objects\Text.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceShip.Program" Collapsed="true">
+    <Position X="16.75" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceShip.SpaceShipGame" Collapsed="true">
+    <Position X="13.5" Y="1.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAUFAECQJAAwBACAAAAEAAQACAAAgJAABAAgAAACY=</HashCode>
+      <FileName>SpaceShipGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="SpaceShip.Objects.EnemyType" Collapsed="true">
+    <Position X="13.5" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAgAAABAAAAAAAAAAAAAAAAAAADAAAAA=</HashCode>
+      <FileName>Objects\Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SpaceShip.Objects.TextColor" Collapsed="true">
+    <Position X="13.5" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Objects\Text.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
