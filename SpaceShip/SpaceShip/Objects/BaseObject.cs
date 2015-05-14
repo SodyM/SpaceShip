@@ -28,6 +28,19 @@ namespace SpaceShip.Objects
         /// </summary>
         protected Rectangle drawRectangle;
 
+        public Rectangle ObjRectangle
+        {
+            get
+            {
+                return this.drawRectangle;
+            }
+        }
+
+        public Point Location
+        {
+            get { return drawRectangle.Center; }
+        }
+
         /// <summary>
         /// Update handler
         /// </summary>

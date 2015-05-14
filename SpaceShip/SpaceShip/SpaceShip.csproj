@@ -86,6 +86,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\GameConstants.cs" />
+    <Compile Include="Classes\RandomNumberGenerator.cs" />
     <Compile Include="Objects\AnimatedUiObject.cs" />
     <Compile Include="Objects\BaseObject.cs" />
     <Compile Include="Objects\Enemy.cs" />

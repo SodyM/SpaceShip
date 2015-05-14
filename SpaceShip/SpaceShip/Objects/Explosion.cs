@@ -24,7 +24,7 @@ namespace SpaceShip.Objects
         public Explosion(ContentManager contentManager, GraphicsDevice device, Vector2 position)
         {
             sprite = contentManager.Load<Texture2D>(ASSET_NAME);
-            base.Init(FRAMES_COUNT, WIDTH, HEIGHT, position);
+            base.Init(FRAMES_COUNT, WIDTH, HEIGHT, position, true);
             base.ChangeFrameRate(START_FRAMERATE);
             AnimationDirectionFromTopToDown = false;
         }

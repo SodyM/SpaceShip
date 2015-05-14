@@ -2,7 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SpaceShip.Classes;
 using SpaceShip.Objects;
+using System;
 using System.Collections.Generic;
 
 namespace SpaceShip
@@ -14,25 +16,30 @@ namespace SpaceShip
     {
         const int WINDOW_WIDTH = 800;
         const int WINDOW_HEIGHT = 600;
+        
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         // game objects
         Player player;
-        Enemy enemy_blue;
-        Enemy enemy_cyan;
-        Enemy enemy_green;
-        Enemy enemy_red;
-        Enemy enemy_yellow;
+        //Enemy enemy_blue;
+        //Enemy enemy_cyan;
+        //Enemy enemy_green;
+        //Enemy enemy_red;
+        //Enemy enemy_yellow;
+        List<Enemy> enemies;
+        int maxEnemies = 5;
         Hatch hatch1;
         Hatch hatch2;
+        List<Hatch> hatches = new List<Hatch>();
         Head head;
         ParallaxingBackground bgLayer1;
         List<Explosion> explosions;
         static List<Projectile> projectiles;
         List<Text> texts;
         Text text;
+        string scoreText = GameConstants.SCORE_PREFIX;
 
         /// <summary>
         /// Constructor
@@ -54,6 +61,8 @@ namespace SpaceShip
         /// </summary>
         protected override void Initialize()
         {
+            RandomNumberGenerator.Initialize();
+
             explosions = new List<Explosion>();
             projectiles = new List<Projectile>();
             bgLayer1 = new ParallaxingBackground();
@@ -76,23 +85,26 @@ namespace SpaceShip
 
             text = new Text(Content, GraphicsDevice);
             player = new Player(Content, GraphicsDevice, new Vector2(60, 300), this);
-            enemy_blue = new Enemy(Content, GraphicsDevice, new Vector2(200, 200), EnemyType.Blue);
-            enemy_cyan = new Enemy(Content, GraphicsDevice, new Vector2(300, 200), EnemyType.Cyan);
-            enemy_green = new Enemy(Content, GraphicsDevice, new Vector2(400, 200), EnemyType.Green);
-            enemy_red = new Enemy(Content, GraphicsDevice, new Vector2(200, 400), EnemyType.Red);
-            enemy_yellow = new Enemy(Content, GraphicsDevice, new Vector2(300, 400), EnemyType.Yellow);
-            hatch1 = new Hatch(Content, GraphicsDevice, new Vector2(100, 100));
-            hatch2 = new Hatch(Content, GraphicsDevice, new Vector2(120, 100));
+            //enemy_blue = new Enemy(Content, GraphicsDevice, new Vector2(200, 200), EnemyType.Blue);
+            //enemy_cyan = new Enemy(Content, GraphicsDevice, new Vector2(300, 200), EnemyType.Cyan);
+            //enemy_green = new Enemy(Content, GraphicsDevice, new Vector2(400, 200), EnemyType.Green);
+            //enemy_red = new Enemy(Content, GraphicsDevice, new Vector2(200, 400), EnemyType.Red);
+            //enemy_yellow = new Enemy(Content, GraphicsDevice, new Vector2(300, 400), EnemyType.Yellow);
+            //hatch1 = new Hatch(Content, GraphicsDevice, new Vector2(100, 100));
+            //hatch2 = new Hatch(Content, GraphicsDevice, new Vector2(120, 100));
             head = new Head(Content, GraphicsDevice, new Vector2(550, 220));
+            enemies = new List<Enemy>();
 
-            AddTestExplosion(new Vector2(270, 250));
+            SpawnEnemy();
+
+            //AddTestExplosion(new Vector2(270, 250));
         }
 
         /// <summary>
         /// Add new explosion
         /// </summary>
         /// <param name="position">Start position</param>
-        private void AddTestExplosion(Vector2 position)
+        private void AddExplosion(Vector2 position)
         {
             explosions.Add(new Explosion(Content, GraphicsDevice, position));
         }
@@ -127,17 +139,107 @@ namespace SpaceShip
 
             bgLayer1.Update();          
             player.Update(gameTime);
-            enemy_blue.Update(gameTime);
-            enemy_cyan.Update(gameTime);
-            enemy_green.Update(gameTime);
-            enemy_red.Update(gameTime);
-            enemy_yellow.Update(gameTime);
-            hatch1.Update(gameTime);
-            hatch2.Update(gameTime);
+
+            foreach (var enemy in enemies)
+            {
+                enemy.Update(gameTime);
+            }
+
+            foreach (var hatch in hatches)
+            {
+                hatch.Update(gameTime);
+            }
+
+            //hatch1.Update(gameTime);
+            //hatch2.Update(gameTime);
             head.Update(gameTime);
             UpdateExplisions(gameTime);
             UpdateProjectiles(gameTime);
-            
+
+            //collision between enemies and projectiles
+            for (int i = 0; i < projectiles.Count; i++)
+            {
+                var curProjectTile = projectiles[i];
+                if (!curProjectTile.IsActive)
+                    continue;
+                for (int j = 0; j < enemies.Count; j++)
+                {
+                    var curEnemy = enemies[j];
+                    if (!curEnemy.IsActive)
+                        continue;
+
+                    Rectangle collisionRectangle = Rectangle.Intersect(curEnemy.ObjRectangle, curProjectTile.ObjRectangle);
+                    if (!collisionRectangle.IsEmpty)
+                    {
+                        AddExplosion(new Vector2(curEnemy.Location.X - 50, curEnemy.Location.Y - 50));
+                        curProjectTile.IsActive = false;
+                        curEnemy.IsActive = false;
+
+                        var newHatch = new Hatch(Content, GraphicsDevice, new Vector2(curEnemy.Location.X, curEnemy.Location.Y), curEnemy.GetScore());
+                        hatches.Add(newHatch);
+                    }
+                }
+            }
+
+            //collision between player and enemies
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                var curEnemy = enemies[i];
+                if (!curEnemy.IsActive)
+                    continue;
+
+                Rectangle collisionRectangle = Rectangle.Intersect(curEnemy.ObjRectangle, player.ObjRectangle);
+                if (!collisionRectangle.IsEmpty)
+                {
+                    
+                    AddExplosion(new Vector2(curEnemy.ObjRectangle.Center.X-50, curEnemy.ObjRectangle.Center.Y-50));
+                    curEnemy.IsActive = false;
+
+                    var newHatch = new Hatch(Content, GraphicsDevice, new Vector2(curEnemy.Location.X, curEnemy.Location.Y), curEnemy.GetScore());
+                    hatches.Add(newHatch);
+                    
+                }
+            }
+
+            for (int i = 0; i < hatches.Count; i++)
+            {
+                var curHatch = hatches[i];
+                if (!curHatch.IsActive)
+                    continue;
+
+                Rectangle collisionRectangle = Rectangle.Intersect(curHatch.ObjRectangle, player.ObjRectangle);
+                if (!collisionRectangle.IsEmpty)
+                {
+                    curHatch.IsActive = false;
+                    player.Score += curHatch.Value;
+                }
+            }
+
+
+            for (int i = enemies.Count - 1; i >= 0; i--)
+            {
+                if (!enemies[i].IsActive)
+                    enemies.RemoveAt(i);
+            }
+
+            for (int i = hatches.Count - 1; i >= 0; i--)
+            {
+                if (!hatches[i].IsActive)
+                    hatches.RemoveAt(i);
+            }
+
+
+            while (enemies.Count <= maxEnemies)
+            {
+                SpawnEnemy();
+            }
+
+            //for (int i = projectiles.Count - 1; i >= 0; i--)
+            //{
+            //    if (!projectiles[i].IsActive)
+            //        projectiles.RemoveAt(i);
+            //}
+
             base.Update(gameTime);
         }
        
@@ -150,6 +252,12 @@ namespace SpaceShip
             foreach (Explosion explosion in explosions)
             {
                 explosion.Update(gameTime);
+            }
+
+            for (int i = explosions.Count - 1; i >= 0; i--)
+            {
+                if (!explosions[i].IsActive)
+                    explosions.RemoveAt(i);
             }
         }
 
@@ -184,13 +292,25 @@ namespace SpaceShip
             
             bgLayer1.Draw(spriteBatch);
             player.Draw(spriteBatch, gameTime);
-            enemy_blue.Draw(spriteBatch, gameTime);
-            enemy_cyan.Draw(spriteBatch, gameTime);
-            enemy_green.Draw(spriteBatch, gameTime);
-            enemy_red.Draw(spriteBatch, gameTime);
-            enemy_yellow.Draw(spriteBatch, gameTime);
-            hatch1.Draw(spriteBatch, gameTime);
-            hatch2.Draw(spriteBatch, gameTime);
+
+            foreach (var enemy in enemies)
+            {
+                enemy.Draw(spriteBatch, gameTime);
+            }
+
+            //enemy_blue.Draw(spriteBatch, gameTime);
+            //enemy_cyan.Draw(spriteBatch, gameTime);
+            //enemy_green.Draw(spriteBatch, gameTime);
+            //enemy_red.Draw(spriteBatch, gameTime);
+            //enemy_yellow.Draw(spriteBatch, gameTime);
+            //hatch1.Draw(spriteBatch, gameTime);
+            //hatch2.Draw(spriteBatch, gameTime);
+
+            foreach (var hatch in hatches)
+            {
+                hatch.Draw(spriteBatch, gameTime);
+            }
+
             head.Draw(spriteBatch, gameTime);
 
             // draw all existing explosions
@@ -206,6 +326,24 @@ namespace SpaceShip
             }            
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        private void SpawnEnemy()
+        {
+            var x = GetRandomLocation(GameConstants.SPAWN_BORDER_SIZE, GameConstants.WINDOW_WIDTH - GameConstants.SPAWN_BORDER_SIZE * 2);
+            var y = GetRandomLocation(GameConstants.SPAWN_BORDER_SIZE, GameConstants.WINDOW_HEIGHT - GameConstants.SPAWN_BORDER_SIZE * 2);
+
+            Array values = Enum.GetValues(typeof(EnemyType));
+            var randomEnemyType = (EnemyType)values.GetValue(RandomNumberGenerator.Next(values.Length));
+
+
+            Enemy newEnemy = new Enemy(Content, GraphicsDevice, new Vector2(x, y), randomEnemyType);
+            enemies.Add(newEnemy);
+        }
+
+        private int GetRandomLocation(int min, int range)
+        {
+            return min + RandomNumberGenerator.Next(range);
         }
     }
 }

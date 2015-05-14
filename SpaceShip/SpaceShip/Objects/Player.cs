@@ -25,6 +25,7 @@ namespace SpaceShip.Objects
         bool spacePressed;
         bool spaceReleased;        
         SoundEffect laserSound;
+        int score = 0;
 
         /// <summary>
         /// Constructor
@@ -42,6 +43,18 @@ namespace SpaceShip.Objects
             // set window dimensions
             windowHeight = device.Viewport.Height;
             windowWidth = device.Viewport.Width;            
+        }
+
+        public int Score
+        {
+            get
+            {
+                return score;
+            }
+            set
+            {
+                score = value;
+            }
         }
         
         /// <summary>

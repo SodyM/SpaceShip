@@ -14,6 +14,7 @@ namespace SpaceShip.Objects
     /// </summary>
     class Enemy : AnimatedUiObject
     {
+        EnemyType enemyType;
         const int START_FRAMERATE = 90;
         const int FRAMES_COUNT = 6;
         const int HEIGHT = 30;
@@ -54,11 +55,26 @@ namespace SpaceShip.Objects
         /// <param name="enemyType">EnemyType</param>
         public Enemy(ContentManager contentManager, GraphicsDevice device, Vector2 position, EnemyType enemyType)
         {
+            this.enemyType = enemyType;
             string textureSet = GetEnemyType(enemyType);
             sprite = contentManager.Load<Texture2D>(textureSet);
             
             base.Init(FRAMES_COUNT, WIDTH, HEIGHT, position);
             base.ChangeFrameRate(START_FRAMERATE);
+        }
+
+
+        public int GetScore()
+        {
+            switch (enemyType)
+            {
+                case EnemyType.Blue: return 10; break;
+                case EnemyType.Cyan: return 20; break;
+                case EnemyType.Green: return 30; break;
+                case EnemyType.Yellow: return 40; break;
+                case EnemyType.Red: return 40; break;
+            }
+            return 10;
         }
     }
 }

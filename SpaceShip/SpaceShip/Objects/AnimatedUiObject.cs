@@ -24,6 +24,7 @@ namespace SpaceShip.Objects
 
 
         bool useAnimationTopDown = true;
+        bool deactivateAfterAnimation = false;
         public bool AnimationDirectionFromTopToDown
         {
             set { useAnimationTopDown = value; }
@@ -41,9 +42,11 @@ namespace SpaceShip.Objects
         public void Init(int numFrames, int width, int height, Vector2 position, Texture2D sprite)
         {
             base.sprite = sprite;
+            
             Init(numFrames, width, height, position);
         }
 
+        
         /// <summary>
         /// Initialization of animated ui object
         /// </summary>
@@ -51,12 +54,13 @@ namespace SpaceShip.Objects
         /// <param name="width">Width of single frame</param>
         /// <param name="height">Height of single frame</param>
         /// <param name="position">Start position</param>
-        public void Init(int numFrames, int width, int height, Vector2 position)
+        public void Init(int numFrames, int width, int height, Vector2 position, bool deactiveAfterAnimation = false)
         {
             this.position = position;
             this.frames_count = numFrames;
             this.width = width;
             this.height = height;
+            this.deactivateAfterAnimation = deactiveAfterAnimation;
 
             // center it
             this.position.X = position.X - sprite.Width / 2;
@@ -113,7 +117,11 @@ namespace SpaceShip.Objects
                     if (currentFrame < frames_count - 1)        // advance the animation
                         currentFrame++;
                     else
+                    {
                         currentFrame = 0;                       // reached the end of the animation
+                        if (deactivateAfterAnimation)
+                            IsActive = false;
+                    }
 
                     SetSourceRectangleLocation(currentFrame);
                 }
