@@ -86,6 +86,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\AssetsConstants.cs" />
     <Compile Include="Classes\GameConstants.cs" />
     <Compile Include="Classes\RandomNumberGenerator.cs" />
     <Compile Include="Objects\AnimatedUiObject.cs" />
@@ -143,7 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <None Include="SpaceShip_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SpaceShip.Classes;
 
 namespace SpaceShip.Objects
 {
@@ -16,8 +17,7 @@ namespace SpaceShip.Objects
         const int WIDTH = 64;
         const int HEIGHT = 29;
         const int COUNT_OF_FRAMES = 4;
-        const string ASSET_NAME = "ship_64x29";
-        const string SOUND_EFFECT_NAME = "laserFire";
+        
 
         SpaceShipGame thisGame;
         Vector2 velocity;
@@ -36,8 +36,8 @@ namespace SpaceShip.Objects
         public Player(ContentManager contentManager, GraphicsDevice device, Vector2 position, SpaceShipGame game)
         {
             thisGame = game;
-            laserSound = contentManager.Load<SoundEffect>(SOUND_EFFECT_NAME);
-            sprite = contentManager.Load<Texture2D>(ASSET_NAME);
+            laserSound = contentManager.Load<SoundEffect>(AssetsConstants.LASER_FIRE);
+            sprite = contentManager.Load<Texture2D>(AssetsConstants.PLAYER);
             base.Init(COUNT_OF_FRAMES, WIDTH, HEIGHT, position);
             
             // set window dimensions

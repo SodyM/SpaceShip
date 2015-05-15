@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShip.Classes;
 
 namespace SpaceShip.Objects
 {
     /// <summary>
-    /// Hatch
+    /// Hatch - Simple coin
     /// </summary>
     class Hatch : AnimatedUiObject
     {
@@ -14,7 +15,6 @@ namespace SpaceShip.Objects
         const int FRAMES_COUNT = 4;
         const int HEIGHT = 16;
         const int WIDTH = 16;
-        const string ASSET_NAME = "hatch_sheet";
 
         int value = 0;
 
@@ -34,7 +34,7 @@ namespace SpaceShip.Objects
         /// <param name="position">Start position</param>
         public Hatch(ContentManager contentManager, GraphicsDevice device, Vector2 position, int value)
         {
-            sprite = contentManager.Load<Texture2D>(ASSET_NAME);
+            sprite = contentManager.Load<Texture2D>(AssetsConstants.HATCH);
             this.value = value;
 
             base.Init(FRAMES_COUNT, WIDTH, HEIGHT, position);

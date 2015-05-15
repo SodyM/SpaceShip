@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShip.Classes;
 using System;
 
 namespace SpaceShip.Objects
@@ -15,8 +16,7 @@ namespace SpaceShip.Objects
         Vector2 spriteOrigin;
         const float SPEED = 10.0f;
         const int WIDTH = 46;
-        const int HEIGHT = 16;
-        const string ASSET_NAME = "laser";
+        const int HEIGHT = 16;       
     
 
         public int X_Position
@@ -37,7 +37,7 @@ namespace SpaceShip.Objects
         /// <param name="position">Start position of projectile</param>
         public Projectile(ContentManager contentManager, GraphicsDevice device, Vector2 position)
         {
-            sprite = contentManager.Load<Texture2D>(ASSET_NAME);
+            sprite = contentManager.Load<Texture2D>(AssetsConstants.LASER);
             this.position = position;
 
             // center it

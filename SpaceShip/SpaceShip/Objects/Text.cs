@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShip.Classes;
 using System.Collections.Generic;
 
 namespace SpaceShip.Objects
@@ -24,7 +25,6 @@ namespace SpaceShip.Objects
         const int CHARACTER_SPACE_WIDTH = 20;
 
         const string CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const string ASSET_NAME = "fonts";
 
         Dictionary<string, List<Rectangle>> textDictionary;
         
@@ -36,7 +36,7 @@ namespace SpaceShip.Objects
         /// <param name="device">GraphicsDevice</param>
         public Text(ContentManager contentManager, GraphicsDevice device)
         {
-            sprite = contentManager.Load<Texture2D>(ASSET_NAME);
+            sprite = contentManager.Load<Texture2D>(AssetsConstants.FONTS);
             textDictionary = new Dictionary<string, List<Rectangle>>();
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShip.Classes;
 
 namespace SpaceShip.Objects
 {    
@@ -19,11 +20,7 @@ namespace SpaceShip.Objects
         const int FRAMES_COUNT = 6;
         const int HEIGHT = 30;
         const int WIDTH = 40;
-        const string ASSET_NAME_YELLOW = "ship1_40x30";
-        const string ASSET_NAME_RED = "ship2_40x30";
-        const string ASSET_NAME_CYAN = "ship3_40x30";
-        const string ASSET_NAME_BLUE = "ship4_40x30";
-        const string ASSET_NAME_GREEN = "ship5_40x30";
+        
 
         /// <summary>
         /// Get correct image file for given enemy type
@@ -33,17 +30,17 @@ namespace SpaceShip.Objects
         string GetEnemyType(EnemyType enemyType)
         {
             if (enemyType.Equals(EnemyType.Yellow))
-                return ASSET_NAME_YELLOW;
+                return AssetsConstants.ENEMY_YELLOW;
             else if (enemyType.Equals(EnemyType.Red))
-                return ASSET_NAME_RED;
+                return AssetsConstants.ENEMY_RED;
             else if (enemyType.Equals(EnemyType.Cyan))
-                return ASSET_NAME_CYAN;
+                return AssetsConstants.ENEMY_CYAN;
             else if (enemyType.Equals(EnemyType.Blue))
-                return ASSET_NAME_BLUE;
+                return AssetsConstants.ENEMY_BLUE;
             else if (enemyType.Equals(EnemyType.Green))
-                return ASSET_NAME_GREEN;
+                return AssetsConstants.ENEMY_GREEN;
             else
-                return ASSET_NAME_YELLOW;
+                return AssetsConstants.ENEMY_YELLOW;
         }
         
         /// <summary>

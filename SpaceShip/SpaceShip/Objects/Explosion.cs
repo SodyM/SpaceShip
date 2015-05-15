@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShip.Classes;
 
 namespace SpaceShip.Objects
 {
@@ -13,7 +14,7 @@ namespace SpaceShip.Objects
         const int FRAMES_COUNT = 12;
         const int HEIGHT = 134;
         const int WIDTH = 134;
-        const string ASSET_NAME = "explosion";
+
 
         /// <summary>
         /// Constructor
@@ -23,7 +24,7 @@ namespace SpaceShip.Objects
         /// <param name="position">Start position</param>
         public Explosion(ContentManager contentManager, GraphicsDevice device, Vector2 position)
         {
-            sprite = contentManager.Load<Texture2D>(ASSET_NAME);
+            sprite = contentManager.Load<Texture2D>(AssetsConstants.EXPLOSION);
             base.Init(FRAMES_COUNT, WIDTH, HEIGHT, position, true);
             base.ChangeFrameRate(START_FRAMERATE);
             AnimationDirectionFromTopToDown = false;

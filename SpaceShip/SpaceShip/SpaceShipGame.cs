@@ -14,24 +14,14 @@ namespace SpaceShip
     /// </summary>
     public class SpaceShipGame : Microsoft.Xna.Framework.Game
     {
-        const int WINDOW_WIDTH = 800;
-        const int WINDOW_HEIGHT = 600;
-        
-
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         // game objects
         Player player;
-        //Enemy enemy_blue;
-        //Enemy enemy_cyan;
-        //Enemy enemy_green;
-        //Enemy enemy_red;
-        //Enemy enemy_yellow;
+     
         List<Enemy> enemies;
-        int maxEnemies = 5;
-        Hatch hatch1;
-        Hatch hatch2;
+        
         List<Hatch> hatches = new List<Hatch>();
         Head head;
         ParallaxingBackground bgLayer1;
@@ -39,7 +29,7 @@ namespace SpaceShip
         static List<Projectile> projectiles;
         List<Text> texts;
         Text text;
-        string scoreText = GameConstants.SCORE_PREFIX;
+        //string scoreText = GameConstants.SCORE_PREFIX;
 
         /// <summary>
         /// Constructor
@@ -47,8 +37,8 @@ namespace SpaceShip
         public SpaceShipGame()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
-            graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
+            graphics.PreferredBackBufferWidth = GameConstants.WINDOW_WIDTH;
+            graphics.PreferredBackBufferHeight = GameConstants.WINDOW_HEIGHT;
 
             Content.RootDirectory = "Content";
         }
@@ -81,23 +71,14 @@ namespace SpaceShip
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load the parallaxing background
-            bgLayer1.Initialize(Content, "starfield", GraphicsDevice.Viewport.Width, -1);
+            bgLayer1.Initialize(Content, AssetsConstants.STARTFIELD, GraphicsDevice.Viewport.Width, -1);
 
             text = new Text(Content, GraphicsDevice);
             player = new Player(Content, GraphicsDevice, new Vector2(60, 300), this);
-            //enemy_blue = new Enemy(Content, GraphicsDevice, new Vector2(200, 200), EnemyType.Blue);
-            //enemy_cyan = new Enemy(Content, GraphicsDevice, new Vector2(300, 200), EnemyType.Cyan);
-            //enemy_green = new Enemy(Content, GraphicsDevice, new Vector2(400, 200), EnemyType.Green);
-            //enemy_red = new Enemy(Content, GraphicsDevice, new Vector2(200, 400), EnemyType.Red);
-            //enemy_yellow = new Enemy(Content, GraphicsDevice, new Vector2(300, 400), EnemyType.Yellow);
-            //hatch1 = new Hatch(Content, GraphicsDevice, new Vector2(100, 100));
-            //hatch2 = new Hatch(Content, GraphicsDevice, new Vector2(120, 100));
             head = new Head(Content, GraphicsDevice, new Vector2(550, 220));
             enemies = new List<Enemy>();
 
             SpawnEnemy();
-
-            //AddTestExplosion(new Vector2(270, 250));
         }
 
         /// <summary>
@@ -150,10 +131,8 @@ namespace SpaceShip
                 hatch.Update(gameTime);
             }
 
-            //hatch1.Update(gameTime);
-            //hatch2.Update(gameTime);
             head.Update(gameTime);
-            UpdateExplisions(gameTime);
+            UpdateExplosions(gameTime);
             UpdateProjectiles(gameTime);
 
             //collision between enemies and projectiles
@@ -229,7 +208,7 @@ namespace SpaceShip
             }
 
 
-            while (enemies.Count <= maxEnemies)
+            while (enemies.Count <= GameConstants.ENEMY_MAX_COUNT)
             {
                 SpawnEnemy();
             }
@@ -247,7 +226,7 @@ namespace SpaceShip
         /// Update all existing explosions
         /// </summary>
         /// <param name="gameTime">GameTime</param>
-        void UpdateExplisions(GameTime gameTime)
+        void UpdateExplosions(GameTime gameTime)
         {
             foreach (Explosion explosion in explosions)
             {
@@ -298,13 +277,6 @@ namespace SpaceShip
                 enemy.Draw(spriteBatch, gameTime);
             }
 
-            //enemy_blue.Draw(spriteBatch, gameTime);
-            //enemy_cyan.Draw(spriteBatch, gameTime);
-            //enemy_green.Draw(spriteBatch, gameTime);
-            //enemy_red.Draw(spriteBatch, gameTime);
-            //enemy_yellow.Draw(spriteBatch, gameTime);
-            //hatch1.Draw(spriteBatch, gameTime);
-            //hatch2.Draw(spriteBatch, gameTime);
 
             foreach (var hatch in hatches)
             {
