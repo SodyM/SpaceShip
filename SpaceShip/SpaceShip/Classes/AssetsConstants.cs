@@ -24,6 +24,7 @@ namespace SpaceShip.Classes
         public const string LASER                               = "laser";
         public const string FONTS                               = "fonts";
         public const string STARTFIELD                          = "starfield";
+        public const string RESPECT                             = "respect";
 
         // sounds
         public const string AUDIO_ENGINE                        = @"Content\SpaceShip.xgs";
@@ -31,7 +32,7 @@ namespace SpaceShip.Classes
         public const string SOUND_BANK                          = @"Content\Sound Bank.xsb";
 
         public const string LASER_FIRE                          = "laserFire";
-        public const string RESPECT                             = "respect";
+        public const string RESPECT_SOUND                       = "cool";
 
         // musics
         public const string BACKGROUND_MUSIC                    = "main_theme";

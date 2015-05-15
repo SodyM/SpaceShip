@@ -47,11 +47,6 @@ namespace SpaceShip.Objects
         /// <param name="gameTime">GameTime</param>
         public virtual void Update(GameTime gameTime)
         {
-            /*
-            if (isActive)
-            {
-            }
-            */
         }
 
         /// <summary>

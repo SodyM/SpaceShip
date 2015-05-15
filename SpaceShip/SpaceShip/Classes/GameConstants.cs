@@ -26,5 +26,7 @@ namespace SpaceShip.Classes
         // game standards
         public const int ENEMY_MAX_COUNT                    = 5;
         public const string SCORE_PREFIX                    = "Score";
+
+        public const int SHOW_INFOWINDOW_DELAY              = 1500;
     }
 }

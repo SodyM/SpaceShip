@@ -39,6 +39,9 @@ namespace SpaceShip.Objects
             }
         }
 
+
+        public int BackupScore { get; set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -179,6 +182,6 @@ namespace SpaceShip.Objects
         void MoveLeft()
         {
             velocity.X -= VELOCITY_STEP;
-        }
+        }        
     }
 }

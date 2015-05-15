@@ -25,10 +25,6 @@ namespace SpaceShip
         MusicManager musicManager;
 
 
-        bool keyMPressed;
-        bool keyMReleased;
-        bool musicIsActiv = true;
-
         // game objects
         Player player;
      
@@ -41,6 +37,9 @@ namespace SpaceShip
         List<Text> texts;
         Text textHelper;
         //string scoreText = GameConstants.SCORE_PREFIX;
+
+        InfoWindow infoWindow;
+        int backup_score = 0;
 
         /// <summary>
         /// Constructor
@@ -86,6 +85,7 @@ namespace SpaceShip
             waveBank = new WaveBank(audioEngine, AssetsConstants.WAVE_BANK);
             soundBank = new SoundBank(audioEngine, AssetsConstants.SOUND_BANK);
             musicManager = new MusicManager(Content, soundBank, GraphicsDevice);
+            infoWindow = new InfoWindow(Content, GraphicsDevice, soundBank, new Vector2(20, 35));
 
             // Load the parallaxing background
             bgLayer1.Initialize(Content, AssetsConstants.STARTFIELD, GraphicsDevice.Viewport.Width, -1);
@@ -131,6 +131,15 @@ namespace SpaceShip
         protected override void Update(GameTime gameTime)
         {
             musicManager.Update(Keyboard.GetState());
+
+            if (player.Score > 100)
+            {
+                player.BackupScore += player.Score;
+                infoWindow.IsActive = true;
+                player.Score = 0;
+            }
+
+            infoWindow.Update(gameTime);
 
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
@@ -284,6 +293,8 @@ namespace SpaceShip
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
+            
+            infoWindow.Draw(spriteBatch, gameTime);
             textHelper.DrawText(spriteBatch, GameConstants.SCORE, TextColor.Red, 20, 10);
 
             musicManager.Draw(spriteBatch, gameTime);
