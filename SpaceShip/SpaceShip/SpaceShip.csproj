@@ -95,6 +95,7 @@
     <Compile Include="Objects\Explosion.cs" />
     <Compile Include="Objects\Hatch.cs" />
     <Compile Include="Objects\Head.cs" />
+    <Compile Include="Objects\MusicManager.cs" />
     <Compile Include="Objects\ParallaxingBackground.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Objects\Projectile.cs" />

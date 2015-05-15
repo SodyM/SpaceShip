@@ -17,33 +17,15 @@ namespace SpaceShip.Objects
         const int WIDTH = 64;
         const int HEIGHT = 29;
         const int COUNT_OF_FRAMES = 4;
-        
+
+        SoundBank soundBank;
 
         SpaceShipGame thisGame;
         Vector2 velocity;
         int windowHeight, windowWidth;        
         bool spacePressed;
         bool spaceReleased;        
-        SoundEffect laserSound;
         int score = 0;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="contentManager">ContentManager</param>
-        /// <param name="device">GraphicsDevice</param>
-        /// <param name="position">Startposition of player</param>
-        public Player(ContentManager contentManager, GraphicsDevice device, Vector2 position, SpaceShipGame game)
-        {
-            thisGame = game;
-            laserSound = contentManager.Load<SoundEffect>(AssetsConstants.LASER_FIRE);
-            sprite = contentManager.Load<Texture2D>(AssetsConstants.PLAYER);
-            base.Init(COUNT_OF_FRAMES, WIDTH, HEIGHT, position);
-            
-            // set window dimensions
-            windowHeight = device.Viewport.Height;
-            windowWidth = device.Viewport.Width;            
-        }
 
         public int Score
         {
@@ -56,7 +38,25 @@ namespace SpaceShip.Objects
                 score = value;
             }
         }
-        
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="contentManager">ContentManager</param>
+        /// <param name="device">GraphicsDevice</param>
+        /// <param name="position">Startposition of player</param>
+        public Player(ContentManager contentManager, GraphicsDevice device, Vector2 position, SpaceShipGame game, SoundBank soundBank)
+        {
+            thisGame = game;
+            sprite = contentManager.Load<Texture2D>(AssetsConstants.PLAYER);
+            base.Init(COUNT_OF_FRAMES, WIDTH, HEIGHT, position);
+            
+            // set window dimensions
+            windowHeight = device.Viewport.Height;
+            windowWidth = device.Viewport.Width;
+            this.soundBank = soundBank;         
+        }
+               
         /// <summary>
         /// Update handler
         /// </summary>
@@ -146,7 +146,7 @@ namespace SpaceShip.Objects
             position.Y = this.position.Y + 7;
 
             thisGame.AddProjectile(position);
-            laserSound.Play();
+            soundBank.PlayCue(AssetsConstants.LASER_FIRE);
         }
 
         /// <summary>

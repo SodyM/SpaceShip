@@ -125,15 +125,29 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="_laserFire.wav">
+    <Compile Include="Sound\_laserFire.wav">
       <Name>_laserFire</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="laserFire.wav">
+    <Compile Include="Sound\laserFire.wav">
       <Name>laserFire</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sound\explosion.wav">
+      <Name>explosion</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sound\main_theme.wav">
+      <Name>main_theme</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

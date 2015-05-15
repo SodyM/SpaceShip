@@ -26,11 +26,15 @@ namespace SpaceShip.Classes
         public const string STARTFIELD                          = "starfield";
 
         // sounds
+        public const string AUDIO_ENGINE                        = @"Content\SpaceShip.xgs";
+        public const string WAVE_BANK                           = @"Content\Wave Bank.xwb";
+        public const string SOUND_BANK                          = @"Content\Sound Bank.xsb";
+
         public const string LASER_FIRE                          = "laserFire";
         public const string RESPECT                             = "respect";
 
         // musics
-        public const string BACKGROUND_MUSIC                    = "background";
+        public const string BACKGROUND_MUSIC                    = "main_theme";
         public const string WINNER_MUSIC                        = "winner";        
     }
 }

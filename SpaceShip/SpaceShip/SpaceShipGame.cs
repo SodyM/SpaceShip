@@ -17,18 +17,29 @@ namespace SpaceShip
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        // audio support
+        AudioEngine audioEngine;
+        WaveBank waveBank;
+        SoundBank soundBank;
+
+        MusicManager musicManager;
+
+
+        bool keyMPressed;
+        bool keyMReleased;
+        bool musicIsActiv = true;
+
         // game objects
         Player player;
      
         List<Enemy> enemies;
         
         List<Hatch> hatches = new List<Hatch>();
-        Head head;
         ParallaxingBackground bgLayer1;
         List<Explosion> explosions;
         static List<Projectile> projectiles;
         List<Text> texts;
-        Text text;
+        Text textHelper;
         //string scoreText = GameConstants.SCORE_PREFIX;
 
         /// <summary>
@@ -70,14 +81,19 @@ namespace SpaceShip
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // sound support
+            audioEngine = new AudioEngine(AssetsConstants.AUDIO_ENGINE);
+            waveBank = new WaveBank(audioEngine, AssetsConstants.WAVE_BANK);
+            soundBank = new SoundBank(audioEngine, AssetsConstants.SOUND_BANK);
+            musicManager = new MusicManager(Content, soundBank, GraphicsDevice);
+
             // Load the parallaxing background
             bgLayer1.Initialize(Content, AssetsConstants.STARTFIELD, GraphicsDevice.Viewport.Width, -1);
+            textHelper = new Text(Content, GraphicsDevice);
 
-            text = new Text(Content, GraphicsDevice);
-            player = new Player(Content, GraphicsDevice, new Vector2(60, 300), this);
-            head = new Head(Content, GraphicsDevice, new Vector2(550, 220));
+            player = new Player(Content, GraphicsDevice, new Vector2(60, 300), this, soundBank);
             enemies = new List<Enemy>();
-
+            
             SpawnEnemy();
         }
 
@@ -114,6 +130,8 @@ namespace SpaceShip
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            musicManager.Update(Keyboard.GetState());
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -131,7 +149,6 @@ namespace SpaceShip
                 hatch.Update(gameTime);
             }
 
-            head.Update(gameTime);
             UpdateExplosions(gameTime);
             UpdateProjectiles(gameTime);
 
@@ -220,7 +237,7 @@ namespace SpaceShip
             //}
 
             base.Update(gameTime);
-        }
+        }       
        
         /// <summary>
         /// Update all existing explosions
@@ -267,7 +284,9 @@ namespace SpaceShip
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            text.DrawText(spriteBatch, "SCORE", TextColor.Red, 20, 10);
+            textHelper.DrawText(spriteBatch, GameConstants.SCORE, TextColor.Red, 20, 10);
+
+            musicManager.Draw(spriteBatch, gameTime);
             
             bgLayer1.Draw(spriteBatch);
             player.Draw(spriteBatch, gameTime);
@@ -283,7 +302,7 @@ namespace SpaceShip
                 hatch.Draw(spriteBatch, gameTime);
             }
 
-            head.Draw(spriteBatch, gameTime);
+            
 
             // draw all existing explosions
             foreach (Explosion expl in explosions)
