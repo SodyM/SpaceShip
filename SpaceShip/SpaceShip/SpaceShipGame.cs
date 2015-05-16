@@ -169,6 +169,10 @@ namespace SpaceShip
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            // Allows the game to exit
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                this.Exit();
+            
             if (gameState == GameState.MENU_MAIN)
             {
                 UpdateMainMenu(gameTime);
@@ -185,6 +189,11 @@ namespace SpaceShip
             {
                 UpdateGame(gameTime);
             }
+            //else if(gameState == GameState.START_NEW_GAME)
+            //{
+            //    SpawnEnemy();
+            //    gameState = GameState.PLAY;
+            //}
             else if (gameState == GameState.GAME_OVER)
             {
                 UpdateGameOver(gameTime);
@@ -244,12 +253,7 @@ namespace SpaceShip
                 player.Score = 0;
             }
 
-            infoWindow.Update(gameTime);
-
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
+            infoWindow.Update(gameTime);            
             bgLayer1.Update();
             bgLayer2.Update();
             player.Update(gameTime);
@@ -461,7 +465,9 @@ namespace SpaceShip
             {
                 DrawGameOver(gameTime);
             }
-            base.Draw(gameTime);
+
+            spriteBatch.End();
+            base.Draw(gameTime);            
         }
 
         #region will be implemeted with better architecture later
@@ -535,8 +541,7 @@ namespace SpaceShip
             foreach (Projectile proj in projectiles)
             {
                 proj.Draw(spriteBatch, gameTime);
-            }
-            spriteBatch.End();
+            }            
         }
 
         #endregion

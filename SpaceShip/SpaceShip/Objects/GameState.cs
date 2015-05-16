@@ -13,6 +13,7 @@ namespace SpaceShip.Objects
         MENU_MAIN,
         MENU_DISPLAY_SETTINGS,
         MENU_CREDITS,
+        //START_NEW_GAME,
         PLAY,
         GAME_OVER
     };
