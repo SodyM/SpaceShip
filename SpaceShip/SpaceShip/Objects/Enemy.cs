@@ -20,7 +20,32 @@ namespace SpaceShip.Objects
         const int FRAMES_COUNT = 6;
         const int HEIGHT = 30;
         const int WIDTH = 40;
-        
+
+        // velocity information
+        Vector2 velocity = new Vector2(0, 0);
+
+
+        public Vector2 Velocity
+        {
+            get { return velocity; }
+            set { velocity = value; }
+        }
+
+        /// <summary>
+        /// Sets the x location of the center of the teddy bear
+        /// </summary>
+        public int X
+        {
+            set { drawRectangle.X = value - drawRectangle.Width / 2; }
+        }
+
+        /// <summary>
+        /// Sets the y location of the center of the teddy bear
+        /// </summary>
+        public int Y
+        {
+            set { drawRectangle.Y = value - drawRectangle.Height / 2; }
+        }
 
         /// <summary>
         /// Get correct image file for given enemy type
@@ -50,9 +75,10 @@ namespace SpaceShip.Objects
         /// <param name="device">GraphicsDevice</param>
         /// <param name="position">Startposition</param>
         /// <param name="enemyType">EnemyType</param>
-        public Enemy(ContentManager contentManager, GraphicsDevice device, Vector2 position, EnemyType enemyType)
+        public Enemy(ContentManager contentManager, GraphicsDevice device, Vector2 position, Vector2 velocity, EnemyType enemyType)
         {
             this.enemyType = enemyType;
+            this.velocity = velocity;
             string textureSet = GetEnemyType(enemyType);
             sprite = contentManager.Load<Texture2D>(textureSet);
             
@@ -72,6 +98,58 @@ namespace SpaceShip.Objects
                 case EnemyType.Red: return 40; break;
             }
             return 10;
+        }
+
+
+        public override void Update(GameTime gameTime)
+        {
+            if (!this.IsActive)
+                return;
+
+            int elapsedTime = gameTime.ElapsedGameTime.Milliseconds;
+            position.X += (int)(this.velocity.X * elapsedTime);
+            position.Y += (int)(this.velocity.Y * elapsedTime);
+
+           
+
+            // keep sapceship in window           
+            if (position.X < 0)
+                this.IsActive = false;
+
+            if (position.X > GameConstants.WINDOW_WIDTH - WIDTH)
+                this.IsActive = false;
+
+            //if (position.Y < 0)
+            //    this.IsActive = false;
+
+            //if (position.Y > GameConstants.WINDOW_HEIGHT - HEIGHT)
+            //    this.IsActive = false;
+
+            //if (position.Y < 10 + HEIGHT)
+                //position.Y = 10 + HEIGHT;
+
+            drawRectangle.X = (int)position.X;
+            drawRectangle.Y = (int)position.Y;
+
+            BounceTopBottom();
+
+            base.Update(gameTime);
+        }
+
+        private void BounceTopBottom()
+        {
+            if (drawRectangle.Y <= 0)
+            {
+                // bounce off top
+                drawRectangle.Y = 0;
+                velocity.Y *= -1;
+            }
+            else if ((drawRectangle.Y + drawRectangle.Height) > GameConstants.WINDOW_HEIGHT)
+            {
+                // bounce off bottom
+                drawRectangle.Y = GameConstants.WINDOW_HEIGHT - drawRectangle.Height;
+                velocity.Y *= -1;
+            }
         }
     }
 }

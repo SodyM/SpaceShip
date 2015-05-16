@@ -14,9 +14,29 @@ namespace SpaceShip.Objects
     class InfoWindow : StaticUiObject
     {
         int timer = 0;
+        int mode = 0;
         Cue cue;
         SoundBank soundBank;
         bool soundIsActive = false;
+        Vector2 position;
+
+        string sound = AssetsConstants.RESPECT_SOUND;
+        string image = AssetsConstants.RESPECT;
+
+
+        public void SetDisplayContent(ContentManager contentManager, string image, string sound)
+        {
+            if (this.image == image)
+                return;
+
+            this.image = image;
+            this.sound = sound;
+            
+
+            sprite = contentManager.Load<Texture2D>(this.image);
+            base.Init(sprite.Width / 2, sprite.Height / 2, position);
+            cue = soundBank.GetCue(this.sound);
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InfoWindow"/> class.
@@ -25,13 +45,17 @@ namespace SpaceShip.Objects
         /// <param name="device">The device.</param>
         /// <param name="soundBank">The sound bank.</param>
         /// <param name="position">The position.</param>
-        public InfoWindow(ContentManager contentManager, GraphicsDevice device, SoundBank soundBank, Vector2 position)
+        public InfoWindow(ContentManager contentManager, GraphicsDevice device, SoundBank soundBank, Vector2 position, string image, string sound)
         {
             this.soundBank = soundBank;
+            this.position = position;
+            this.image = image;
+            this.sound = sound;
+
             IsActive = false;
-            sprite = contentManager.Load<Texture2D>(AssetsConstants.RESPECT);
+            sprite = contentManager.Load<Texture2D>(this.image);
             base.Init(sprite.Width / 2, sprite.Height / 2, position);
-            cue = soundBank.GetCue(AssetsConstants.RESPECT_SOUND);
+            cue = soundBank.GetCue(this.sound);
         }
 
         /// <summary>
@@ -64,7 +88,7 @@ namespace SpaceShip.Objects
             if (!soundIsActive)
             {
                 soundIsActive = true;
-                cue = soundBank.GetCue(AssetsConstants.RESPECT_SOUND);
+                cue = soundBank.GetCue(this.sound);
                 cue.Play();
             }                
         }

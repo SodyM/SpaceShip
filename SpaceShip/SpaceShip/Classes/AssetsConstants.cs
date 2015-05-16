@@ -26,6 +26,7 @@ namespace SpaceShip.Classes
         public const string STARTFIELD                          = "starfield";
         public const string RESPECT                             = "respect";
         public const string NUMBERS                             = "numbers";
+        public const string COLLISION_INFO_PIC                     = "heino_scream";
 
         // sounds
         public const string AUDIO_ENGINE                        = @"Content\SpaceShip.xgs";
@@ -34,6 +35,7 @@ namespace SpaceShip.Classes
 
         public const string LASER_FIRE                          = "laserFire";
         public const string RESPECT_SOUND                       = "cool";
+        public const string COLLISION_SOUND                     = "scream";
 
         // musics
         public const string BACKGROUND_MUSIC                    = "main_theme";

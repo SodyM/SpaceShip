@@ -6,7 +6,7 @@ using System.Text;
 namespace SpaceShip.Classes
 {
     /// <summary>
-    /// Class to generate random values from the coursera course "Beginning Game Programming"
+    /// Class to generate random values from the coursera course "Beginning Game Programming with C#"
     /// </summary>
     public static class RandomNumberGenerator
     {

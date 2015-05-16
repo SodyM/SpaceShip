@@ -34,6 +34,9 @@ namespace SpaceShip.Classes
         public const int ENEMY_COLLISION_DAMAGE             = 15;
         public const string SCORE_PREFIX                    = "Score";
 
+        public const float ENEMY_SPEED_RANGE                = 0.2f;
+        public const float MIN_ENEMY_SPEED                  = 0.1f;
+
         public const int SHOW_INFOWINDOW_DELAY              = 1500;
     }
 }

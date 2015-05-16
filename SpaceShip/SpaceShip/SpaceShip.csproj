@@ -87,6 +87,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AssetsConstants.cs" />
+    <Compile Include="Classes\CollisionResolutionInfo.cs" />
+    <Compile Include="Classes\CollisionUtils.cs" />
     <Compile Include="Classes\GameConstants.cs" />
     <Compile Include="Classes\RandomNumberGenerator.cs" />
     <Compile Include="Objects\AnimatedUiObject.cs" />

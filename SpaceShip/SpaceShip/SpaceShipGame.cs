@@ -89,7 +89,7 @@ namespace SpaceShip
             waveBank = new WaveBank(audioEngine, AssetsConstants.WAVE_BANK);
             soundBank = new SoundBank(audioEngine, AssetsConstants.SOUND_BANK);
             musicManager = new MusicManager(Content, soundBank, GraphicsDevice);
-            infoWindow = new InfoWindow(Content, GraphicsDevice, soundBank, new Vector2(20, 35));
+            infoWindow = new InfoWindow(Content, GraphicsDevice, soundBank, new Vector2(20, 35), AssetsConstants.RESPECT, AssetsConstants.RESPECT_SOUND);
 
             // Load the parallaxing background
             bgLayer1.Initialize(Content, AssetsConstants.STARTFIELD, GraphicsDevice.Viewport.Width, -1);
@@ -205,6 +205,7 @@ namespace SpaceShip
 
             if (player.Score >= 100)
             {
+                infoWindow.SetDisplayContent(Content, AssetsConstants.RESPECT, AssetsConstants.RESPECT_SOUND);
                 player.BackupScore += player.Score;
                 infoWindow.IsActive = true;
                 player.Score = 0;
@@ -272,6 +273,9 @@ namespace SpaceShip
                     curEnemy.IsActive = false;
                     player.Health -= GameConstants.ENEMY_COLLISION_DAMAGE;
 
+
+                    infoWindow.SetDisplayContent(Content, AssetsConstants.COLLISION_INFO_PIC, AssetsConstants.COLLISION_SOUND);
+                    infoWindow.IsActive = true;
                 }
             }
 
@@ -293,7 +297,7 @@ namespace SpaceShip
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
                 if (!enemies[i].IsActive)
-                    enemies.RemoveAt(i);
+                     enemies.RemoveAt(i);
             }
 
             for (int i = hatches.Count - 1; i >= 0; i--)
@@ -303,7 +307,7 @@ namespace SpaceShip
             }
 
 
-            while (enemies.Count <= GameConstants.ENEMY_MAX_COUNT)
+            while (enemies.Count < GameConstants.ENEMY_MAX_COUNT)
             {
                 SpawnEnemy();
             }
@@ -489,8 +493,46 @@ namespace SpaceShip
             var randomEnemyType = (EnemyType)values.GetValue(RandomNumberGenerator.Next(values.Length));
 
 
-            Enemy newEnemy = new Enemy(Content, GraphicsDevice, new Vector2(x, y), randomEnemyType);
+            //set random velocity
+            var velocity = RandomNumberGenerator.NextFloat(GameConstants.ENEMY_SPEED_RANGE) + GameConstants.MIN_ENEMY_SPEED;
+
+            // get a random value for the angle
+            var randAng = RandomNumberGenerator.NextFloat((float)Math.PI * 2);
+
+            //Calculate the movements in the x- and y-direction
+            var vox = velocity * (float)Math.Cos(randAng);
+            var voy = velocity * (float)Math.Sin(randAng);
+            Vector2 velocityVec = new Vector2(vox, voy);
+
+
+            Enemy newEnemy = new Enemy(Content, GraphicsDevice, new Vector2(x, y), velocityVec, randomEnemyType);
+
+
+            var collisionRectangles = GetCollisionRectangles();
+            while (!CollisionUtils.IsCollisionFree(newEnemy.ObjRectangle, collisionRectangles))
+            {
+                //if collision was found, try a new random location for the teddy
+                newEnemy.X = GetRandomLocation(GameConstants.SPAWN_BORDER_SIZE, GameConstants.WINDOW_WIDTH - GameConstants.SPAWN_BORDER_SIZE * 2);
+                newEnemy.Y = GetRandomLocation(GameConstants.SPAWN_BORDER_SIZE, GameConstants.WINDOW_HEIGHT - GameConstants.SPAWN_BORDER_SIZE * 2);
+            }
+
             enemies.Add(newEnemy);
+        }
+
+        /// <summary>
+        /// Returns the rectangles from all objects
+        /// </summary>
+        /// <returns></returns>
+        private List<Rectangle> GetCollisionRectangles()
+        {
+            List<Rectangle> collisionRectangles = new List<Rectangle>();
+            collisionRectangles.Add(player.ObjRectangle);
+            foreach (var enemy in enemies)
+            {
+                collisionRectangles.Add(enemy.ObjRectangle);
+            }
+
+            return collisionRectangles;
         }
 
         /// <summary>
