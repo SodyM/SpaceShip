@@ -93,6 +93,7 @@
     <Compile Include="Objects\BaseUiObject.cs" />
     <Compile Include="Objects\Enemy.cs" />
     <Compile Include="Objects\Explosion.cs" />
+    <Compile Include="Objects\GameState.cs" />
     <Compile Include="Objects\Hatch.cs" />
     <Compile Include="Objects\Head.cs" />
     <Compile Include="Objects\InfoWindow.cs" />
