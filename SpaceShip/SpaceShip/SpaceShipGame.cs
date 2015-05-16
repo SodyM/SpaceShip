@@ -24,6 +24,7 @@ namespace SpaceShip
 
         MusicManager musicManager;
 
+        GameState gameState;
 
         // game objects
         Player player;
@@ -69,6 +70,7 @@ namespace SpaceShip
             projectiles = new List<Projectile>();
             bgLayer1 = new ParallaxingBackground();
             texts = new List<Text>();
+            gameState = GameState.PLAY;
 
             base.Initialize();
         }
@@ -134,6 +136,71 @@ namespace SpaceShip
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            if (gameState == GameState.MENU_MAIN)
+            {
+                UpdateMainMenu(gameTime);
+            }
+            else if (gameState == GameState.MENU_DISPLAY_SETTINGS)
+            {
+                UpdateDisplaySettings(gameTime);
+            }
+            else if (gameState == GameState.MENU_CREDITS)
+            {
+                UpdateCredits(gameTime);
+            }
+            else if (gameState == GameState.PLAY)
+            {
+                UpdateGame(gameTime);
+            }
+            else if (gameState == GameState.GAME_OVER)
+            {
+                UpdateGameOver(gameTime);
+            }
+
+            base.Update(gameTime);
+        }
+
+
+
+        #region will be implemeted with better architecture later
+        /// <summary>
+        /// Updates the game over.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void UpdateGameOver(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// Updates the credits.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void UpdateCredits(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// Updates the display settings.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void UpdateDisplaySettings(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// Updates the main menu.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void UpdateMainMenu(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// Updates runnig sgame.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void UpdateGame(GameTime gameTime)
+        {
             musicManager.Update(Keyboard.GetState());
 
             if (player.Score >= 100)
@@ -142,14 +209,14 @@ namespace SpaceShip
                 infoWindow.IsActive = true;
                 player.Score = 0;
             }
-  
+
             infoWindow.Update(gameTime);
 
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            bgLayer1.Update();          
+            bgLayer1.Update();
             player.Update(gameTime);
 
             foreach (var enemy in enemies)
@@ -200,13 +267,13 @@ namespace SpaceShip
                 Rectangle collisionRectangle = Rectangle.Intersect(curEnemy.ObjRectangle, player.ObjRectangle);
                 if (!collisionRectangle.IsEmpty)
                 {
-                    
-                    AddExplosion(new Vector2(curEnemy.ObjRectangle.Center.X-50, curEnemy.ObjRectangle.Center.Y-50));
+
+                    AddExplosion(new Vector2(curEnemy.ObjRectangle.Center.X - 50, curEnemy.ObjRectangle.Center.Y - 50));
                     curEnemy.IsActive = false;
 
                     var newHatch = new Hatch(Content, GraphicsDevice, new Vector2(curEnemy.Location.X, curEnemy.Location.Y), curEnemy.GetScore());
                     hatches.Add(newHatch);
-                    
+
                 }
             }
 
@@ -248,10 +315,10 @@ namespace SpaceShip
             //    if (!projectiles[i].IsActive)
             //        projectiles.RemoveAt(i);
             //}
-
-            base.Update(gameTime);
         }       
        
+        #endregion
+        
         /// <summary>
         /// Update all existing explosions
         /// </summary>
@@ -297,14 +364,73 @@ namespace SpaceShip
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            
+
+            if (gameState == GameState.MENU_MAIN)
+            {
+                DrawMainMenu(gameTime);
+            }
+            else if (gameState == GameState.MENU_DISPLAY_SETTINGS)
+            {
+                DrawDisplaySettings(gameTime);
+            }
+            else if (gameState == GameState.MENU_CREDITS)
+            {
+                DrawCredits(gameTime);
+            }            
+            else if (gameState == GameState.PLAY)
+            {
+                DrawGame(gameTime);
+            }
+            else if (gameState == GameState.GAME_OVER)
+            {
+                DrawGameOver(gameTime);
+            }
+            base.Draw(gameTime);
+        }
+
+        #region will be implemeted with better architecture later
+        /// <summary>
+        /// Draws the game over.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void DrawGameOver(GameTime gameTime)
+        {            
+        }
+
+        /// <summary>
+        /// Draws the credits.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void DrawCredits(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// Draws the display settings.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void DrawDisplaySettings(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// Draws the main menu.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void DrawMainMenu(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// Draws the game.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void DrawGame(GameTime gameTime)
+        {
             infoWindow.Draw(spriteBatch, gameTime);
             textHelper.DrawText(spriteBatch, GameConstants.SCORE, TextColor.Red, GameConstants.SCORE_TEXT_LEFT, GameConstants.INFOLINE_TOP);
             numberHelper.DrawNumber(spriteBatch, player.Score, GameConstants.SCORE_VALUE_LEFT, GameConstants.INFOLINE_TOP);
-
-
             musicManager.Draw(spriteBatch, gameTime);
-            
             bgLayer1.Draw(spriteBatch);
             player.Draw(spriteBatch, gameTime);
 
@@ -313,13 +439,10 @@ namespace SpaceShip
                 enemy.Draw(spriteBatch, gameTime);
             }
 
-
             foreach (var hatch in hatches)
             {
                 hatch.Draw(spriteBatch, gameTime);
             }
-
-            
 
             // draw all existing explosions
             foreach (Explosion expl in explosions)
@@ -331,10 +454,11 @@ namespace SpaceShip
             foreach (Projectile proj in projectiles)
             {
                 proj.Draw(spriteBatch, gameTime);
-            }            
+            }
             spriteBatch.End();
-            base.Draw(gameTime);
         }
+
+        #endregion
 
         private void SpawnEnemy()
         {
