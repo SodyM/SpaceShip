@@ -225,8 +225,8 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
-    Bank Last Revised Low = 4146816131;
-    Bank Last Revised High = 30445534;
+    Bank Last Revised Low = 2529660047;
+    Bank Last Revised High = 30445569;
 
     Wave
     {
@@ -324,8 +324,8 @@ Wave Bank
     {
         Name = cool;
         File = Sound\cool.wav;
-        Build Settings Last Modified Low = 1621664354;
-        Build Settings Last Modified High = 30445398;
+        Build Settings Last Modified Low = 2198085985;
+        Build Settings Last Modified High = 30445569;
 
         Cache
         {
@@ -338,17 +338,17 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 786366577;
-            Last Modified High = 30445398;
+            Last Modified Low = 2902229364;
+            Last Modified High = 30445509;
         }
     }
 
     Wave
     {
         Name = scream;
-        File = ..\..\..\..\temp\Scream.wav;
-        Build Settings Last Modified Low = 3914235462;
-        Build Settings Last Modified High = 30445534;
+        File = Sound\scream.wav;
+        Build Settings Last Modified Low = 2490744043;
+        Build Settings Last Modified High = 30445569;
 
         Cache
         {
