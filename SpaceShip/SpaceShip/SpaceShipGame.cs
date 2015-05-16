@@ -107,6 +107,7 @@ namespace SpaceShip
         private void AddExplosion(Vector2 position)
         {
             explosions.Add(new Explosion(Content, GraphicsDevice, position));
+            soundBank.PlayCue(AssetsConstants.EXPLOSION);
         }
 
         /// <summary>
