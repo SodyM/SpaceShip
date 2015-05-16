@@ -46,6 +46,11 @@ namespace SpaceShip
         InfoWindow infoWindow;
         int backup_score = 0;
 
+
+
+        //Sprites
+        Dictionary<string, Texture2D> textures = new Dictionary<string,Texture2D>();
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -79,6 +84,22 @@ namespace SpaceShip
             base.Initialize();
         }
 
+
+        private void LoadTextures()
+        {
+            var playerLaser = Content.Load<Texture2D>(AssetsConstants.LASER);
+
+
+            textures.Add(AssetsConstants.LASER, playerLaser);
+            textures.Add(AssetsConstants.ENEMY_YELLOW, Content.Load<Texture2D>(AssetsConstants.ENEMY_YELLOW));
+            textures.Add(AssetsConstants.ENEMY_RED, Content.Load<Texture2D>(AssetsConstants.ENEMY_RED));
+            textures.Add(AssetsConstants.ENEMY_CYAN, Content.Load<Texture2D>(AssetsConstants.ENEMY_CYAN));
+            textures.Add(AssetsConstants.ENEMY_BLUE, Content.Load<Texture2D>(AssetsConstants.ENEMY_BLUE));
+            textures.Add(AssetsConstants.ENEMY_GREEN, Content.Load<Texture2D>(AssetsConstants.ENEMY_GREEN));
+            textures.Add(AssetsConstants.EXPLOSION, Content.Load<Texture2D>(AssetsConstants.EXPLOSION));
+            textures.Add(AssetsConstants.HATCH, Content.Load<Texture2D>(AssetsConstants.HATCH));
+        }
+
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -94,6 +115,8 @@ namespace SpaceShip
             soundBank = new SoundBank(audioEngine, AssetsConstants.SOUND_BANK);
             musicManager = new MusicManager(Content, soundBank, GraphicsDevice);
             infoWindow = new InfoWindow(Content, GraphicsDevice, soundBank, new Vector2(20, 35), AssetsConstants.RESPECT, AssetsConstants.RESPECT_SOUND);
+
+            LoadTextures();
 
             // Load the parallaxing background            
             bgLayer1.Initialize(Content, AssetsConstants.STARTFIELD, GraphicsDevice.Viewport.Width, -2);
@@ -122,9 +145,13 @@ namespace SpaceShip
         /// Add new projectile
         /// </summary>
         /// <param name="position">Start position</param>
-        public void AddProjectile(Vector2 position)
+        public void AddProjectile(Vector2 position, Vector2 velocity, string spriteName, ProjectileSource source)
         {
-            projectiles.Add(new Projectile(Content, GraphicsDevice, position));
+            Texture2D texture = null;
+            if (textures.TryGetValue(spriteName, out texture))
+            {
+                projectiles.Add(new Projectile(texture, GraphicsDevice, position, velocity, source));
+            }
         }
 
         /// <summary>
@@ -240,51 +267,74 @@ namespace SpaceShip
             UpdateExplosions(gameTime);
             UpdateProjectiles(gameTime);
 
-            //collision between enemies and projectiles
-            for (int i = 0; i < projectiles.Count; i++)
+            //collision between enemies and projectiles and between player and projectiles from enemies
+            if (player.IsActive)
             {
-                var curProjectTile = projectiles[i];
-                if (!curProjectTile.IsActive)
-                    continue;
-                for (int j = 0; j < enemies.Count; j++)
+                for (int i = 0; i < projectiles.Count; i++)
                 {
-                    var curEnemy = enemies[j];
+                    var curProjectTile = projectiles[i];
+                    if (!curProjectTile.IsActive)
+                        continue;
+
+                    //collision between player and enemy projectiles
+                    if (curProjectTile.SourceOfProjectile == ProjectileSource.Enemy)
+                    {
+                        Rectangle collisionRectangle = Rectangle.Intersect(player.ObjRectangle, curProjectTile.ObjRectangle);
+                        if (!collisionRectangle.IsEmpty)
+                        {
+                            player.Health -= GameConstants.ENEMY_PROJECTILE_DAMAGE;
+
+                            AddExplosion(new Vector2(player.Location.X + GameConstants.EXPLOSION_OFFSET, player.Location.Y + GameConstants.EXPLOSION_OFFSET));
+                            curProjectTile.IsActive = false;
+                        }
+
+                        continue;
+                    }
+
+                    //collision between enemies and player projectiles
+                    for (int j = 0; j < enemies.Count; j++)
+                    {
+                        if (curProjectTile.SourceOfProjectile != ProjectileSource.Player)
+                            continue;
+
+                        var curEnemy = enemies[j];
+                        if (!curEnemy.IsActive)
+                            continue;
+
+                        Rectangle collisionRectangle = Rectangle.Intersect(curEnemy.ObjRectangle, curProjectTile.ObjRectangle);
+                        if (!collisionRectangle.IsEmpty)
+                        {
+                            AddExplosion(new Vector2(curEnemy.Location.X + GameConstants.EXPLOSION_OFFSET, curEnemy.Location.Y + GameConstants.EXPLOSION_OFFSET));
+                            curProjectTile.IsActive = false;
+                            curEnemy.IsActive = false;//TODO: Health
+
+                            SpawnHatch(new Vector2(curEnemy.Location.X, curEnemy.Location.Y+20), curEnemy.GetScore());
+                        }
+                    }
+                }
+
+                //collision between player and enemies
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    var curEnemy = enemies[i];
                     if (!curEnemy.IsActive)
                         continue;
 
-                    Rectangle collisionRectangle = Rectangle.Intersect(curEnemy.ObjRectangle, curProjectTile.ObjRectangle);
+                    Rectangle collisionRectangle = Rectangle.Intersect(curEnemy.ObjRectangle, player.ObjRectangle);
                     if (!collisionRectangle.IsEmpty)
                     {
-                        AddExplosion(new Vector2(curEnemy.Location.X - 50, curEnemy.Location.Y - 50));
-                        curProjectTile.IsActive = false;
-                        curEnemy.IsActive = false;
 
-                        var newHatch = new Hatch(Content, GraphicsDevice, new Vector2(curEnemy.Location.X, curEnemy.Location.Y), curEnemy.GetScore());
-                        hatches.Add(newHatch);
+                        AddExplosion(new Vector2(curEnemy.ObjRectangle.Center.X - 50, curEnemy.ObjRectangle.Center.Y - 50));
+                        curEnemy.IsActive = false;
+                        player.Health -= GameConstants.ENEMY_COLLISION_DAMAGE;
+
+
+                        infoWindow.SetDisplayContent(Content, AssetsConstants.COLLISION_INFO_PIC, AssetsConstants.COLLISION_SOUND);
+                        infoWindow.IsActive = true;
                     }
                 }
             }
 
-            //collision between player and enemies
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                var curEnemy = enemies[i];
-                if (!curEnemy.IsActive)
-                    continue;
-
-                Rectangle collisionRectangle = Rectangle.Intersect(curEnemy.ObjRectangle, player.ObjRectangle);
-                if (!collisionRectangle.IsEmpty)
-                {
-
-                    AddExplosion(new Vector2(curEnemy.ObjRectangle.Center.X - 50, curEnemy.ObjRectangle.Center.Y - 50));
-                    curEnemy.IsActive = false;
-                    player.Health -= GameConstants.ENEMY_COLLISION_DAMAGE;
-
-
-                    infoWindow.SetDisplayContent(Content, AssetsConstants.COLLISION_INFO_PIC, AssetsConstants.COLLISION_SOUND);
-                    infoWindow.IsActive = true;
-                }
-            }
 
             for (int i = 0; i < hatches.Count; i++)
             {
@@ -341,6 +391,7 @@ namespace SpaceShip
                 AddExplosion(new Vector2(player.Location.X, player.Location.Y));
 
                 //TODO: Show Menu or init new player
+                //update game state
             }
         }
        
@@ -492,16 +543,34 @@ namespace SpaceShip
 
 
         /// <summary>
+        /// Spawns a new hatch
+        /// </summary>
+        /// <param name="position">position of the hatch (example: position of destroyed enemy)</param>
+        /// <param name="value">the value of the hatch that will be added to the player's score</param>
+        private void SpawnHatch(Vector2 position, int value)
+        {
+            //set velocity of hatch
+            float vox = GameConstants.HATCH_SPEED;
+            var voy = 0;
+            Vector2 velocityVec = new Vector2(vox, voy);
+
+            var newHatch = new Hatch(Content, GraphicsDevice, position, velocityVec, value);
+            hatches.Add(newHatch);
+        }
+
+        /// <summary>
         /// Spawns a new enemy and adds it to the enemy list
         /// Current implementation: random location, random enemy type
         /// </summary>
         private void SpawnEnemy()
         {
-            var x = GetRandomLocation(GameConstants.SPAWN_BORDER_SIZE, GameConstants.WINDOW_WIDTH - GameConstants.SPAWN_BORDER_SIZE * 2);
+            var x = GameConstants.WINDOW_WIDTH + 50;//spawn enemies outside of visible area // GetRandomLocation(GameConstants.SPAWN_BORDER_SIZE, GameConstants.WINDOW_WIDTH - GameConstants.SPAWN_BORDER_SIZE * 2);
             var y = GetRandomLocation(GameConstants.SPAWN_BORDER_SIZE, GameConstants.WINDOW_HEIGHT - GameConstants.SPAWN_BORDER_SIZE * 2);
 
             Array values = Enum.GetValues(typeof(EnemyType));
             var randomEnemyType = (EnemyType)values.GetValue(RandomNumberGenerator.Next(values.Length));
+
+            //Todo: get
 
 
             //set random velocity
@@ -511,12 +580,12 @@ namespace SpaceShip
             var randAng = RandomNumberGenerator.NextFloat((float)Math.PI * 2);
 
             //Calculate the movements in the x- and y-direction
-            var vox = velocity * (float)Math.Cos(randAng);
-            var voy = velocity * (float)Math.Sin(randAng);
+            var vox = -Math.Abs(velocity * (float)Math.Cos(randAng));//from right to left
+            var voy = 0;// velocity * (float)Math.Sin(randAng); //
             Vector2 velocityVec = new Vector2(vox, voy);
 
 
-            Enemy newEnemy = new Enemy(Content, GraphicsDevice, new Vector2(x, y), velocityVec, randomEnemyType);
+            Enemy newEnemy = new Enemy(Content, GraphicsDevice, new Vector2(x, y), velocityVec, randomEnemyType, this);
 
 
             var collisionRectangles = GetCollisionRectangles();
@@ -546,6 +615,7 @@ namespace SpaceShip
             return collisionRectangles;
         }
 
+
         /// <summary>
         /// Returns a random integer value
         /// </summary>
@@ -556,5 +626,22 @@ namespace SpaceShip
         {
             return min + RandomNumberGenerator.Next(range);
         }
+
+
+        ///// <summary>
+        ///// Adds the given projectile to the game
+        ///// </summary>
+        ///// <param name="projectile">the projectile to add</param>
+        //public static void AddProjectile(Projectile projectile)
+        //{
+        //    projectiles.Add(projectile);
+        //}
+
+        //public static void AddProjectile(Vector2 position, Vector2 velocity, ProjectileSource projectileSource)
+        //{
+        //    var newProjectile = new Projectile(Content,
+        //    projectiles.Add(projectile);
+
+        //}
     }
 }

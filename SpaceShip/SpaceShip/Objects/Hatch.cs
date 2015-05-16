@@ -16,6 +16,14 @@ namespace SpaceShip.Objects
         const int HEIGHT = 16;
         const int WIDTH = 16;
 
+        // velocity information
+        Vector2 velocity = new Vector2(0, 0);
+        public Vector2 Velocity
+        {
+            get { return velocity; }
+            set { velocity = value; }
+        }
+
         int value = 0;
 
         public int Value
@@ -32,14 +40,37 @@ namespace SpaceShip.Objects
         /// <param name="contentManager">ContentManager</param>
         /// <param name="device">GraphicsDevice</param>
         /// <param name="position">Start position</param>
-        public Hatch(ContentManager contentManager, GraphicsDevice device, Vector2 position, int value)
+        public Hatch(ContentManager contentManager, GraphicsDevice device, Vector2 position, Vector2 velocity, int value)
         {
             sprite = contentManager.Load<Texture2D>(AssetsConstants.HATCH);
+            this.velocity = velocity;
             this.value = value;
 
             base.Init(FRAMES_COUNT, WIDTH, HEIGHT, position);
             base.ChangeFrameRate(START_FRAMERATE);
 
-        }       
+        }
+
+
+        public override void Update(GameTime gameTime)
+        {
+            if (!this.IsActive)
+                return;
+
+            int elapsedTime = gameTime.ElapsedGameTime.Milliseconds;
+            position.X += (int)(this.velocity.X * elapsedTime);
+            position.Y += (int)(this.velocity.Y * elapsedTime);
+
+            if ((position.X < 0) || (position.X > GameConstants.WINDOW_WIDTH - WIDTH))
+                this.IsActive = false;
+
+            if ((position.Y < 0) || (position.Y > GameConstants.WINDOW_HEIGHT - HEIGHT))
+                this.IsActive = false;
+
+            drawRectangle.X = (int)position.X;
+            drawRectangle.Y = (int)position.Y;
+
+            base.Update(gameTime);
+        }
     }
 }

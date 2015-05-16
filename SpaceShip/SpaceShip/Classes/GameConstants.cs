@@ -30,12 +30,24 @@ namespace SpaceShip.Classes
 
         // game standards
         public const int PLAYER_DEFAULT_HEALTH              = 100;
+        public const int PLAYER_DEFAULT_DAMAGE              = 100;
+        public const float PLAYER_LASER_SPEED               = 10.0f; //change to a property of the weapon type
+        public const float Enemy_LASER_SPEED = 3.0f; //change to a property of the weapon type
         public const int ENEMY_MAX_COUNT                    = 5;
         public const int ENEMY_COLLISION_DAMAGE             = 15;
         public const string SCORE_PREFIX                    = "Score";
+        public const int EXPLOSION_OFFSET                   = -50;
 
+        public const bool ENEMIES_SHOOT                     = true; //for Tests
         public const float ENEMY_SPEED_RANGE                = 0.2f;
         public const float MIN_ENEMY_SPEED                  = 0.1f;
+        public const float HATCH_SPEED                      = -0.1f;
+
+        //Default enemy firing characteristics; will later depend on the type of the enemy
+        public const int ENEMY_MIN_FIRE_DELAY               = 1000;
+        public const int ENEMY_FIRE_DELAY_RANGE             = 3000;
+        public const int ENEMY_PROJECTILE_DAMAGE            = 20;//will later be a property of the weapon type
+        public const float ENEMY_PROJECTILE_SPEED           = 0.3f;
 
         public const int SHOW_INFOWINDOW_DELAY              = 1500;
     }

@@ -15,12 +15,14 @@ namespace SpaceShip.Objects
     /// </summary>
     class Enemy : AnimatedUiObject
     {
+        SpaceShipGame thisGame;
         EnemyType enemyType;
         const int START_FRAMERATE = 90;
         const int FRAMES_COUNT = 6;
         const int HEIGHT = 30;
         const int WIDTH = 40;
-
+        int firingDelay = 5000;
+        int elapsedShotTime = 0;
         // velocity information
         Vector2 velocity = new Vector2(0, 0);
 
@@ -75,15 +77,19 @@ namespace SpaceShip.Objects
         /// <param name="device">GraphicsDevice</param>
         /// <param name="position">Startposition</param>
         /// <param name="enemyType">EnemyType</param>
-        public Enemy(ContentManager contentManager, GraphicsDevice device, Vector2 position, Vector2 velocity, EnemyType enemyType)
+        public Enemy(ContentManager contentManager, GraphicsDevice device, Vector2 position, Vector2 velocity, EnemyType enemyType, SpaceShipGame game)
         {
+            thisGame = game;
             this.enemyType = enemyType;
             this.velocity = velocity;
             string textureSet = GetEnemyType(enemyType);
             sprite = contentManager.Load<Texture2D>(textureSet);
-            
+
             base.Init(FRAMES_COUNT, WIDTH, HEIGHT, position);
+            this.Health = 50; //TODO: Health depends on enemy type
             base.ChangeFrameRate(START_FRAMERATE);
+
+            firingDelay = GetRandomFiringDelay();
         }
 
 
@@ -100,6 +106,22 @@ namespace SpaceShip.Objects
             return 10;
         }
 
+        /// <summary>
+        /// Helpermethod to avoid small velocities that get truncated to 0
+        /// </summary>
+        /// <param name="elapsedTime"></param>
+        /// <param name="velocityUpdate"></param>
+        /// <returns></returns>
+        private float GetLocationChange(int elapsedTime, float velocityUpdate)
+        {
+            var change = (velocityUpdate * elapsedTime);
+            if ((change < 0) && (change > -1))
+                change = -1;
+            if ((change > 0) && (change < 1))
+                change = 1;
+
+            return change;
+        }
 
         public override void Update(GameTime gameTime)
         {
@@ -107,35 +129,56 @@ namespace SpaceShip.Objects
                 return;
 
             int elapsedTime = gameTime.ElapsedGameTime.Milliseconds;
-            position.X += (int)(this.velocity.X * elapsedTime);
-            position.Y += (int)(this.velocity.Y * elapsedTime);
+            var xChange = GetLocationChange(elapsedTime, this.velocity.X);
+            var yChange = GetLocationChange(elapsedTime, this.velocity.Y);
 
-           
+            position.X += (int)xChange;
+            position.Y += (int)yChange;// (this.velocity.Y * elapsedTime);
 
-            // keep sapceship in window           
+            //TODO: flag to signal that enemy was visible; Do not deactivate when enemy is spawn in an invisible area!
+
             if (position.X < 0)
                 this.IsActive = false;
 
-            if (position.X > GameConstants.WINDOW_WIDTH - WIDTH)
-                this.IsActive = false;
+            if (position.Y < 10 + HEIGHT)
+                position.Y = 10 + HEIGHT;
 
-            //if (position.Y < 0)
+            //Enemy spawns to the right of the visible area
+            //if (position.X > GameConstants.WINDOW_WIDTH - WIDTH)
             //    this.IsActive = false;
 
-            //if (position.Y > GameConstants.WINDOW_HEIGHT - HEIGHT)
-            //    this.IsActive = false;
-
-            //if (position.Y < 10 + HEIGHT)
-                //position.Y = 10 + HEIGHT;
 
             drawRectangle.X = (int)position.X;
             drawRectangle.Y = (int)position.Y;
 
             BounceTopBottom();
+            if (GameConstants.ENEMIES_SHOOT)
+            {
+                elapsedShotTime += elapsedTime;
+                if (elapsedShotTime > firingDelay)
+                {
+                    elapsedShotTime = 0;
+                    firingDelay = GetRandomFiringDelay();
+                    var projectileSprite = AssetsConstants.LASER;
+
+                    var projectileVelocity = new Vector2()
+                    {
+                        X = -GameConstants.Enemy_LASER_SPEED - velocity.X,
+                        Y = 0
+                    };
+
+                    thisGame.AddProjectile(position, projectileVelocity, projectileSprite, ProjectileSource.Enemy);
+                    //this.shootSound.Play();
+                }
+            }
 
             base.Update(gameTime);
         }
 
+
+        /// <summary>
+        /// Will make the enemy change its direction whenever the upper or lower boundary is hit
+        /// </summary>
         private void BounceTopBottom()
         {
             if (drawRectangle.Y <= 0)
@@ -149,6 +192,25 @@ namespace SpaceShip.Objects
                 // bounce off bottom
                 drawRectangle.Y = GameConstants.WINDOW_HEIGHT - drawRectangle.Height;
                 velocity.Y *= -1;
+            }
+        }
+
+
+        private int GetRandomFiringDelay()
+        {
+            return GameConstants.ENEMY_MIN_FIRE_DELAY +
+                RandomNumberGenerator.Next(GameConstants.ENEMY_FIRE_DELAY_RANGE);
+        }
+
+        private float GetProjectileVelocity()
+        {
+            if (velocity.Y > 0)
+            {
+                return velocity.Y + GameConstants.ENEMY_PROJECTILE_SPEED;
+            }
+            else
+            {
+                return GameConstants.ENEMY_PROJECTILE_SPEED;
             }
         }
     }

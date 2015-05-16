@@ -6,6 +6,21 @@ using System;
 
 namespace SpaceShip.Objects
 {
+
+    public enum ProjectileSource
+    { 
+        Player, Enemy
+    }
+
+    public enum ProjectileType
+    {
+        Player, Enemy
+    }
+
+    public class ProjectileInfos
+    { 
+    }
+
     /// <summary>
     /// Projectile
     /// </summary>
@@ -13,11 +28,23 @@ namespace SpaceShip.Objects
     {
         int windowHeight, windowWidth;
         Vector2 position;
+        Vector2 velocity;
         Vector2 spriteOrigin;
         const float SPEED = 10.0f;
         const int WIDTH = 46;
-        const int HEIGHT = 16;       
-    
+        const int HEIGHT = 16;
+
+        int damage = 0;
+
+        //
+        ProjectileSource projectileSource;
+        public ProjectileSource SourceOfProjectile
+        {
+            get
+            {
+                return projectileSource;
+            }
+        }
 
         public int X_Position
         {
@@ -35,10 +62,12 @@ namespace SpaceShip.Objects
         /// <param name="contentManager">ContentManager</param>
         /// <param name="device">GraphicsDevice</param>
         /// <param name="position">Start position of projectile</param>
-        public Projectile(ContentManager contentManager, GraphicsDevice device, Vector2 position)
+        public Projectile(Texture2D sprite, GraphicsDevice device, Vector2 position, Vector2 velocity, ProjectileSource projectileSource)
         {
-            sprite = contentManager.Load<Texture2D>(AssetsConstants.LASER);
+            this.sprite = sprite;//old: contentManager.Load<Texture2D>(AssetsConstants.LASER);
             this.position = position;
+            this.velocity = velocity;
+            this.projectileSource = projectileSource;
 
             // center it
             this.position.X = position.X - sprite.Width / 2;
@@ -62,7 +91,8 @@ namespace SpaceShip.Objects
         /// <param name="gameTime">GameTime</param>
         public override void Update(GameTime gameTime)
         {
-            position.X += SPEED;
+            var elapsedGameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            position.X += velocity.X;// *elapsedGameTime;
             drawRectangle.X = (int)position.X;
         }
     }

@@ -152,7 +152,15 @@ namespace SpaceShip.Objects
             position.X = this.position.X + WIDTH + 18;
             position.Y = this.position.Y + 7;
 
-            thisGame.AddProjectile(position);
+            var velocity = new Vector2()
+            {
+                X = GameConstants.PLAYER_LASER_SPEED,
+                Y = 0
+            };
+
+            string projectileSprite = AssetsConstants.LASER;
+
+            thisGame.AddProjectile(position, velocity, projectileSprite, ProjectileSource.Player);
             soundBank.PlayCue(AssetsConstants.LASER_FIRE);
         }
 
