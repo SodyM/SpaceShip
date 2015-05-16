@@ -145,7 +145,7 @@ namespace SpaceShip
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
+            
             if (gameState == GameState.MENU_MAIN)
             {
                 UpdateMainMenu(gameTime);
@@ -162,6 +162,11 @@ namespace SpaceShip
             {
                 UpdateGame(gameTime);
             }
+            //else if(gameState == GameState.START_NEW_GAME)
+            //{
+            //    SpawnEnemy();
+            //    gameState = GameState.PLAY;
+            //}
             else if (gameState == GameState.GAME_OVER)
             {
                 UpdateGameOver(gameTime);

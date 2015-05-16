@@ -90,7 +90,7 @@ namespace SpaceShip.Objects
         /// <summary>
         /// Plays the main theme.
         /// </summary>
-        private void PlayMainTheme()
+        public void PlayMainTheme()
         {
             musicIsActiv = true;
             mainCue = soundBank.GetCue(AssetsConstants.BACKGROUND_MUSIC);
