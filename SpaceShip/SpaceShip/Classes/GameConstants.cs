@@ -28,7 +28,9 @@ namespace SpaceShip.Classes
         public const int INFOLINE_TOP = 10;
 
         // game standards
+        public const int PLAYER_DEFAULT_HEALTH              = 100;
         public const int ENEMY_MAX_COUNT                    = 5;
+        public const int ENEMY_COLLISION_DAMAGE             = 15;
         public const string SCORE_PREFIX                    = "Score";
 
         public const int SHOW_INFOWINDOW_DELAY              = 1500;

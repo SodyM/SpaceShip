@@ -49,11 +49,11 @@ namespace SpaceShip.Objects
         /// <param name="contentManager">ContentManager</param>
         /// <param name="device">GraphicsDevice</param>
         /// <param name="position">Startposition of player</param>
-        public Player(ContentManager contentManager, GraphicsDevice device, Vector2 position, SpaceShipGame game, SoundBank soundBank)
+        public Player(ContentManager contentManager, GraphicsDevice device, Vector2 position, SpaceShipGame game, SoundBank soundBank, int health)
         {
             thisGame = game;
             sprite = contentManager.Load<Texture2D>(AssetsConstants.PLAYER);
-            base.Init(COUNT_OF_FRAMES, WIDTH, HEIGHT, position);
+            base.Init(COUNT_OF_FRAMES, WIDTH, HEIGHT, position, false, health);
             
             // set window dimensions
             windowHeight = device.Viewport.Height;
@@ -66,7 +66,10 @@ namespace SpaceShip.Objects
         /// </summary>
         /// <param name="gameTime">GameTime</param>
         public override void Update(GameTime gameTime)
-        {            
+        {
+            if (!this.IsActive)
+                return;
+
             KeyboardState keyState = Keyboard.GetState();
             MoveHandler(keyState);
             FireHandler(keyState);

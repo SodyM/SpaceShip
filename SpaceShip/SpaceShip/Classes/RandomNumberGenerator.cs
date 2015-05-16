@@ -5,6 +5,9 @@ using System.Text;
 
 namespace SpaceShip.Classes
 {
+    /// <summary>
+    /// Class to generate random values from the coursera course "Beginning Game Programming"
+    /// </summary>
     public static class RandomNumberGenerator
     {
         #region Fields

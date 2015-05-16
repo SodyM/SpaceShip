@@ -18,13 +18,31 @@ namespace SpaceShip.Objects
         int width;                      // width of single frame
         int height;                     // height of single frame
 
+        int health;                     // object's health
+
         Rectangle sourceRectangle;      // source rectangle
         int currentFrame;               // index of current frame
         int elapsedFrameTime = 0;
 
 
         bool useAnimationTopDown = true;
-        bool deactivateAfterAnimation = false;
+        bool deactivateAfterAnimation = false;//deactivate object after animation was played once (example: explosion)
+
+
+        public int Health
+        { 
+            get
+            {
+                return health;
+            }
+            set
+            {
+                health = value;
+                if (health < 0)
+                    health = 0;
+            }
+        }
+        
         public bool AnimationDirectionFromTopToDown
         {
             set { useAnimationTopDown = value; }
@@ -39,11 +57,11 @@ namespace SpaceShip.Objects
         /// <param name="height">Height of single frame</param>
         /// <param name="position">Start position</param>
         /// <param name="sprite">Sprite</param>
-        public void Init(int numFrames, int width, int height, Vector2 position, Texture2D sprite)
+        public void Init(int numFrames, int width, int height, Vector2 position, Texture2D sprite, int health = 100)
         {
             base.sprite = sprite;
-            
-            Init(numFrames, width, height, position);
+
+            Init(numFrames, width, height, position, false, health);
         }
 
         
@@ -54,13 +72,15 @@ namespace SpaceShip.Objects
         /// <param name="width">Width of single frame</param>
         /// <param name="height">Height of single frame</param>
         /// <param name="position">Start position</param>
-        public void Init(int numFrames, int width, int height, Vector2 position, bool deactiveAfterAnimation = false)
+        public void Init(int numFrames, int width, int height, Vector2 position, bool deactiveAfterAnimation = false, int health = 100)
         {
             this.position = position;
             this.frames_count = numFrames;
             this.width = width;
             this.height = height;
             this.deactivateAfterAnimation = deactiveAfterAnimation;
+            this.health = health;
+
 
             // center it
             this.position.X = position.X - sprite.Width / 2;

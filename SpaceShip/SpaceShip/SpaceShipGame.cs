@@ -94,7 +94,7 @@ namespace SpaceShip
             textHelper = new Text(Content, GraphicsDevice);
             numberHelper = new Number(Content, GraphicsDevice);
 
-            player = new Player(Content, GraphicsDevice, new Vector2(60, 300), this, soundBank);
+            player = new Player(Content, GraphicsDevice, new Vector2(60, 300), this, soundBank, GameConstants.PLAYER_DEFAULT_HEALTH);
             enemies = new List<Enemy>();
             
             SpawnEnemy();
@@ -203,10 +203,7 @@ namespace SpaceShip
                     
                     AddExplosion(new Vector2(curEnemy.ObjRectangle.Center.X-50, curEnemy.ObjRectangle.Center.Y-50));
                     curEnemy.IsActive = false;
-
-                    var newHatch = new Hatch(Content, GraphicsDevice, new Vector2(curEnemy.Location.X, curEnemy.Location.Y), curEnemy.GetScore());
-                    hatches.Add(newHatch);
-                    
+                    player.Health -= GameConstants.ENEMY_COLLISION_DAMAGE;
                 }
             }
 
@@ -243,6 +240,8 @@ namespace SpaceShip
                 SpawnEnemy();
             }
 
+            CheckPlayerStatus();
+
             //for (int i = projectiles.Count - 1; i >= 0; i--)
             //{
             //    if (!projectiles[i].IsActive)
@@ -250,7 +249,21 @@ namespace SpaceShip
             //}
 
             base.Update(gameTime);
-        }       
+        }
+
+        /// <summary>
+        /// Checks whether player died
+        /// </summary>
+        private void CheckPlayerStatus()
+        {
+            if (player.IsActive && (player.Health <= 0))
+            {
+                player.IsActive = false;
+                AddExplosion(new Vector2(player.Location.X, player.Location.Y));
+
+                //TODO: Show Menu or init new player
+            }
+        }
        
         /// <summary>
         /// Update all existing explosions
@@ -306,7 +319,8 @@ namespace SpaceShip
             musicManager.Draw(spriteBatch, gameTime);
             
             bgLayer1.Draw(spriteBatch);
-            player.Draw(spriteBatch, gameTime);
+            if (player.IsActive)
+                player.Draw(spriteBatch, gameTime);
 
             foreach (var enemy in enemies)
             {
@@ -336,6 +350,11 @@ namespace SpaceShip
             base.Draw(gameTime);
         }
 
+
+        /// <summary>
+        /// Spawns a new enemy and adds it to the enemy list
+        /// Current implementation: random location, random enemy type
+        /// </summary>
         private void SpawnEnemy()
         {
             var x = GetRandomLocation(GameConstants.SPAWN_BORDER_SIZE, GameConstants.WINDOW_WIDTH - GameConstants.SPAWN_BORDER_SIZE * 2);
@@ -349,6 +368,12 @@ namespace SpaceShip
             enemies.Add(newEnemy);
         }
 
+        /// <summary>
+        /// Returns a random integer value
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="range"></param>
+        /// <returns></returns>
         private int GetRandomLocation(int min, int range)
         {
             return min + RandomNumberGenerator.Next(range);
