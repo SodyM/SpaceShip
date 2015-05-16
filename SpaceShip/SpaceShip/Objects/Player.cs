@@ -27,6 +27,7 @@ namespace SpaceShip.Objects
         bool spaceReleased;        
         int score = 0;
 
+        
         public int Score
         {
             get

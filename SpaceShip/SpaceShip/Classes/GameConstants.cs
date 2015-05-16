@@ -23,6 +23,10 @@ namespace SpaceShip.Classes
         public const string MUSIC_OFF                       = "MUSIC OFF";
         public const string SCORE                           = "SCORE";
 
+        public const int SCORE_TEXT_LEFT = 20;
+        public const int SCORE_VALUE_LEFT = 140;
+        public const int INFOLINE_TOP = 10;
+
         // game standards
         public const int ENEMY_MAX_COUNT                    = 5;
         public const string SCORE_PREFIX                    = "Score";

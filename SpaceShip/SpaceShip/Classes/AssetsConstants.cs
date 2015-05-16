@@ -25,6 +25,7 @@ namespace SpaceShip.Classes
         public const string FONTS                               = "fonts";
         public const string STARTFIELD                          = "starfield";
         public const string RESPECT                             = "respect";
+        public const string NUMBERS                             = "numbers";
 
         // sounds
         public const string AUDIO_ENGINE                        = @"Content\SpaceShip.xgs";

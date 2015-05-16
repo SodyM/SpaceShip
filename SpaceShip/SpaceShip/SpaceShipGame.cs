@@ -38,6 +38,8 @@ namespace SpaceShip
         Text textHelper;
         //string scoreText = GameConstants.SCORE_PREFIX;
 
+        Number numberHelper;
+
         InfoWindow infoWindow;
         int backup_score = 0;
 
@@ -90,6 +92,7 @@ namespace SpaceShip
             // Load the parallaxing background
             bgLayer1.Initialize(Content, AssetsConstants.STARTFIELD, GraphicsDevice.Viewport.Width, -1);
             textHelper = new Text(Content, GraphicsDevice);
+            numberHelper = new Number(Content, GraphicsDevice);
 
             player = new Player(Content, GraphicsDevice, new Vector2(60, 300), this, soundBank);
             enemies = new List<Enemy>();
@@ -132,13 +135,13 @@ namespace SpaceShip
         {
             musicManager.Update(Keyboard.GetState());
 
-            if (player.Score > 100)
+            if (player.Score >= 100)
             {
                 player.BackupScore += player.Score;
                 infoWindow.IsActive = true;
                 player.Score = 0;
             }
-
+  
             infoWindow.Update(gameTime);
 
             // Allows the game to exit
@@ -295,7 +298,9 @@ namespace SpaceShip
             spriteBatch.Begin();
             
             infoWindow.Draw(spriteBatch, gameTime);
-            textHelper.DrawText(spriteBatch, GameConstants.SCORE, TextColor.Red, 20, 10);
+            textHelper.DrawText(spriteBatch, GameConstants.SCORE, TextColor.Red, GameConstants.SCORE_TEXT_LEFT, GameConstants.INFOLINE_TOP);
+            numberHelper.DrawNumber(spriteBatch, player.Score, GameConstants.SCORE_VALUE_LEFT, GameConstants.INFOLINE_TOP);
+
 
             musicManager.Draw(spriteBatch, gameTime);
             
