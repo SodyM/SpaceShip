@@ -33,6 +33,8 @@ namespace SpaceShip
         
         List<Hatch> hatches = new List<Hatch>();
         ParallaxingBackground bgLayer1;
+        ParallaxingBackground bgLayer2;
+
         List<Explosion> explosions;
         static List<Projectile> projectiles;
         List<Text> texts;
@@ -69,6 +71,8 @@ namespace SpaceShip
             explosions = new List<Explosion>();
             projectiles = new List<Projectile>();
             bgLayer1 = new ParallaxingBackground();
+            bgLayer2 = new ParallaxingBackground();
+
             texts = new List<Text>();
             gameState = GameState.PLAY;
 
@@ -91,8 +95,10 @@ namespace SpaceShip
             musicManager = new MusicManager(Content, soundBank, GraphicsDevice);
             infoWindow = new InfoWindow(Content, GraphicsDevice, soundBank, new Vector2(20, 35), AssetsConstants.RESPECT, AssetsConstants.RESPECT_SOUND);
 
-            // Load the parallaxing background
-            bgLayer1.Initialize(Content, AssetsConstants.STARTFIELD, GraphicsDevice.Viewport.Width, -1);
+            // Load the parallaxing background            
+            bgLayer1.Initialize(Content, AssetsConstants.STARTFIELD, GraphicsDevice.Viewport.Width, -2);
+            bgLayer2.Initialize(Content, AssetsConstants.FARBACK, GraphicsDevice.Viewport.Width, -1);            
+
             textHelper = new Text(Content, GraphicsDevice);
             numberHelper = new Number(Content, GraphicsDevice);
 
@@ -218,6 +224,7 @@ namespace SpaceShip
                 this.Exit();
 
             bgLayer1.Update();
+            bgLayer2.Update();
             player.Update(gameTime);
 
             foreach (var enemy in enemies)
@@ -444,12 +451,16 @@ namespace SpaceShip
         /// </summary>
         /// <param name="gameTime">The game time.</param>
         private void DrawGame(GameTime gameTime)
-        {
+        {            
+            bgLayer2.Draw(spriteBatch);
+            bgLayer1.Draw(spriteBatch);
+
             infoWindow.Draw(spriteBatch, gameTime);
             textHelper.DrawText(spriteBatch, GameConstants.SCORE, TextColor.Red, GameConstants.SCORE_TEXT_LEFT, GameConstants.INFOLINE_TOP);
             numberHelper.DrawNumber(spriteBatch, player.Score, GameConstants.SCORE_VALUE_LEFT, GameConstants.INFOLINE_TOP);
             musicManager.Draw(spriteBatch, gameTime);
-            bgLayer1.Draw(spriteBatch);
+            
+
             if (player.IsActive)
                 player.Draw(spriteBatch, gameTime);
 

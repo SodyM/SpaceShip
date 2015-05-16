@@ -24,6 +24,7 @@ namespace SpaceShip.Classes
         public const string LASER                               = "laser";
         public const string FONTS                               = "fonts";
         public const string STARTFIELD                          = "starfield";
+        public const string FARBACK                             = "farback";
         public const string RESPECT                             = "respect";
         public const string NUMBERS                             = "numbers";
         public const string COLLISION_INFO_PIC                     = "heino_scream";
