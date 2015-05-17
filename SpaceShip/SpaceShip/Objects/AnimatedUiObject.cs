@@ -29,6 +29,12 @@ namespace SpaceShip.Objects
         bool deactivateAfterAnimation = false;//deactivate object after animation was played once (example: explosion)
 
 
+        /// <summary>
+        /// Gets or sets the health.
+        /// </summary>
+        /// <value>
+        /// The health.
+        /// </value>
         public int Health
         { 
             get
@@ -42,13 +48,18 @@ namespace SpaceShip.Objects
                     health = 0;
             }
         }
-        
+
+        /// <summary>
+        /// Sets a value indicating whether [animation direction from top to down].
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [animation direction from top to down]; otherwise, <c>false</c>.
+        /// </value>
         public bool AnimationDirectionFromTopToDown
         {
             set { useAnimationTopDown = value; }
         }
-     
-        
+             
         /// <summary>
         /// Initialization of animated ui object
         /// </summary>
@@ -63,7 +74,6 @@ namespace SpaceShip.Objects
 
             Init(numFrames, width, height, position, false, health);
         }
-
         
         /// <summary>
         /// Initialization of animated ui object

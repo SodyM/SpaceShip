@@ -23,6 +23,12 @@ namespace SpaceShip.Objects
         SoundBank soundBank;
         GraphicsDevice graphics;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MusicManager"/> class.
+        /// </summary>
+        /// <param name="contentManager">The content manager.</param>
+        /// <param name="soundBank">The sound bank.</param>
+        /// <param name="device">The device.</param>
         public MusicManager(ContentManager contentManager, SoundBank soundBank, GraphicsDevice device)
         {
             this.soundBank = soundBank;

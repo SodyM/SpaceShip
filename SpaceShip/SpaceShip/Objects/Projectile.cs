@@ -7,16 +7,25 @@ using System;
 namespace SpaceShip.Objects
 {
 
+    /// <summary>
+    /// ProjectileSource - helper for determination who fired our projectile
+    /// </summary>
     public enum ProjectileSource
     { 
         Player, Enemy
     }
 
+    /// <summary>
+    /// ProjectileType - helper for type of projectile (blue - fired from player, red - fired from enemy)
+    /// </summary>
     public enum ProjectileType
     {
         Player, Enemy
     }
 
+    /// <summary>
+    /// ProjectileInfos - helper for detailed definition of projectile extra infos -> future use
+    /// </summary>
     public class ProjectileInfos
     { 
     }
@@ -36,7 +45,7 @@ namespace SpaceShip.Objects
 
         int damage = 0;
 
-        //
+        
         ProjectileSource projectileSource;
         public ProjectileSource SourceOfProjectile
         {

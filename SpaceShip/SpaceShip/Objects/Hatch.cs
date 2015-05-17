@@ -26,6 +26,12 @@ namespace SpaceShip.Objects
 
         int value = 0;
 
+        /// <summary>
+        /// Gets the value of hatch
+        /// </summary>
+        /// <value>
+        /// The value.
+        /// </value>
         public int Value
         {
             get
@@ -51,7 +57,10 @@ namespace SpaceShip.Objects
 
         }
 
-
+        /// <summary>
+        /// Update handler
+        /// </summary>
+        /// <param name="gameTime">GameTime</param>
         public override void Update(GameTime gameTime)
         {
             if (!this.IsActive)

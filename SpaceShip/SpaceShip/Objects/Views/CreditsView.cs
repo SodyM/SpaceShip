@@ -11,5 +11,6 @@ namespace SpaceShip.Objects.Views
     /// </summary>
     class CreditsView
     {
+        // show 
     }
 }

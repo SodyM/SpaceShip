@@ -27,7 +27,13 @@ namespace SpaceShip.Objects
         bool spaceReleased;        
         int score = 0;
 
-        
+
+        /// <summary>
+        /// Gets or sets the score.
+        /// </summary>
+        /// <value>
+        /// The score.
+        /// </value>
         public int Score
         {
             get
@@ -40,7 +46,12 @@ namespace SpaceShip.Objects
             }
         }
 
-
+        /// <summary>
+        /// Gets or sets the backup score.
+        /// </summary>
+        /// <value>
+        /// The backup score.
+        /// </value>
         public int BackupScore { get; set; }
 
         /// <summary>

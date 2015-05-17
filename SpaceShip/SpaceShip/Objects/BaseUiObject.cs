@@ -28,6 +28,12 @@ namespace SpaceShip.Objects
         /// </summary>
         protected Rectangle drawRectangle;
 
+        /// <summary>
+        /// Gets the object rectangle.
+        /// </summary>
+        /// <value>
+        /// The object rectangle.
+        /// </value>
         public Rectangle ObjRectangle
         {
             get
@@ -36,6 +42,12 @@ namespace SpaceShip.Objects
             }
         }
 
+        /// <summary>
+        /// Gets the location of UI object
+        /// </summary>
+        /// <value>
+        /// The location.
+        /// </value>
         public Point Location
         {
             get { return drawRectangle.Center; }

@@ -9,6 +9,10 @@ using System.Text;
 
 namespace SpaceShip.Objects
 {
+    /// <summary>
+    /// Number - Small spritesheet helper
+    /// Extracts numbers from spritesheet with numbers
+    /// </summary>
     class Number : BaseUiObject
     {
         const int NUMBER_COUNT = 10;
@@ -28,6 +32,13 @@ namespace SpaceShip.Objects
             sprite = contentManager.Load<Texture2D>(AssetsConstants.NUMBERS);
         }
 
+        /// <summary>
+        /// Draws the number.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch.</param>
+        /// <param name="score">The score.</param>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
         public void DrawNumber(SpriteBatch spriteBatch, int score, int x, int y)
         {
             List<Rectangle> sourceRectangles = new List<Rectangle>();
@@ -49,6 +60,11 @@ namespace SpaceShip.Objects
             }
         }
 
+        /// <summary>
+        /// Gets the number from score.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
         private List<Rectangle> GetNumberFromScore(string text)
         {
             List<Rectangle> result = new List<Rectangle>();

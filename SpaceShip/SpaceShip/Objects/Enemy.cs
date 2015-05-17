@@ -27,6 +27,12 @@ namespace SpaceShip.Objects
         Vector2 velocity = new Vector2(0, 0);
 
 
+        /// <summary>
+        /// Gets or sets the velocity.
+        /// </summary>
+        /// <value>
+        /// The velocity.
+        /// </value>
         public Vector2 Velocity
         {
             get { return velocity; }
@@ -93,15 +99,19 @@ namespace SpaceShip.Objects
         }
 
 
+        /// <summary>
+        /// Gets the score of current enemy
+        /// </summary>
+        /// <returns>Score for given enemy</returns>
         public int GetScore()
         {
             switch (enemyType)
             {
-                case EnemyType.Blue: return 10; break;
-                case EnemyType.Cyan: return 20; break;
-                case EnemyType.Green: return 30; break;
-                case EnemyType.Yellow: return 40; break;
-                case EnemyType.Red: return 40; break;
+                case EnemyType.Blue: return 10;
+                case EnemyType.Cyan: return 20;
+                case EnemyType.Green: return 30;
+                case EnemyType.Yellow: return 40;
+                case EnemyType.Red: return 40;
             }
             return 10;
         }
@@ -123,6 +133,10 @@ namespace SpaceShip.Objects
             return change;
         }
 
+        /// <summary>
+        /// Update handler
+        /// </summary>
+        /// <param name="gameTime">GameTime</param>
         public override void Update(GameTime gameTime)
         {
             if (!this.IsActive)
@@ -175,7 +189,6 @@ namespace SpaceShip.Objects
             base.Update(gameTime);
         }
 
-
         /// <summary>
         /// Will make the enemy change its direction whenever the upper or lower boundary is hit
         /// </summary>
@@ -195,13 +208,20 @@ namespace SpaceShip.Objects
             }
         }
 
-
+        /// <summary>
+        /// Gets the random firing delay.
+        /// </summary>
+        /// <returns></returns>
         private int GetRandomFiringDelay()
         {
             return GameConstants.ENEMY_MIN_FIRE_DELAY +
                 RandomNumberGenerator.Next(GameConstants.ENEMY_FIRE_DELAY_RANGE);
         }
 
+        /// <summary>
+        /// Gets the projectile velocity.
+        /// </summary>
+        /// <returns></returns>
         private float GetProjectileVelocity()
         {
             if (velocity.Y > 0)

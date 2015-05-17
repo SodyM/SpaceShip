@@ -23,7 +23,12 @@ namespace SpaceShip.Objects
         string sound = AssetsConstants.RESPECT_SOUND;
         string image = AssetsConstants.RESPECT;
 
-
+        /// <summary>
+        /// Sets the display content together with sound that should be played during showing
+        /// </summary>
+        /// <param name="contentManager">The content manager.</param>
+        /// <param name="image">The image.</param>
+        /// <param name="sound">The sound.</param>
         public void SetDisplayContent(ContentManager contentManager, string image, string sound)
         {
             if (this.image == image)

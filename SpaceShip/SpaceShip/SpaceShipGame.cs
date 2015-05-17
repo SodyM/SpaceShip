@@ -59,6 +59,7 @@ namespace SpaceShip
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = GameConstants.WINDOW_WIDTH;
             graphics.PreferredBackBufferHeight = GameConstants.WINDOW_HEIGHT;
+            //graphics.ToggleFullScreen();
 
             Content.RootDirectory = "Content";
         }
@@ -84,7 +85,10 @@ namespace SpaceShip
             base.Initialize();
         }
 
-
+        /// <summary>
+        /// Central function - loads the textures
+        /// Pleace every Content.Load call only here
+        /// </summary>
         private void LoadTextures()
         {
             var playerLaser = Content.Load<Texture2D>(AssetsConstants.LASER);
@@ -201,8 +205,6 @@ namespace SpaceShip
 
             base.Update(gameTime);
         }
-
-
 
         #region will be implemeted with better architecture later
         /// <summary>
@@ -546,7 +548,6 @@ namespace SpaceShip
 
         #endregion
 
-
         /// <summary>
         /// Spawns a new hatch
         /// </summary>
@@ -620,7 +621,6 @@ namespace SpaceShip
             return collisionRectangles;
         }
 
-
         /// <summary>
         /// Returns a random integer value
         /// </summary>
@@ -631,22 +631,5 @@ namespace SpaceShip
         {
             return min + RandomNumberGenerator.Next(range);
         }
-
-
-        ///// <summary>
-        ///// Adds the given projectile to the game
-        ///// </summary>
-        ///// <param name="projectile">the projectile to add</param>
-        //public static void AddProjectile(Projectile projectile)
-        //{
-        //    projectiles.Add(projectile);
-        //}
-
-        //public static void AddProjectile(Vector2 position, Vector2 velocity, ProjectileSource projectileSource)
-        //{
-        //    var newProjectile = new Projectile(Content,
-        //    projectiles.Add(projectile);
-
-        //}
     }
 }
