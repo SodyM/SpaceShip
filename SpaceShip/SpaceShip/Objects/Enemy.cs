@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShip.Classes;
@@ -15,6 +16,7 @@ namespace SpaceShip.Objects
     /// </summary>
     class Enemy : AnimatedUiObject
     {
+        SoundBank soundBank;
         SpaceShipGame thisGame;
         EnemyType enemyType;
         const int START_FRAMERATE = 90;
@@ -83,12 +85,13 @@ namespace SpaceShip.Objects
         /// <param name="device">GraphicsDevice</param>
         /// <param name="position">Startposition</param>
         /// <param name="enemyType">EnemyType</param>
-        public Enemy(ContentManager contentManager, GraphicsDevice device, Vector2 position, Vector2 velocity, EnemyType enemyType, SpaceShipGame game)
+        public Enemy(ContentManager contentManager, GraphicsDevice device, Vector2 position, Vector2 velocity, EnemyType enemyType, SpaceShipGame game, SoundBank soundBank)
         {
+            this.soundBank = soundBank;
             thisGame = game;
             this.enemyType = enemyType;
             this.velocity = velocity;
-            string textureSet = GetEnemyType(enemyType);
+            string textureSet = GetEnemyType(enemyType);            
             sprite = contentManager.Load<Texture2D>(textureSet);
 
             base.Init(FRAMES_COUNT, WIDTH, HEIGHT, position);
@@ -173,7 +176,7 @@ namespace SpaceShip.Objects
                 {
                     elapsedShotTime = 0;
                     firingDelay = GetRandomFiringDelay();
-                    var projectileSprite = AssetsConstants.LASER;
+                    var projectileSprite = AssetsConstants.ENEMY_LASER;
 
                     var projectileVelocity = new Vector2()
                     {
@@ -182,7 +185,7 @@ namespace SpaceShip.Objects
                     };
 
                     thisGame.AddProjectile(position, projectileVelocity, projectileSprite, ProjectileSource.Enemy);
-                    //this.shootSound.Play();
+                    soundBank.PlayCue(AssetsConstants.ENEMY_LASER_FIRE);
                 }
             }
 

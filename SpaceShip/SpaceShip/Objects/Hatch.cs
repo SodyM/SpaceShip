@@ -46,9 +46,10 @@ namespace SpaceShip.Objects
         /// <param name="contentManager">ContentManager</param>
         /// <param name="device">GraphicsDevice</param>
         /// <param name="position">Start position</param>
-        public Hatch(ContentManager contentManager, GraphicsDevice device, Vector2 position, Vector2 velocity, int value)
+        public Hatch(Texture2D sprite, ContentManager contentManager, GraphicsDevice device, Vector2 position, Vector2 velocity, int value)
         {
-            sprite = contentManager.Load<Texture2D>(AssetsConstants.HATCH);
+            //sprite = contentManager.Load<Texture2D>(AssetsConstants.HATCH);
+            base.sprite = sprite;
             this.velocity = velocity;
             this.value = value;
 

@@ -86,15 +86,13 @@ namespace SpaceShip
         }
 
         /// <summary>
-        /// Central function - loads the textures
+        /// Central function - loads the textures only once on this main position
         /// Pleace every Content.Load call only here
         /// </summary>
         private void LoadTextures()
         {
-            var playerLaser = Content.Load<Texture2D>(AssetsConstants.LASER);
-
-
-            textures.Add(AssetsConstants.LASER, playerLaser);
+            textures.Add(AssetsConstants.LASER, Content.Load<Texture2D>(AssetsConstants.LASER));
+            textures.Add(AssetsConstants.ENEMY_LASER, Content.Load<Texture2D>(AssetsConstants.ENEMY_LASER));
             textures.Add(AssetsConstants.ENEMY_YELLOW, Content.Load<Texture2D>(AssetsConstants.ENEMY_YELLOW));
             textures.Add(AssetsConstants.ENEMY_RED, Content.Load<Texture2D>(AssetsConstants.ENEMY_RED));
             textures.Add(AssetsConstants.ENEMY_CYAN, Content.Load<Texture2D>(AssetsConstants.ENEMY_CYAN));
@@ -139,10 +137,14 @@ namespace SpaceShip
         /// Add new explosion
         /// </summary>
         /// <param name="position">Start position</param>
-        private void AddExplosion(Vector2 position)
+        private void AddExplosion(Vector2 position, string spriteName)
         {
-            explosions.Add(new Explosion(Content, GraphicsDevice, position));
-            soundBank.PlayCue(AssetsConstants.EXPLOSION);
+            Texture2D texture = null;
+            if (textures.TryGetValue(spriteName, out texture))
+            {
+                explosions.Add(new Explosion(texture, Content, GraphicsDevice, position));
+                soundBank.PlayCue(AssetsConstants.EXPLOSION);
+            }
         }
 
         /// <summary>
@@ -290,7 +292,7 @@ namespace SpaceShip
                         {
                             player.Health -= GameConstants.ENEMY_PROJECTILE_DAMAGE;
 
-                            AddExplosion(new Vector2(player.Location.X + GameConstants.EXPLOSION_OFFSET, player.Location.Y + GameConstants.EXPLOSION_OFFSET));
+                            AddExplosion(new Vector2(player.Location.X + GameConstants.EXPLOSION_OFFSET, player.Location.Y + GameConstants.EXPLOSION_OFFSET), AssetsConstants.EXPLOSION);
                             curProjectTile.IsActive = false;
                         }
 
@@ -310,11 +312,11 @@ namespace SpaceShip
                         Rectangle collisionRectangle = Rectangle.Intersect(curEnemy.ObjRectangle, curProjectTile.ObjRectangle);
                         if (!collisionRectangle.IsEmpty)
                         {
-                            AddExplosion(new Vector2(curEnemy.Location.X + GameConstants.EXPLOSION_OFFSET, curEnemy.Location.Y + GameConstants.EXPLOSION_OFFSET));
+                            AddExplosion(new Vector2(curEnemy.Location.X + GameConstants.EXPLOSION_OFFSET, curEnemy.Location.Y + GameConstants.EXPLOSION_OFFSET), AssetsConstants.EXPLOSION);
                             curProjectTile.IsActive = false;
                             curEnemy.IsActive = false;//TODO: Health
 
-                            SpawnHatch(new Vector2(curEnemy.Location.X, curEnemy.Location.Y+20), curEnemy.GetScore());
+                            SpawnHatch(new Vector2(curEnemy.Location.X, curEnemy.Location.Y+20), curEnemy.GetScore(), AssetsConstants.HATCH);
                         }
                     }
                 }
@@ -330,7 +332,7 @@ namespace SpaceShip
                     if (!collisionRectangle.IsEmpty)
                     {
 
-                        AddExplosion(new Vector2(curEnemy.ObjRectangle.Center.X - 50, curEnemy.ObjRectangle.Center.Y - 50));
+                        AddExplosion(new Vector2(curEnemy.ObjRectangle.Center.X - 50, curEnemy.ObjRectangle.Center.Y - 50), AssetsConstants.EXPLOSION);
                         curEnemy.IsActive = false;
                         player.Health -= GameConstants.ENEMY_COLLISION_DAMAGE;
 
@@ -394,7 +396,7 @@ namespace SpaceShip
             if (player.IsActive && (player.Health <= 0))
             {
                 player.IsActive = false;
-                AddExplosion(new Vector2(player.Location.X, player.Location.Y));
+                AddExplosion(new Vector2(player.Location.X, player.Location.Y), AssetsConstants.EXPLOSION);
 
                 //TODO: Show Menu or init new player
                 //update game state
@@ -553,15 +555,18 @@ namespace SpaceShip
         /// </summary>
         /// <param name="position">position of the hatch (example: position of destroyed enemy)</param>
         /// <param name="value">the value of the hatch that will be added to the player's score</param>
-        private void SpawnHatch(Vector2 position, int value)
+        private void SpawnHatch(Vector2 position, int value, string spriteName)
         {
             //set velocity of hatch
             float vox = GameConstants.HATCH_SPEED;
             var voy = 0;
             Vector2 velocityVec = new Vector2(vox, voy);
 
-            var newHatch = new Hatch(Content, GraphicsDevice, position, velocityVec, value);
-            hatches.Add(newHatch);
+            Texture2D texture = null;
+            if (textures.TryGetValue(spriteName, out texture))
+            {
+                hatches.Add(new Hatch(texture, Content, GraphicsDevice, position, velocityVec, value));
+            }            
         }
 
         /// <summary>
@@ -591,7 +596,7 @@ namespace SpaceShip
             Vector2 velocityVec = new Vector2(vox, voy);
 
 
-            Enemy newEnemy = new Enemy(Content, GraphicsDevice, new Vector2(x, y), velocityVec, randomEnemyType, this);
+            Enemy newEnemy = new Enemy(Content, GraphicsDevice, new Vector2(x, y), velocityVec, randomEnemyType, this, soundBank);
 
 
             var collisionRectangles = GetCollisionRectangles();

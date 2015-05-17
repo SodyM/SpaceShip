@@ -21,13 +21,14 @@ namespace SpaceShip.Classes
         public const string EXPLOSION                           = "explosion";
         public const string HATCH                               = "hatch_sheet";
         public const string HEAD                                = "head_sheet";
+        public const string ENEMY_LASER                         = "enemy_laser";
         public const string LASER                               = "laser";
         public const string FONTS                               = "fonts";
         public const string STARTFIELD                          = "starfield";
         public const string FARBACK                             = "farback";
         public const string RESPECT                             = "respect";
         public const string NUMBERS                             = "numbers";
-        public const string COLLISION_INFO_PIC                     = "heino_scream";
+        public const string COLLISION_INFO_PIC                  = "heino_scream";
 
         // sounds
         public const string AUDIO_ENGINE                        = @"Content\SpaceShip.xgs";
@@ -35,6 +36,7 @@ namespace SpaceShip.Classes
         public const string SOUND_BANK                          = @"Content\Sound Bank.xsb";
 
         public const string LASER_FIRE                          = "laserFire";
+        public const string ENEMY_LASER_FIRE                    = "_laserFire";
         public const string RESPECT_SOUND                       = "cool";
         public const string COLLISION_SOUND                     = "scream";
 

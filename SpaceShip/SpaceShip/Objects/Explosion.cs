@@ -22,9 +22,10 @@ namespace SpaceShip.Objects
         /// <param name="contentManager">ContentManager</param>
         /// <param name="device">GraphicsDevice</param>
         /// <param name="position">Start position</param>
-        public Explosion(ContentManager contentManager, GraphicsDevice device, Vector2 position)
+        public Explosion(Texture2D sprite, ContentManager contentManager, GraphicsDevice device, Vector2 position)
         {
-            sprite = contentManager.Load<Texture2D>(AssetsConstants.EXPLOSION);
+            //sprite = contentManager.Load<Texture2D>(AssetsConstants.EXPLOSION);
+            this.sprite = sprite;
             base.Init(FRAMES_COUNT, WIDTH, HEIGHT, position, true);
             base.ChangeFrameRate(START_FRAMERATE);
             AnimationDirectionFromTopToDown = false;
