@@ -8,13 +8,14 @@ namespace SpaceShip.Objects
     /// <summary>
     /// Simple enum with Gamestates
     /// </summary>
-    enum GameState
+    public enum GameState
     {
         MENU_MAIN,
         MENU_DISPLAY_SETTINGS,
         MENU_CREDITS,
-        //START_NEW_GAME,
+        START_NEW_GAME,
         PLAY,
-        GAME_OVER
+        GAME_OVER,
+        QUIT
     };
 }

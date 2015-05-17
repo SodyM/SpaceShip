@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceShip.Classes;
 using SpaceShip.Objects;
+using SpaceShip.Objects.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,6 +30,8 @@ namespace SpaceShip
         MusicManager musicManager;
 
         GameState gameState;
+
+        MainMenuView mainMenu;
 
         // game objects
         Player player;
@@ -83,8 +86,7 @@ namespace SpaceShip
             bgLayer2 = new ParallaxingBackground();
 
             texts = new List<Text>();
-            gameState = GameState.PLAY;
-
+            gameState = GameState.MENU_MAIN;
             base.Initialize();
         }
 
@@ -102,7 +104,7 @@ namespace SpaceShip
             textures.Add(AssetsConstants.ENEMY_BLUE, Content.Load<Texture2D>(AssetsConstants.ENEMY_BLUE));
             textures.Add(AssetsConstants.ENEMY_GREEN, Content.Load<Texture2D>(AssetsConstants.ENEMY_GREEN));
             textures.Add(AssetsConstants.EXPLOSION, Content.Load<Texture2D>(AssetsConstants.EXPLOSION));
-            textures.Add(AssetsConstants.HATCH, Content.Load<Texture2D>(AssetsConstants.HATCH));
+            textures.Add(AssetsConstants.HATCH, Content.Load<Texture2D>(AssetsConstants.HATCH));            
         }
 
         /// <summary>
@@ -132,7 +134,8 @@ namespace SpaceShip
 
             player = new Player(Content, GraphicsDevice, new Vector2(60, 300), this, soundBank, GameConstants.PLAYER_DEFAULT_HEALTH);
             enemies = new List<Enemy>();
-            
+            mainMenu = new MainMenuView(Content, GraphicsDevice, this, soundBank);
+
             SpawnEnemy();
         }
 
@@ -163,6 +166,11 @@ namespace SpaceShip
             }
         }
 
+        public void ChangeGameState(GameState state)
+        {
+            this.gameState = state;
+        }
+
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
@@ -182,6 +190,8 @@ namespace SpaceShip
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
             
+            
+            
             if (gameState == GameState.MENU_MAIN)
             {
                 UpdateMainMenu(gameTime);
@@ -193,6 +203,11 @@ namespace SpaceShip
             else if (gameState == GameState.MENU_CREDITS)
             {
                 UpdateCredits(gameTime);
+            }
+            else if(gameState == GameState.START_NEW_GAME)
+            {
+                musicManager.PlayMainTheme();
+                gameState = GameState.PLAY;
             }
             else if (gameState == GameState.PLAY)
             {
@@ -206,6 +221,10 @@ namespace SpaceShip
             else if (gameState == GameState.GAME_OVER)
             {
                 UpdateGameOver(gameTime);
+            }
+            else if (gameState == GameState.QUIT)
+            {
+                this.Exit();
             }
 
             base.Update(gameTime);
@@ -242,6 +261,7 @@ namespace SpaceShip
         /// <param name="gameTime">The game time.</param>
         private void UpdateMainMenu(GameTime gameTime)
         {
+            mainMenu.Update(gameTime);
         }
 
         /// <summary>
@@ -506,6 +526,10 @@ namespace SpaceShip
         /// <param name="gameTime">The game time.</param>
         private void DrawMainMenu(GameTime gameTime)
         {
+            bgLayer2.Draw(spriteBatch);
+            //bgLayer1.Draw(spriteBatch);
+
+            mainMenu.Draw(spriteBatch, gameTime);
         }
 
         /// <summary>
@@ -513,7 +537,7 @@ namespace SpaceShip
         /// </summary>
         /// <param name="gameTime">The game time.</param>
         private void DrawGame(GameTime gameTime)
-        {            
+        {
             bgLayer2.Draw(spriteBatch);
             bgLayer1.Draw(spriteBatch);
 

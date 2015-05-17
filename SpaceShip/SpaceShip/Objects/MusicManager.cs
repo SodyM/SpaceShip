@@ -32,8 +32,7 @@ namespace SpaceShip.Objects
         public MusicManager(ContentManager contentManager, SoundBank soundBank, GraphicsDevice device)
         {
             this.soundBank = soundBank;
-            graphics = device;
-            PlayMainTheme();
+            graphics = device;            
             textHelper = new Text(contentManager, device);
         }
 

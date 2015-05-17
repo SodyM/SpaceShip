@@ -28,6 +28,30 @@ namespace SpaceShip.Objects
         bool useAnimationTopDown = true;
         bool deactivateAfterAnimation = false;//deactivate object after animation was played once (example: explosion)
 
+        bool stopAnimationAndReset = false;     // stop animation and reset to first image in sprite sheet
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnimatedUiObject"/> class.
+        /// </summary>
+        public AnimatedUiObject()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnimatedUiObject"/> class.
+        /// </summary>
+        /// <param name="numFrames">The number frames.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <param name="position">The position.</param>
+        /// <param name="sprite">The sprite.</param>
+        /// <param name="frameRate">The frame rate.</param>
+        public AnimatedUiObject(int numFrames, int width, int height, Vector2 position, Texture2D sprite, int frameRate = 75)
+        {
+            base.sprite = sprite;
+            this.frame_rate = frameRate;
+            Init(numFrames, width, height, position, false, health);
+        }
 
         /// <summary>
         /// Gets or sets the health.
@@ -71,7 +95,6 @@ namespace SpaceShip.Objects
         public void Init(int numFrames, int width, int height, Vector2 position, Texture2D sprite, int health = 100)
         {
             base.sprite = sprite;
-
             Init(numFrames, width, height, position, false, health);
         }
         
@@ -118,7 +141,23 @@ namespace SpaceShip.Objects
         {
             this.frame_rate = new_frame_rate;
         }
-        
+
+        /// <summary>
+        /// Restarts the animation after stop.
+        /// </summary>
+        public void RestartAnimationAfterStop()
+        {
+            stopAnimationAndReset = false;
+        }
+
+        /// <summary>
+        /// Stops the animation and reset.
+        /// </summary>
+        public void StopAnimationAndReset()
+        {
+            stopAnimationAndReset = true;
+        }
+
         /// <summary>
         /// Set next frame
         /// </summary>
@@ -130,7 +169,7 @@ namespace SpaceShip.Objects
             else
                 sourceRectangle.X = frameNumber * width;
         }
-
+        
         /// <summary>
         /// Update handler
         /// </summary>
@@ -139,22 +178,30 @@ namespace SpaceShip.Objects
         {
             if (IsActive)
             {
-                // check for advancing animation frame
-                elapsedFrameTime += gameTime.ElapsedGameTime.Milliseconds;
-                if (elapsedFrameTime > frame_rate)
+                if (stopAnimationAndReset)
                 {
+                    // stop animation and set first image from spritesheet
                     elapsedFrameTime = 0;                       // reset frame timer                
-                    if (currentFrame < frames_count - 1)        // advance the animation
-                        currentFrame++;
-                    else
-                    {
-                        currentFrame = 0;                       // reached the end of the animation
-                        if (deactivateAfterAnimation)
-                            IsActive = false;
-                    }
-
-                    SetSourceRectangleLocation(currentFrame);
+                    currentFrame = 0;
                 }
+                else
+                {
+                    // check for advancing animation frame
+                    elapsedFrameTime += gameTime.ElapsedGameTime.Milliseconds;
+                    if (elapsedFrameTime > frame_rate)
+                    {
+                        elapsedFrameTime = 0;                       // reset frame timer                
+                        if (currentFrame < frames_count - 1)        // advance the animation
+                            currentFrame++;
+                        else
+                        {
+                            currentFrame = 0;                       // reached the end of the animation
+                            if (deactivateAfterAnimation)
+                                IsActive = false;
+                        }                        
+                    }
+                }
+                SetSourceRectangleLocation(currentFrame);
             }
         }
 
