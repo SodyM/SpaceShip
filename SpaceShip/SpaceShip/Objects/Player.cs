@@ -47,14 +47,6 @@ namespace SpaceShip.Objects
         }
 
         /// <summary>
-        /// Gets or sets the backup score.
-        /// </summary>
-        /// <value>
-        /// The backup score.
-        /// </value>
-        public int BackupScore { get; set; }
-
-        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="contentManager">ContentManager</param>

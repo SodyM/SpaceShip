@@ -6,6 +6,7 @@ using SpaceShip.Classes;
 using SpaceShip.Objects;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SpaceShip
 {
@@ -14,6 +15,9 @@ namespace SpaceShip
     /// </summary>
     public class SpaceShipGame : Microsoft.Xna.Framework.Game
     {
+        int super_cool = GameConstants.SUPERCOOL_SCORE;
+        int super_cool_step = GameConstants.SUPERCOOL_SCORE;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -44,7 +48,6 @@ namespace SpaceShip
         Number numberHelper;
 
         InfoWindow infoWindow;
-        int backup_score = 0;
 
 
 
@@ -248,13 +251,11 @@ namespace SpaceShip
         private void UpdateGame(GameTime gameTime)
         {
             musicManager.Update(Keyboard.GetState());
-
-            if (player.Score >= 100)
+            if (player.Score >= super_cool)
             {
                 infoWindow.SetDisplayContent(Content, AssetsConstants.RESPECT, AssetsConstants.RESPECT_SOUND);
-                player.BackupScore += player.Score;
                 infoWindow.IsActive = true;
-                player.Score = 0;
+                super_cool = super_cool_step + super_cool;
             }
 
             infoWindow.Update(gameTime);            
