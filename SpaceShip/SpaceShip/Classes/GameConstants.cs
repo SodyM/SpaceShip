@@ -24,25 +24,25 @@ namespace SpaceShip.Classes
         public const string MUSIC_OFF                       = "MUSIC OFF";
         public const string SCORE                           = "SCORE";
 
-        public const int SCORE_TEXT_LEFT = 20;
-        public const int SCORE_VALUE_LEFT = 140;
-        public const int INFOLINE_TOP = 10;
+        public const int SCORE_TEXT_LEFT                    = 20;
+        public const int SCORE_VALUE_LEFT                   = 140;
+        public const int INFOLINE_TOP                       = 10;
 
         // game standards
 
         /* 
          * minimum score ans further step for super cool
          * Example:
-         * SUPERCOOL_SCORE = 100
-         * - first message when player has reached score 100
-         * - next message when player has reached score 200
+         * SUPERCOOL_SCORE = 1000
+         * - first message when player has reached score 1000
+         * - next message when player has reached score 2000
          */
-        public static int SUPERCOOL_SCORE                   = 100;      // change super cool score if you like here
+        public static int SUPERCOOL_SCORE                   = 1000;      // change super cool score if you like here
 
         public const int PLAYER_DEFAULT_HEALTH              = 100;
         public const int PLAYER_DEFAULT_DAMAGE              = 100;
-        public const float PLAYER_LASER_SPEED               = 10.0f; //change to a property of the weapon type
-        public const float Enemy_LASER_SPEED = 3.0f; //change to a property of the weapon type
+        public const float PLAYER_LASER_SPEED               = 10.0f;    //change to a property of the weapon type
+        public const float Enemy_LASER_SPEED                = 4.0f;     //change to a property of the weapon type
         public const int ENEMY_MAX_COUNT                    = 5;
         public const int ENEMY_COLLISION_DAMAGE             = 15;
         public const string SCORE_PREFIX                    = "Score";
