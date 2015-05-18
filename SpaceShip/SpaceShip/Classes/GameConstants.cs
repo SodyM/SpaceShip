@@ -39,6 +39,7 @@ namespace SpaceShip.Classes
          */
         public static int SUPERCOOL_SCORE                   = 1000;      // change super cool score if you like here
 
+        public const int PLAYER_LIVES_START                 = 3;
         public const int PLAYER_DEFAULT_HEALTH              = 100;
         public const int PLAYER_DEFAULT_DAMAGE              = 100;
         public const float PLAYER_LASER_SPEED               = 10.0f;    //change to a property of the weapon type
@@ -49,6 +50,8 @@ namespace SpaceShip.Classes
         public const int EXPLOSION_OFFSET                   = -50;
 
         public const bool ENEMIES_SHOOT                     = true; //for Tests
+        public const bool ENEMIES_TARGET_PLAYER             = false; //for Tests
+
         public const float ENEMY_SPEED_RANGE                = 0.2f;
         public const float MIN_ENEMY_SPEED                  = 0.1f;
         public const float HATCH_SPEED                      = -0.1f;

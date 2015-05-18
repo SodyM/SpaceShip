@@ -26,7 +26,7 @@ namespace SpaceShip.Objects
         bool spacePressed;
         bool spaceReleased;        
         int score = 0;
-
+        int lives = GameConstants.PLAYER_LIVES_START;
 
         /// <summary>
         /// Gets or sets the score.
@@ -44,6 +44,34 @@ namespace SpaceShip.Objects
             {
                 score = value;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the player's amount of lives
+        /// </summary>
+        public int Lives
+        {
+            get
+            {
+                return lives;
+            }
+            set
+            {
+                lives = value;
+                if (lives < 0)
+                {
+                    lives = 0;
+                }
+            }
+        }
+
+        public void Reset()
+        {
+            Health = 100;
+            IsActive = true;
+            this.position = new Vector2(60, 300);
+            this.velocity = new Vector2(0, 0);
+            //set invulnerable for 1-3 seconds
         }
 
         /// <summary>

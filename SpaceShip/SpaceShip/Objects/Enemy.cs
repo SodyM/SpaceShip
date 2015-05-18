@@ -101,6 +101,16 @@ namespace SpaceShip.Objects
             firingDelay = GetRandomFiringDelay();
         }
 
+        /// <summary>
+        /// Makes the enemy fly towards the target
+        /// </summary>
+        /// <param name="target"></param>
+        public void SetTarget(Vector2 target)
+        {
+            position.X = drawRectangle.Center.X;
+            position.Y = drawRectangle.Center.Y;
+            velocity = Vector2.Normalize(target - position) * 0.3f;//BaseSpeed
+        }
 
         /// <summary>
         /// Gets the score of current enemy

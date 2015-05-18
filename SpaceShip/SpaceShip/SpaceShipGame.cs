@@ -35,6 +35,8 @@ namespace SpaceShip
 
         // game objects
         Player player;
+        bool playerCanTakeDamage = true;
+        int elapsedInvulTime = 0;
      
         List<Enemy> enemies;
         
@@ -194,6 +196,7 @@ namespace SpaceShip
             
             if (gameState == GameState.MENU_MAIN)
             {
+                //this.IsMouseVisible = true;//show mouse for menu if needed
                 UpdateMainMenu(gameTime);
             }
             else if (gameState == GameState.MENU_DISPLAY_SETTINGS)
@@ -206,12 +209,18 @@ namespace SpaceShip
             }
             else if(gameState == GameState.START_NEW_GAME)
             {
+                //this.IsMouseVisible = false;
+                player.Score = 0;
                 musicManager.PlayMainTheme();
                 gameState = GameState.PLAY;
             }
             else if (gameState == GameState.PLAY)
             {
                 UpdateGame(gameTime);
+            }
+            else if (gameState == GameState.PLAYER_DIED)
+            {
+                ReInitGame(gameTime);
             }
             //else if(gameState == GameState.START_NEW_GAME)
             //{
@@ -253,6 +262,39 @@ namespace SpaceShip
         /// <param name="gameTime">The game time.</param>
         private void UpdateDisplaySettings(GameTime gameTime)
         {
+        }
+
+
+        /// <summary>
+        /// Removes all enemies (example: after player died)
+        /// </summary>
+        private void ClearEnemies()
+        {
+        }
+
+        /// <summary>
+        /// Restarts the game after the player died if there are lives left
+        /// Game over if no lives left
+        /// </summary>
+        /// <param name="gameTime"></param>
+        private void ReInitGame(GameTime gameTime)
+        {
+            enemies.Clear();
+            projectiles.Clear();
+
+            if (player.Lives > 0)
+            {
+                //for (int i = enemies.Count - 1; i >= 0; i--)
+                //{
+                //    //explode?
+                //}
+                
+
+                player.Reset();
+                gameState = GameState.PLAY;
+            }
+            else
+                gameState = GameState.MENU_MAIN;//later: use state GameOver
         }
 
         /// <summary>
@@ -416,9 +458,12 @@ namespace SpaceShip
         {
             if (player.IsActive && (player.Health <= 0))
             {
+                player.Lives -= 1;
                 player.IsActive = false;
                 AddExplosion(new Vector2(player.Location.X, player.Location.Y), AssetsConstants.EXPLOSION);
 
+                gameState = GameState.PLAYER_DIED;
+                soundBank.PlayCue(AssetsConstants.EXPLOSION_PLAYER);
                 //TODO: Show Menu or init new player
                 //update game state
             }
@@ -606,9 +651,6 @@ namespace SpaceShip
             Array values = Enum.GetValues(typeof(EnemyType));
             var randomEnemyType = (EnemyType)values.GetValue(RandomNumberGenerator.Next(values.Length));
 
-            //Todo: get
-
-
             //set random velocity
             var velocity = RandomNumberGenerator.NextFloat(GameConstants.ENEMY_SPEED_RANGE) + GameConstants.MIN_ENEMY_SPEED;
 
@@ -632,6 +674,8 @@ namespace SpaceShip
                 newEnemy.Y = GetRandomLocation(GameConstants.SPAWN_BORDER_SIZE, GameConstants.WINDOW_HEIGHT - GameConstants.SPAWN_BORDER_SIZE * 2);
             }
 
+            if (GameConstants.ENEMIES_TARGET_PLAYER)
+                newEnemy.SetTarget(new Vector2(player.Location.X, player.Location.Y));
             enemies.Add(newEnemy);
         }
 

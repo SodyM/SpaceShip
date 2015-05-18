@@ -46,6 +46,7 @@ namespace SpaceShip.Classes
         public const string RESPECT_SOUND                       = "cool";
         public const string COLLISION_SOUND                     = "scream";
         public const string MENU_CLICK                          = "click";
+        public const string EXPLOSION_PLAYER                    = "explosion_player";
 
         // musics
         public const string BACKGROUND_MUSIC                    = "main_theme";

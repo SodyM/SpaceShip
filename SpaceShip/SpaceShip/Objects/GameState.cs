@@ -15,6 +15,7 @@ namespace SpaceShip.Objects
         MENU_CREDITS,
         START_NEW_GAME,
         PLAY,
+        PLAYER_DIED,
         GAME_OVER,
         QUIT
     };
