@@ -44,6 +44,7 @@ namespace SpaceShip.Objects
         const int HEIGHT = 16;
 
         int damage = 0;
+        int lifespan = 0;
 
         
         ProjectileSource projectileSource;

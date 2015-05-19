@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShip.Classes;
+using System.Collections.Generic;
 
 namespace SpaceShip.Objects
 {    
@@ -25,9 +26,12 @@ namespace SpaceShip.Objects
         const int WIDTH = 40;
         int firingDelay = 5000;
         int elapsedShotTime = 0;
+        int refreshTargetDelay = 1500;
+        int elapsedRefreshTime = 0;
         // velocity information
         Vector2 velocity = new Vector2(0, 0);
-
+        List<Vector2> waypoints = new List<Vector2>();
+        AnimatedUiObject target;
 
         /// <summary>
         /// Gets or sets the velocity.
@@ -105,11 +109,16 @@ namespace SpaceShip.Objects
         /// Makes the enemy fly towards the target
         /// </summary>
         /// <param name="target"></param>
-        public void SetTarget(Vector2 target)
+        public void SetTargetLocation(Vector2 target)
         {
-            position.X = drawRectangle.Center.X;
-            position.Y = drawRectangle.Center.Y;
-            velocity = Vector2.Normalize(target - position) * 0.3f;//BaseSpeed
+            //position.X = drawRectangle.Center.X;
+            //position.Y = drawRectangle.Center.Y;
+            velocity = Vector2.Normalize(target - position) * 0.15f;//BaseSpeed
+        }
+
+        public void SetTarget(AnimatedUiObject target)
+        {
+            this.target = target;
         }
 
         /// <summary>
@@ -156,6 +165,15 @@ namespace SpaceShip.Objects
                 return;
 
             int elapsedTime = gameTime.ElapsedGameTime.Milliseconds;
+
+            //Todo: use flag to follow target
+            //elapsedRefreshTime += elapsedTime;
+            //if ((target != null) && (target.IsActive) & (elapsedRefreshTime > refreshTargetDelay))
+            //{
+            //    SetTargetLocation(new Vector2(target.Location.X, target.Location.Y));
+            //    elapsedRefreshTime = 0;
+            //} 
+            
             var xChange = GetLocationChange(elapsedTime, this.velocity.X);
             var yChange = GetLocationChange(elapsedTime, this.velocity.Y);
 

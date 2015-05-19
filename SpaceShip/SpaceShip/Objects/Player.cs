@@ -28,6 +28,8 @@ namespace SpaceShip.Objects
         int score = 0;
         int lives = GameConstants.PLAYER_LIVES_START;
 
+        Weapon laser;
+
         /// <summary>
         /// Gets or sets the score.
         /// </summary>
@@ -85,6 +87,11 @@ namespace SpaceShip.Objects
             thisGame = game;
             sprite = contentManager.Load<Texture2D>(AssetsConstants.PLAYER);
             base.Init(COUNT_OF_FRAMES, WIDTH, HEIGHT, position, false, health);
+
+            var weaponInfo = new WeaponInfo(AssetsConstants.LASER, GameConstants.PLAYER_LASER_SPEED, WeaponType.Laser);
+
+            var laserTexture = thisGame.GetTextureForName(AssetsConstants.LASER);
+            laser = new Weapon(laserTexture, weaponInfo, game, this);
             
             // set window dimensions
             windowHeight = device.Viewport.Height;
@@ -179,19 +186,22 @@ namespace SpaceShip.Objects
         /// </summary>
         void Fire()
         {
-            Vector2 position = new Vector2();
-            position.X = this.position.X + WIDTH + 18;
-            position.Y = this.position.Y + 7;
+            //Vector2 position = new Vector2();
+            //position.X = this.position.X + WIDTH + 18;
+            //position.Y >= this.position.Y + 7;
+            laser.Fire();
 
-            var velocity = new Vector2()
-            {
-                X = GameConstants.PLAYER_LASER_SPEED,
-                Y = 0
-            };
 
-            string projectileSprite = AssetsConstants.LASER;
+            //auskommentiert für Test der Klasse Weapon
+            //var velocity = new Vector2()
+            //{
+            //    X = GameConstants.PLAYER_LASER_SPEED,
+            //    Y = 0
+            //};
 
-            thisGame.AddProjectile(position, velocity, projectileSprite, ProjectileSource.Player);
+            //string projectileSprite = AssetsConstants.LASER;
+
+            //thisGame.AddProjectile(position, velocity, projectileSprite, ProjectileSource.Player);
             soundBank.PlayCue(AssetsConstants.LASER_FIRE);
         }
 

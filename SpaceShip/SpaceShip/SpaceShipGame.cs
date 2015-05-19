@@ -139,6 +139,7 @@ namespace SpaceShip
             mainMenu = new MainMenuView(Content, GraphicsDevice, this, soundBank);
 
             SpawnEnemy();
+            enemies[0].SetTarget(player);
         }
 
         /// <summary>
@@ -153,6 +154,18 @@ namespace SpaceShip
                 explosions.Add(new Explosion(texture, Content, GraphicsDevice, position));
                 soundBank.PlayCue(AssetsConstants.EXPLOSION);
             }
+        }
+
+        /// <summary>
+        /// Returns a texture from the texturelist for a given name
+        /// </summary>
+        /// <param name="spriteName"></param>
+        /// <returns></returns>
+        public Texture2D GetTextureForName(string spriteName)
+        { 
+            Texture2D texture = null;
+            textures.TryGetValue(spriteName, out texture);
+            return texture; 
         }
 
         /// <summary>
@@ -675,7 +688,7 @@ namespace SpaceShip
             }
 
             if (GameConstants.ENEMIES_TARGET_PLAYER)
-                newEnemy.SetTarget(new Vector2(player.Location.X, player.Location.Y));
+                newEnemy.SetTargetLocation(new Vector2(player.Location.X, player.Location.Y));
             enemies.Add(newEnemy);
         }
 
