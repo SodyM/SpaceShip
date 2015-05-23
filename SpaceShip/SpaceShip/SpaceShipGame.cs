@@ -32,6 +32,10 @@ namespace SpaceShip
         GameState gameState;
 
         MainMenuView mainMenu;
+        GameOverView gameOverView;
+        SettingsView settingsView;
+        CreditsView creditsView;
+
 
         // game objects
         Player player;
@@ -106,7 +110,8 @@ namespace SpaceShip
             textures.Add(AssetsConstants.ENEMY_BLUE, Content.Load<Texture2D>(AssetsConstants.ENEMY_BLUE));
             textures.Add(AssetsConstants.ENEMY_GREEN, Content.Load<Texture2D>(AssetsConstants.ENEMY_GREEN));
             textures.Add(AssetsConstants.EXPLOSION, Content.Load<Texture2D>(AssetsConstants.EXPLOSION));
-            textures.Add(AssetsConstants.HATCH, Content.Load<Texture2D>(AssetsConstants.HATCH));            
+            textures.Add(AssetsConstants.HATCH, Content.Load<Texture2D>(AssetsConstants.HATCH));
+            textures.Add(AssetsConstants.GAME_OVER, Content.Load<Texture2D>(AssetsConstants.GAME_OVER));     
         }
 
         /// <summary>
@@ -137,6 +142,9 @@ namespace SpaceShip
             player = new Player(Content, GraphicsDevice, new Vector2(60, 300), this, soundBank, GameConstants.PLAYER_DEFAULT_HEALTH);
             enemies = new List<Enemy>();
             mainMenu = new MainMenuView(Content, GraphicsDevice, this, soundBank);
+            gameOverView = new GameOverView(Content, GraphicsDevice, this, soundBank);
+            settingsView = new SettingsView(Content, GraphicsDevice, this, soundBank);
+            creditsView = new CreditsView(Content, GraphicsDevice, this, soundBank);
 
             SpawnEnemy();
             enemies[0].SetTarget(player);
@@ -214,7 +222,7 @@ namespace SpaceShip
             }
             else if (gameState == GameState.MENU_DISPLAY_SETTINGS)
             {
-                UpdateDisplaySettings(gameTime);
+                UpdateSettings(gameTime);
             }
             else if (gameState == GameState.MENU_CREDITS)
             {
@@ -259,6 +267,7 @@ namespace SpaceShip
         /// <param name="gameTime">The game time.</param>
         private void UpdateGameOver(GameTime gameTime)
         {
+            gameOverView.Update(gameTime);
         }
 
         /// <summary>
@@ -267,14 +276,16 @@ namespace SpaceShip
         /// <param name="gameTime">The game time.</param>
         private void UpdateCredits(GameTime gameTime)
         {
+            creditsView.Update(gameTime);
         }
 
         /// <summary>
         /// Updates the display settings.
         /// </summary>
         /// <param name="gameTime">The game time.</param>
-        private void UpdateDisplaySettings(GameTime gameTime)
+        private void UpdateSettings(GameTime gameTime)
         {
+            settingsView.Update(gameTime);
         }
 
 
@@ -307,7 +318,11 @@ namespace SpaceShip
                 gameState = GameState.PLAY;
             }
             else
-                gameState = GameState.MENU_MAIN;//later: use state GameOver
+            {
+                // stop everything
+                musicManager.StopMainTheme();
+                gameState = GameState.GAME_OVER;    //later: use state GameOver
+            }                
         }
 
         /// <summary>
@@ -534,7 +549,7 @@ namespace SpaceShip
             }
             else if (gameState == GameState.MENU_DISPLAY_SETTINGS)
             {
-                DrawDisplaySettings(gameTime);
+                DrawSettings(gameTime);
             }
             else if (gameState == GameState.MENU_CREDITS)
             {
@@ -559,7 +574,9 @@ namespace SpaceShip
         /// </summary>
         /// <param name="gameTime">The game time.</param>
         private void DrawGameOver(GameTime gameTime)
-        {            
+        {
+            bgLayer2.Draw(spriteBatch);
+            gameOverView.Draw(spriteBatch, gameTime);
         }
 
         /// <summary>
@@ -568,14 +585,18 @@ namespace SpaceShip
         /// <param name="gameTime">The game time.</param>
         private void DrawCredits(GameTime gameTime)
         {
+            bgLayer2.Draw(spriteBatch);
+            creditsView.Draw(spriteBatch, gameTime);
         }
 
         /// <summary>
         /// Draws the display settings.
         /// </summary>
         /// <param name="gameTime">The game time.</param>
-        private void DrawDisplaySettings(GameTime gameTime)
+        private void DrawSettings(GameTime gameTime)
         {
+            bgLayer2.Draw(spriteBatch);
+            settingsView.Draw(spriteBatch, gameTime);
         }
 
         /// <summary>
@@ -585,8 +606,6 @@ namespace SpaceShip
         private void DrawMainMenu(GameTime gameTime)
         {
             bgLayer2.Draw(spriteBatch);
-            //bgLayer1.Draw(spriteBatch);
-
             mainMenu.Draw(spriteBatch, gameTime);
         }
 

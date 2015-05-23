@@ -36,6 +36,8 @@ namespace SpaceShip.Classes
         public const string MENU_CREDITS                        = "credits";
         public const string MENU_QUIT                           = "quit";
 
+        public const string GAME_OVER = "gameover";
+
         // sounds
         public const string AUDIO_ENGINE                        = @"Content\SpaceShip.xgs";
         public const string WAVE_BANK                           = @"Content\Wave Bank.xwb";

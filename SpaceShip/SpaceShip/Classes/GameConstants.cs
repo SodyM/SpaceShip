@@ -63,5 +63,7 @@ namespace SpaceShip.Classes
         public const float ENEMY_PROJECTILE_SPEED           = 0.3f;
 
         public const int SHOW_INFOWINDOW_DELAY              = 1500;
+
+        public const string GAME_OVER                       = "GAME OVER";
     }
 }

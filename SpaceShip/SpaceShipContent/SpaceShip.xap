@@ -420,11 +420,13 @@ Sound Bank
     Windows File = Win\Sound Bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
+    Header Last Modified High = 0;
+    Header Last Modified Low = 0;
 
     Sound
     {
         Name = _laserFire;
-        Volume = -1200;
+        Volume = -2320;
         Pitch = 0;
         Priority = 0;
 
@@ -471,7 +473,7 @@ Sound Bank
     Sound
     {
         Name = explosion;
-        Volume = -1200;
+        Volume = -1900;
         Pitch = 0;
         Priority = 0;
 
@@ -518,7 +520,7 @@ Sound Bank
     Sound
     {
         Name = laserFire;
-        Volume = 380;
+        Volume = 30;
         Pitch = 0;
         Priority = 0;
 
@@ -565,7 +567,7 @@ Sound Bank
     Sound
     {
         Name = main_theme;
-        Volume = -1730;
+        Volume = -1260;
         Pitch = 0;
         Priority = 0;
 
