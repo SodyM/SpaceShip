@@ -105,7 +105,7 @@ namespace SpaceShip.Objects
         /// <summary>
         /// Stops the main theme.
         /// </summary>
-        private void StopMainTheme()
+        public void StopMainTheme()
         {
             if (mainCue.IsPlaying)
                 mainCue.Stop(AudioStopOptions.AsAuthored);

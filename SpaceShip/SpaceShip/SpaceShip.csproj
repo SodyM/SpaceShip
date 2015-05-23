@@ -106,10 +106,11 @@
     <Compile Include="Objects\Projectile.cs" />
     <Compile Include="Objects\StaticUiObject.cs" />
     <Compile Include="Objects\Text.cs" />
+    <Compile Include="Objects\Views\BaseView.cs" />
     <Compile Include="Objects\Weapon.cs" />
     <Compile Include="Objects\Views\GameOverView.cs" />
     <Compile Include="Objects\Views\CreditsView.cs" />
-    <Compile Include="Objects\Views\DisplaySettingsView.cs" />
+    <Compile Include="Objects\Views\SettingsView.cs" />
     <Compile Include="Objects\Views\MainMenuView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

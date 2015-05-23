@@ -12,7 +12,7 @@ namespace SpaceShip.Objects.Views
     /// MainMenuView
     /// - display main menu view with standard menu options
     /// </summary>
-    class MainMenuView : StaticUiObject
+    class MainMenuView : BaseView
     {
         bool upPressed = false;
         bool upReleased = false;
@@ -22,12 +22,11 @@ namespace SpaceShip.Objects.Views
 
         bool enterPressed = false;
         bool enterReleased = false;
+
+        bool escPressed = false;
+        bool escReleased = false;
         
         int selectedItemIndex = 0;
-
-        List<AnimatedUiObject> menuItems;
-        SpaceShipGame thisGame;
-        SoundBank soundBank;
 
         int MENU_FRAMERATE = 200;
         int MENU_WIDTH = 120;
@@ -42,12 +41,8 @@ namespace SpaceShip.Objects.Views
         /// <param name="device">The device.</param>
         /// <param name="game">The game.</param>
         public MainMenuView(ContentManager contentManager, GraphicsDevice device, SpaceShipGame game, SoundBank soundBank)
-        {
-            thisGame = game;
-            this.soundBank = soundBank;
-
-            menuItems = new List<AnimatedUiObject>();
-
+            : base(contentManager, device, game, soundBank)
+        {            
             int left = device.Viewport.Width / 2 - MENU_WIDTH / 2;
             int top = device.Viewport.Height / 2 - (MENU_HEIGHT + STEP * 4) / 2;
 
@@ -77,7 +72,7 @@ namespace SpaceShip.Objects.Views
                 var item = menuItems[i];
                 item.IsActive = true;
                 if (i == selectedItemIndex)
-                {                    
+                {
                     item.RestartAnimationAfterStop();
                 }
                 else
@@ -88,14 +83,7 @@ namespace SpaceShip.Objects.Views
             }
         }
 
-        /// <summary>
-        /// Plays the click.
-        /// </summary>
-        void PlayClick()
-        {
-            soundBank.PlayCue(AssetsConstants.MENU_CLICK);
-        }
-
+        
         /// <summary>
         /// Handles the keyboard input.
         /// </summary>
@@ -150,6 +138,22 @@ namespace SpaceShip.Objects.Views
                     enterPressed = false;
                 }
             }
+
+            if (keyState.IsKeyDown(Keys.Escape))
+            {
+                escPressed = true;
+                escReleased = false;
+            }
+            else if (keyState.IsKeyUp(Keys.Escape))
+            {
+                escReleased = true;
+                if (escPressed && escReleased)
+                {
+                    escPressed = false;
+                    escReleased = false;
+                    this.game.ChangeGameState(GameState.QUIT);
+                }
+            }           
         }
 
         /// <summary>
@@ -159,19 +163,19 @@ namespace SpaceShip.Objects.Views
         {
             if (selectedItemIndex == 0)
             {
-                thisGame.ChangeGameState(GameState.START_NEW_GAME);
+                game.ChangeGameState(GameState.START_NEW_GAME);
             }
             else if (selectedItemIndex == 1)
             {
-                thisGame.ChangeGameState(GameState.MENU_DISPLAY_SETTINGS);
+                game.ChangeGameState(GameState.MENU_DISPLAY_SETTINGS);
             }
             else if (selectedItemIndex == 2)
             {
-                thisGame.ChangeGameState(GameState.MENU_CREDITS);
+                game.ChangeGameState(GameState.MENU_CREDITS);
             }
             else if (selectedItemIndex == 3)
             {
-                thisGame.ChangeGameState(GameState.QUIT);
+                game.ChangeGameState(GameState.QUIT);
             }
         }
 
@@ -205,19 +209,6 @@ namespace SpaceShip.Objects.Views
                 --selectedItemIndex;
             }
             PlayClick();
-        }
-
-        /// <summary>
-        /// Draw handler
-        /// </summary>
-        /// <param name="spriteBatch">SpriteBatch</param>
-        /// <param name="gameTime">GameTime</param>
-        public override void Draw(SpriteBatch spriteBatch, Microsoft.Xna.Framework.GameTime gameTime)
-        {
-            foreach (AnimatedUiObject item in menuItems)
-            {
-                item.Draw(spriteBatch, gameTime);
-            }
-        }
+        }        
     }
 }
