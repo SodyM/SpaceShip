@@ -87,7 +87,7 @@ namespace SpaceShip.Objects.Views
         /// <summary>
         /// Handles the keyboard input.
         /// </summary>
-        private void HandleKeyboardInput()
+        public override void HandleKeyboardInput()
         {
             KeyboardState keyState = Keyboard.GetState();
 
@@ -139,21 +139,7 @@ namespace SpaceShip.Objects.Views
                 }
             }
 
-            if (keyState.IsKeyDown(Keys.Escape))
-            {
-                escPressed = true;
-                escReleased = false;
-            }
-            else if (keyState.IsKeyUp(Keys.Escape))
-            {
-                escReleased = true;
-                if (escPressed && escReleased)
-                {
-                    escPressed = false;
-                    escReleased = false;
-                    this.game.ChangeGameState(GameState.QUIT);
-                }
-            }           
+            base.HandleKeyboardInput();
         }
 
         /// <summary>

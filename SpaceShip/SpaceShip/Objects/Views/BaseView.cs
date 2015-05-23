@@ -83,7 +83,7 @@ namespace SpaceShip.Objects.Views
         /// <summary>
         /// Handles the keyboard input. Pressing ESC key will change game state to MENU_MAIN
         /// </summary>
-        private void HandleKeyboardInput()
+        public virtual void HandleKeyboardInput()
         {
             KeyboardState keyState = Keyboard.GetState();
             if (keyState.IsKeyDown(Keys.Escape))
@@ -98,7 +98,16 @@ namespace SpaceShip.Objects.Views
                 {
                     escPressed = false;
                     escReleased = false;
-                    this.game.ChangeGameState(GameState.MENU_MAIN);
+
+                    GameState currentGameState = game.GetCurrentGameState();
+                    if (currentGameState == GameState.MENU_MAIN)
+                    {
+                        this.game.ChangeGameState(GameState.QUIT);
+                    }                    
+                    else
+                    {
+                        this.game.ChangeGameState(GameState.MENU_MAIN);
+                    }
                 }
             }
         }

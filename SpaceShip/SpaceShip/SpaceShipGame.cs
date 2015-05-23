@@ -189,6 +189,11 @@ namespace SpaceShip
             }
         }
 
+        public GameState GetCurrentGameState()
+        {
+            return gameState;
+        }
+
         public void ChangeGameState(GameState state)
         {
             this.gameState = state;
