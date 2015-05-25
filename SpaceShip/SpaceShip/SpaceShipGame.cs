@@ -76,6 +76,11 @@ namespace SpaceShip
             Content.RootDirectory = "Content";
         }
 
+        public void SetFullScreen()
+        {
+            graphics.ToggleFullScreen();
+        }
+
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -111,7 +116,14 @@ namespace SpaceShip
             textures.Add(AssetsConstants.ENEMY_GREEN, Content.Load<Texture2D>(AssetsConstants.ENEMY_GREEN));
             textures.Add(AssetsConstants.EXPLOSION, Content.Load<Texture2D>(AssetsConstants.EXPLOSION));
             textures.Add(AssetsConstants.HATCH, Content.Load<Texture2D>(AssetsConstants.HATCH));
-            textures.Add(AssetsConstants.GAME_OVER, Content.Load<Texture2D>(AssetsConstants.GAME_OVER));     
+            textures.Add(AssetsConstants.GAME_OVER, Content.Load<Texture2D>(AssetsConstants.GAME_OVER));
+
+            // menu pages
+            textures.Add(AssetsConstants.MENU_RESOLUTION, Content.Load<Texture2D>(AssetsConstants.MENU_RESOLUTION));
+            textures.Add(AssetsConstants.MENU_SOUND, Content.Load<Texture2D>(AssetsConstants.MENU_SOUND));
+            textures.Add(AssetsConstants.MENU_MUSIC, Content.Load<Texture2D>(AssetsConstants.MENU_MUSIC));
+            textures.Add(AssetsConstants.MENU_BACK, Content.Load<Texture2D>(AssetsConstants.MENU_BACK));
+            textures.Add(AssetsConstants.MENU_FULLSCREEN, Content.Load<Texture2D>(AssetsConstants.MENU_FULLSCREEN));
         }
 
         /// <summary>
@@ -213,13 +225,7 @@ namespace SpaceShip
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
-        {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-            
-            
-            
+        {            
             if (gameState == GameState.MENU_MAIN)
             {
                 //this.IsMouseVisible = true;//show mouse for menu if needed
@@ -231,11 +237,11 @@ namespace SpaceShip
             }
             else if (gameState == GameState.MENU_CREDITS)
             {
-                UpdateCredits(gameTime);
+                musicManager.PlayCreditsTheme();
+                //UpdateCredits(gameTime);
             }
             else if(gameState == GameState.START_NEW_GAME)
             {
-                //this.IsMouseVisible = false;
                 player.Score = 0;
                 musicManager.PlayMainTheme();
                 gameState = GameState.PLAY;
@@ -325,7 +331,7 @@ namespace SpaceShip
             else
             {
                 // stop everything
-                musicManager.StopMainTheme();
+                musicManager.StopMusic();
                 gameState = GameState.GAME_OVER;    //later: use state GameOver
             }                
         }

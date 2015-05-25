@@ -36,6 +36,11 @@ namespace SpaceShip.Classes
         public const string MENU_SETTINGS                       = "settings";
         public const string MENU_CREDITS                        = "credits";
         public const string MENU_QUIT                           = "quit";
+        public const string MENU_BACK                           = "back";
+        public const string MENU_MUSIC                          = "music";
+        public const string MENU_RESOLUTION                     = "resolution";
+        public const string MENU_FULLSCREEN                     = "fullscreen";
+        public const string MENU_SOUND                          = "sound";
         
 
         // sounds
@@ -48,11 +53,14 @@ namespace SpaceShip.Classes
         public const string RESPECT_SOUND                       = "cool";
         public const string COLLISION_SOUND                     = "scream";
         public const string MENU_CLICK                          = "click";
-        public const string EXPLOSION_PLAYER                    = "explosion_player";
+        //public const string EXPLOSION_PLAYER                  = "explosion_player";
+        public const string EXPLOSION_PLAYER                    = "so_ein_tag_short";
         public const string BIG_BOSS_WARNING                    = "explosion_player_alt";
 
         // musics
         public const string BACKGROUND_MUSIC                    = "main_theme";
-        public const string WINNER_MUSIC                        = "winner";        
+        public const string WINNER_MUSIC                        = "winner";
+        public const string CREDITS                             = "so_ein_tag_credits";
+        public const string SO_EIN_TAG_SHORT                    = "so_ein_tag_short";
     }
 }

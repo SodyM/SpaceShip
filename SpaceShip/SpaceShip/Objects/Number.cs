@@ -20,7 +20,9 @@ namespace SpaceShip.Objects
         const int HEIGHT = 90;
         const int CHARACTER_SPACE_WIDTH = 15;
 
-        Dictionary<string, List<Rectangle>> numbersDictionary;
+        int numberValue;
+        int x;
+        int y;
 
         /// <summary>
         /// Constructor
@@ -30,6 +32,15 @@ namespace SpaceShip.Objects
         public Number(ContentManager contentManager, GraphicsDevice device)
         {
             sprite = contentManager.Load<Texture2D>(AssetsConstants.NUMBERS);
+        }
+
+
+        public Number(ContentManager contentManager, GraphicsDevice device, int value, int x, int y)
+            : this(contentManager, device)
+        {
+            this.numberValue = value;
+            this.x = x;
+            this.y = y;
         }
 
         /// <summary>
@@ -60,6 +71,16 @@ namespace SpaceShip.Objects
             }
         }
 
+        public void DrawNumber(SpriteBatch spriteBatch, int score)
+        {
+            DrawNumber(spriteBatch, score, this.x, this.y);
+        }
+
+        public void DrawText(SpriteBatch spriteBatch)
+        {
+            DrawNumber(spriteBatch, this.numberValue, this.x, this.y);
+        }
+
         /// <summary>
         /// Gets the number from score.
         /// </summary>
@@ -78,6 +99,11 @@ namespace SpaceShip.Objects
             //numbersDictionary.Add(text, result);
 
             return result;
+        }
+
+        public void ChangeNumberValue(int value)
+        {
+            this.numberValue = value;
         }
     }
 }

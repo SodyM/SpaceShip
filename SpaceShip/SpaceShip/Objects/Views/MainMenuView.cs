@@ -56,7 +56,7 @@ namespace SpaceShip.Objects.Views
                 contentManager.Load<Texture2D>(AssetsConstants.MENU_CREDITS), MENU_FRAMERATE));
 
             menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top + 3 * STEP), 
-                contentManager.Load<Texture2D>(AssetsConstants.MENU_QUIT), MENU_FRAMERATE));
+                contentManager.Load<Texture2D>(AssetsConstants.MENU_QUIT), MENU_FRAMERATE));           
         }
 
         /// <summary>

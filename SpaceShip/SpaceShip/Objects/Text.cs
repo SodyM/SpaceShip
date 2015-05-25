@@ -27,7 +27,11 @@ namespace SpaceShip.Objects
         const string CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         Dictionary<string, List<Rectangle>> textDictionary;
-        
+
+        int x;
+        int y;
+        string text;
+
         
         /// <summary>
         /// Constructor
@@ -40,6 +44,14 @@ namespace SpaceShip.Objects
             textDictionary = new Dictionary<string, List<Rectangle>>();
         }
 
+        public Text(ContentManager contentManager, GraphicsDevice device, string text, int x, int y) 
+            : this(contentManager, device)
+        {
+            this.x = x;
+            this.y = y;
+            this.text = text;
+        }
+
         /// <summary>
         /// Gets text from fonts.png image file
         /// </summary>
@@ -48,6 +60,8 @@ namespace SpaceShip.Objects
         /// <returns>Coordinates of final text from image file</returns>
         List<Rectangle> GetTextFromTexture(string text, TextColor textColor)
         {
+            text = text.ToUpper();
+
             int y_coordinate = BLUE_TYPE;                      // blue is default color
             if (textColor == TextColor.Red)
                 y_coordinate = RED_TYPE;
@@ -61,7 +75,9 @@ namespace SpaceShip.Objects
                 Rectangle rect = new Rectangle(index * WIDTH, y_coordinate, WIDTH, HEIGHT);
                 result.Add(rect);
             }
-            textDictionary.Add(text, result);
+
+            if (!textDictionary.ContainsKey(text))
+                textDictionary.Add(text, result);
 
             return result;
         }
@@ -89,6 +105,21 @@ namespace SpaceShip.Objects
                 drawRectangle.X += CHARACTER_SPACE_WIDTH;
                 spriteBatch.Draw(sprite, drawRectangle, sourceRectangle, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0);
             }        
+        }
+
+        public void DrawText(SpriteBatch spriteBatch, string text, TextColor textColor)
+        {
+            DrawText(spriteBatch, text, textColor, this.x, this.y);
+        }
+
+        public void DrawText(SpriteBatch spriteBatch, TextColor textColor)
+        {
+            DrawText(spriteBatch, this.text, textColor, this.x, this.y);
+        }
+
+        public void ChangeText(string text)
+        {
+            this.text = text;
         }
     }
 }

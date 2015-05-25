@@ -12,7 +12,7 @@ using System.Text;
 namespace SpaceShip.Objects.Views
 {
     /// <summary>
-    /// BaseView - basic window for menu pages
+    /// BaseView - basic window for menu pages - contains only simplest menu page with esc
     /// Contains main functions like Update, Draw and HandleKeyInput
     /// Pressing ESC key will change game state to MENU_MAIN
     /// </summary>
@@ -26,7 +26,6 @@ namespace SpaceShip.Objects.Views
 
         bool escPressed = false;
         bool escReleased = false;
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseView"/> class. It's a base menu page

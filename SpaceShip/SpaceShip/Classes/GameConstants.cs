@@ -65,5 +65,9 @@ namespace SpaceShip.Classes
         public const int SHOW_INFOWINDOW_DELAY              = 1500;
 
         public const string GAME_OVER                       = "GAME OVER";
+
+        // Credits
+        public const string LINE1 = "Programmed by Sody and Oli";
+        public const string LINE2 = "We would like to thank heino";
     }
 }

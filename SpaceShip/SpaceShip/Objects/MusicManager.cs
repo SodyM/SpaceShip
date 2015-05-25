@@ -82,7 +82,7 @@ namespace SpaceShip.Objects
             if (musicIsActiv)
             {
                 musicIsActiv = false;
-                StopMainTheme();
+                StopMusic();
             }
             else
             {
@@ -105,10 +105,26 @@ namespace SpaceShip.Objects
         /// <summary>
         /// Stops the main theme.
         /// </summary>
-        public void StopMainTheme()
+        public void StopMusic()
         {
             if (mainCue.IsPlaying)
                 mainCue.Stop(AudioStopOptions.AsAuthored);
+
+            musicIsActiv = false;
         }
+
+        /// <summary>
+        /// Plays the credits theme.
+        /// </summary>
+        public void PlayCreditsTheme()
+        {            
+            mainCue = soundBank.GetCue(AssetsConstants.CREDITS);
+            if (!musicIsActiv)
+            {
+                mainCue.Play();
+            }
+
+            musicIsActiv = true;
+        }        
     }
 }
