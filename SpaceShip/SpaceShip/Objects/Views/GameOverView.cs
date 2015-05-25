@@ -2,12 +2,7 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SpaceShip.Classes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SpaceShip.Objects.Views
 {
@@ -22,6 +17,13 @@ namespace SpaceShip.Objects.Views
         int MENU_HEIGHT = 20;
         int FRAMECOUNT = 2;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameOverView"/> class.
+        /// </summary>
+        /// <param name="contentManager">The content manager.</param>
+        /// <param name="device">The device.</param>
+        /// <param name="game">The game.</param>
+        /// <param name="soundBank">The sound bank.</param>
         public GameOverView(ContentManager contentManager, GraphicsDevice device, SpaceShipGame game, SoundBank soundBank)
             : base(contentManager, device, game, soundBank)
         {

@@ -44,6 +44,14 @@ namespace SpaceShip.Objects
             textDictionary = new Dictionary<string, List<Rectangle>>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Text"/> class.
+        /// </summary>
+        /// <param name="contentManager">The content manager.</param>
+        /// <param name="device">The device.</param>
+        /// <param name="text">The text.</param>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
         public Text(ContentManager contentManager, GraphicsDevice device, string text, int x, int y) 
             : this(contentManager, device)
         {
@@ -72,7 +80,11 @@ namespace SpaceShip.Objects
             foreach(var character in text)
             {
                 int index = CHARACTERS.IndexOf(character);
-                Rectangle rect = new Rectangle(index * WIDTH, y_coordinate, WIDTH, HEIGHT);
+                Rectangle rect = new Rectangle();                    
+                if (index > -1)
+                {
+                    rect = new Rectangle(index * WIDTH, y_coordinate, WIDTH, HEIGHT);
+                }
                 result.Add(rect);
             }
 
@@ -107,16 +119,31 @@ namespace SpaceShip.Objects
             }        
         }
 
+        /// <summary>
+        /// Draws the text.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch.</param>
+        /// <param name="text">The text.</param>
+        /// <param name="textColor">Color of the text.</param>
         public void DrawText(SpriteBatch spriteBatch, string text, TextColor textColor)
         {
             DrawText(spriteBatch, text, textColor, this.x, this.y);
         }
 
+        /// <summary>
+        /// Draws the text.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch.</param>
+        /// <param name="textColor">Color of the text.</param>
         public void DrawText(SpriteBatch spriteBatch, TextColor textColor)
         {
             DrawText(spriteBatch, this.text, textColor, this.x, this.y);
         }
 
+        /// <summary>
+        /// Changes the text.
+        /// </summary>
+        /// <param name="text">The text.</param>
         public void ChangeText(string text)
         {
             this.text = text;
