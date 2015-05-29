@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using SpaceShip.Classes;
 using System.Collections.Generic;
 
@@ -17,6 +19,14 @@ namespace SpaceShip.Objects.Views
         int line1_padding = 250;
         int line2_padding = 270;
         int line2_top_padding = 30;
+
+        bool enterPressed = false;
+        bool enterReleased = false;
+
+        //int MENU_FRAMERATE = 200;
+        //int MENU_WIDTH = 120;
+        //int MENU_HEIGHT = 20;
+        //int FRAMECOUNT = 2;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreditsView"/> class.
@@ -35,7 +45,11 @@ namespace SpaceShip.Objects.Views
             int top = device.Viewport.Height / 2;
 
             credits.Add(new Text(contentManager, device, GameConstants.LINE1, left - line1_padding, top));
-            credits.Add(new Text(contentManager, device, GameConstants.LINE2, left - line2_padding, top + line2_top_padding));            
+            credits.Add(new Text(contentManager, device, GameConstants.LINE2, left - line2_padding, top + line2_top_padding));
+
+
+            //menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top),
+            //            contentManager.Load<Texture2D>(AssetsConstants.GAME_OVER), MENU_FRAMERATE));
         }
 
         /// <summary>
@@ -50,6 +64,41 @@ namespace SpaceShip.Objects.Views
                 item.DrawText(spriteBatch, TextColor.Blue);    
             }            
             base.Draw(spriteBatch, gameTime);
+        }
+
+        /// <summary>
+        /// Handles the keyboard input.
+        /// </summary>
+        public override void HandleKeyboardInput()
+        {
+             KeyboardState keyState = Keyboard.GetState();
+
+            if (keyState.IsKeyDown(Keys.Enter))
+            {
+                enterPressed = true;
+                enterReleased = false;
+            }
+            else if (keyState.IsKeyUp(Keys.Enter))
+            {
+                enterReleased = true;
+                if (enterPressed && enterReleased)
+                {
+                    HandleSelectedMenuOption();
+                    enterReleased = false;
+                    enterPressed = false;
+                }
+            }
+
+            base.HandleKeyboardInput();
+        }
+
+
+        /// <summary>
+        /// Handles the selected menu option.
+        /// </summary>
+        private void HandleSelectedMenuOption()
+        {
+            game.ChangeGameState(GameState.MENU_MAIN);
         }
     }
 }

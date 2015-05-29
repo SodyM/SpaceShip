@@ -68,6 +68,6 @@ namespace SpaceShip.Classes
 
         // Credits
         public const string LINE1 = "Programmed by Sody and Oli";
-        public const string LINE2 = "We would like to thank heino";
+        public const string LINE2 = "We would like to thank Heino";
     }
 }

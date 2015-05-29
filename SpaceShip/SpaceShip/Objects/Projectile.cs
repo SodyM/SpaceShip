@@ -44,7 +44,7 @@ namespace SpaceShip.Objects
         const int HEIGHT = 16;
 
         int damage = 0;
-        int lifespan = 0;
+        double lifespan = 0;
 
         
         ProjectileSource projectileSource;
@@ -72,12 +72,13 @@ namespace SpaceShip.Objects
         /// <param name="contentManager">ContentManager</param>
         /// <param name="device">GraphicsDevice</param>
         /// <param name="position">Start position of projectile</param>
-        public Projectile(Texture2D sprite, GraphicsDevice device, Vector2 position, Vector2 velocity, ProjectileSource projectileSource)
+        public Projectile(Texture2D sprite, GraphicsDevice device, Vector2 position, Vector2 velocity, double lifespan, ProjectileSource projectileSource)
         {
             this.sprite = sprite;//old: contentManager.Load<Texture2D>(AssetsConstants.LASER);
             this.position = position;
             this.velocity = velocity;
             this.projectileSource = projectileSource;
+            this.lifespan = lifespan;
 
             // center it
             this.position.X = position.X - sprite.Width / 2;
@@ -104,6 +105,13 @@ namespace SpaceShip.Objects
             var elapsedGameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             position.X += velocity.X;// *elapsedGameTime;
             drawRectangle.X = (int)position.X;
+
+            if (lifespan > 0)
+            {
+                lifespan -= gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (lifespan <= 0)
+                    this.IsActive = false;
+            }
         }
     }
 }

@@ -88,10 +88,10 @@ namespace SpaceShip.Objects
             sprite = contentManager.Load<Texture2D>(AssetsConstants.PLAYER);
             base.Init(COUNT_OF_FRAMES, WIDTH, HEIGHT, position, false, health);
 
-            var weaponInfo = new WeaponInfo(AssetsConstants.LASER, GameConstants.PLAYER_LASER_SPEED, WeaponType.Laser);
+            var weaponInfo = new WeaponInfo(AssetsConstants.LASER, GameConstants.PLAYER_LASER_SPEED, 0, WeaponType.Laser);
 
             var laserTexture = thisGame.GetTextureForName(AssetsConstants.LASER);
-            laser = new Weapon(laserTexture, weaponInfo, game, this);
+            laser = new Weapon(laserTexture, weaponInfo, game, this, ProjectileSource.Player);
             
             // set window dimensions
             windowHeight = device.Viewport.Height;
@@ -186,10 +186,10 @@ namespace SpaceShip.Objects
         /// </summary>
         void Fire()
         {
-            //Vector2 position = new Vector2();
-            //position.X = this.position.X + WIDTH + 18;
-            //position.Y >= this.position.Y + 7;
-            laser.Fire();
+            Vector2 position = new Vector2();
+            position.X = this.position.X + WIDTH + 18;
+            position.Y = this.position.Y + 7;
+            laser.Fire(position);
 
 
             //auskommentiert für Test der Klasse Weapon

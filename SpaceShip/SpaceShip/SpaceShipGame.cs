@@ -192,12 +192,12 @@ namespace SpaceShip
         /// Add new projectile
         /// </summary>
         /// <param name="position">Start position</param>
-        public void AddProjectile(Vector2 position, Vector2 velocity, string spriteName, ProjectileSource source)
+        public void AddProjectile(Vector2 position, Vector2 velocity, string spriteName, double lifespan, ProjectileSource source)
         {
             Texture2D texture = null;
             if (textures.TryGetValue(spriteName, out texture))
             {
-                projectiles.Add(new Projectile(texture, GraphicsDevice, position, velocity, source));
+                projectiles.Add(new Projectile(texture, GraphicsDevice, position, velocity, lifespan, source));
             }
         }
 
