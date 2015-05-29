@@ -58,6 +58,7 @@ namespace SpaceShip
 
         InfoWindow infoWindow;
 
+        LifeInfo lifeInfo;
 
 
         //Sprites
@@ -152,11 +153,14 @@ namespace SpaceShip
             numberHelper = new Number(Content, GraphicsDevice);
 
             player = new Player(Content, GraphicsDevice, new Vector2(60, 300), this, soundBank, GameConstants.PLAYER_DEFAULT_HEALTH);
+            lifeInfo = new LifeInfo(Content, GraphicsDevice, this);
+
             enemies = new List<Enemy>();
             mainMenu = new MainMenuView(Content, GraphicsDevice, this, soundBank);
             gameOverView = new GameOverView(Content, GraphicsDevice, this, soundBank);
             settingsView = new SettingsView(Content, GraphicsDevice, this, soundBank);
             creditsView = new CreditsView(Content, GraphicsDevice, this, soundBank);
+            
 
             SpawnEnemy();
             enemies[0].SetTarget(player);
@@ -211,6 +215,11 @@ namespace SpaceShip
             this.gameState = state;
         }
 
+        public int GetPlayerHealth()
+        {
+            return player.Health;
+        }
+
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
@@ -249,6 +258,7 @@ namespace SpaceShip
             else if (gameState == GameState.PLAY)
             {
                 UpdateGame(gameTime);
+                UpdateLifeInfo(gameTime);
             }
             else if (gameState == GameState.PLAYER_DIED)
             {
@@ -269,6 +279,11 @@ namespace SpaceShip
             }
 
             base.Update(gameTime);
+        }
+
+        private void UpdateLifeInfo(GameTime gameTime)
+        {
+            lifeInfo.Update(gameTime);
         }
 
         #region will be implemeted with better architecture later
@@ -633,10 +648,13 @@ namespace SpaceShip
             textHelper.DrawText(spriteBatch, GameConstants.SCORE, TextColor.Red, GameConstants.SCORE_TEXT_LEFT, GameConstants.INFOLINE_TOP);
             numberHelper.DrawNumber(spriteBatch, player.Score, GameConstants.SCORE_VALUE_LEFT, GameConstants.INFOLINE_TOP);
             musicManager.Draw(spriteBatch, gameTime);
-            
+
 
             if (player.IsActive)
-                player.Draw(spriteBatch, gameTime);
+            {
+                player.Draw(spriteBatch, gameTime);                
+                lifeInfo.Draw(spriteBatch, gameTime);
+            }
 
             foreach (var enemy in enemies)
             {

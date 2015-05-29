@@ -28,6 +28,12 @@ namespace SpaceShip.Classes
         public const int SCORE_VALUE_LEFT                   = 140;
         public const int INFOLINE_TOP                       = 10;
 
+        // life bar
+        public const int LIFEBAR_LEFT                       = 250;
+        public const int LIFEBAR_TOP                        = MUSIC_STATUS_TOP;
+        public const int MAXVALUE                           = 100;              // maximal value in oxymeter
+        public const int HEIGHT                             = 15;               // height of oxymeter
+
         // game standards
 
         /* 
