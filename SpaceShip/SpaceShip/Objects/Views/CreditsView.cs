@@ -64,41 +64,6 @@ namespace SpaceShip.Objects.Views
                 item.DrawText(spriteBatch, TextColor.Blue);    
             }            
             base.Draw(spriteBatch, gameTime);
-        }
-
-        /// <summary>
-        /// Handles the keyboard input.
-        /// </summary>
-        public override void HandleKeyboardInput()
-        {
-             KeyboardState keyState = Keyboard.GetState();
-
-            if (keyState.IsKeyDown(Keys.Enter))
-            {
-                enterPressed = true;
-                enterReleased = false;
-            }
-            else if (keyState.IsKeyUp(Keys.Enter))
-            {
-                enterReleased = true;
-                if (enterPressed && enterReleased)
-                {
-                    HandleSelectedMenuOption();
-                    enterReleased = false;
-                    enterPressed = false;
-                }
-            }
-
-            base.HandleKeyboardInput();
-        }
-
-
-        /// <summary>
-        /// Handles the selected menu option.
-        /// </summary>
-        private void HandleSelectedMenuOption()
-        {
-            game.ChangeGameState(GameState.MENU_MAIN);
-        }
+        }        
     }
 }

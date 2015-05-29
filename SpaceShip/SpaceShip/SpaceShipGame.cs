@@ -238,7 +238,7 @@ namespace SpaceShip
             else if (gameState == GameState.MENU_CREDITS)
             {
                 musicManager.PlayCreditsTheme();
-                //UpdateCredits(gameTime);
+                UpdateCredits(gameTime);
             }
             else if(gameState == GameState.START_NEW_GAME)
             {
