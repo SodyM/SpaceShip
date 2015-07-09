@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShip.Classes;
+using System;
 using System.Collections.Generic;
 
 namespace SpaceShip.Objects
@@ -104,7 +105,7 @@ namespace SpaceShip.Objects
             this.Health = 50; //TODO: Health depends on enemy type
             base.ChangeFrameRate(START_FRAMERATE);
 
-            var weaponInfo = new WeaponInfo(AssetsConstants.ENEMY_LASER, GameConstants.PLAYER_LASER_SPEED, 1500, WeaponType.Laser);
+            var weaponInfo = new WeaponInfo(AssetsConstants.ENEMY_LASER, GameConstants.PLAYER_LASER_SPEED, 0, WeaponType.Laser);
             var laserTexture = thisGame.GetTextureForName(AssetsConstants.ENEMY_LASER);
             weapon = new Weapon(laserTexture, weaponInfo, game, this, ProjectileSource.Enemy);
 
@@ -220,7 +221,7 @@ namespace SpaceShip.Objects
                     //    X = -GameConstants.Enemy_LASER_SPEED - velocity.X,
                     //    Y = 0
                     //};
-                    weapon.SetSpeed(-GameConstants.Enemy_LASER_SPEED - velocity.X);
+                    weapon.SetSpeed(-GameConstants.Enemy_LASER_SPEED + velocity.X);
                     weapon.Fire(position);
 
                     //thisGame.AddProjectile(position, projectileVelocity, projectileSprite, 0, ProjectileSource.Enemy);
