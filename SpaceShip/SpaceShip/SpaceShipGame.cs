@@ -31,11 +31,15 @@ namespace SpaceShip
 
         GameState gameState;
 
+        bool escPressed = false;
+        bool escReleased = false;
+
         MainMenuView mainMenu;
         GameOverView gameOverView;
         SettingsView settingsView;
         CreditsView creditsView;
 
+        bool GameWasStated = false;
 
         // game objects
         Player player;
@@ -212,6 +216,7 @@ namespace SpaceShip
 
         public void ChangeGameState(GameState state)
         {
+            //GameIsPaused = true;
             this.gameState = state;
         }
 
@@ -237,7 +242,6 @@ namespace SpaceShip
         {            
             if (gameState == GameState.MENU_MAIN)
             {
-                //this.IsMouseVisible = true;//show mouse for menu if needed
                 UpdateMainMenu(gameTime);
             }
             else if (gameState == GameState.MENU_DISPLAY_SETTINGS)
@@ -250,8 +254,10 @@ namespace SpaceShip
                 UpdateCredits(gameTime);
             }
             else if(gameState == GameState.START_NEW_GAME)
-            {
+            {                
                 player.Score = 0;
+                ReInitGame(gameTime);
+
                 musicManager.PlayMainTheme();
                 gameState = GameState.PLAY;
             }
@@ -264,11 +270,6 @@ namespace SpaceShip
             {
                 ReInitGame(gameTime);
             }
-            //else if(gameState == GameState.START_NEW_GAME)
-            //{
-            //    SpawnEnemy();
-            //    gameState = GameState.PLAY;
-            //}
             else if (gameState == GameState.GAME_OVER)
             {
                 UpdateGameOver(gameTime);
@@ -276,6 +277,11 @@ namespace SpaceShip
             else if (gameState == GameState.QUIT)
             {
                 this.Exit();
+            }
+            else if (gameState == GameState.GAME_PAUSED)
+            {                
+                musicManager.StopMusic();
+                UpdateGamePaused(gameTime);
             }
 
             base.Update(gameTime);
@@ -314,6 +320,31 @@ namespace SpaceShip
             settingsView.Update(gameTime);
         }
 
+        /// <summary>
+        /// Updates the game paused.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void UpdateGamePaused(GameTime gameTime)
+        {
+            KeyboardState keyState = Keyboard.GetState();
+            if (keyState.IsKeyDown(Keys.Escape))
+            {
+                escPressed = true;
+                escReleased = false;
+            }
+            else if (keyState.IsKeyUp(Keys.Escape))
+            {
+                escReleased = true;
+                if (escPressed && escReleased)
+                {
+                    escPressed = false;
+                    escPressed = false;
+                    ChangeGameState(GameState.PLAY);
+                }
+            }
+
+            UpdateMainMenu(gameTime);
+        }
 
         /// <summary>
         /// Removes all enemies (example: after player died)
@@ -327,19 +358,15 @@ namespace SpaceShip
         /// Game over if no lives left
         /// </summary>
         /// <param name="gameTime"></param>
-        private void ReInitGame(GameTime gameTime)
+        public void ReInitGame(GameTime gameTime)
         {
+            GameWasStated = true;
             enemies.Clear();
             projectiles.Clear();
+            hatches.Clear();
 
             if (player.Lives > 0)
-            {
-                //for (int i = enemies.Count - 1; i >= 0; i--)
-                //{
-                //    //explode?
-                //}
-                
-
+            {                
                 player.Reset();
                 gameState = GameState.PLAY;
             }
@@ -366,6 +393,24 @@ namespace SpaceShip
         /// <param name="gameTime">The game time.</param>
         private void UpdateGame(GameTime gameTime)
         {
+            KeyboardState keyState = Keyboard.GetState();
+            if (keyState.IsKeyDown(Keys.Escape))
+            {
+                escPressed = true;
+                escReleased = false;
+            }
+            else if (keyState.IsKeyUp(Keys.Escape))
+            {
+                escReleased = true;
+                if (escPressed && escReleased)
+                {
+                    escPressed = false;
+                    escPressed = false;                    
+                    ChangeGameState(GameState.GAME_PAUSED);
+                }
+            }
+            
+
             musicManager.Update(Keyboard.GetState());
             if (player.Score >= super_cool)
             {
@@ -518,8 +563,6 @@ namespace SpaceShip
 
                 gameState = GameState.PLAYER_DIED;
                 soundBank.PlayCue(AssetsConstants.EXPLOSION_PLAYER);
-                //TODO: Show Menu or init new player
-                //update game state
             }
         }
        
@@ -571,10 +614,12 @@ namespace SpaceShip
 
             if (gameState == GameState.MENU_MAIN)
             {
+                DrawGame(gameTime);
                 DrawMainMenu(gameTime);
             }
             else if (gameState == GameState.MENU_DISPLAY_SETTINGS)
             {
+                DrawGame(gameTime);
                 DrawSettings(gameTime);
             }
             else if (gameState == GameState.MENU_CREDITS)
@@ -589,9 +634,19 @@ namespace SpaceShip
             {
                 DrawGameOver(gameTime);
             }
+            else if (gameState == GameState.GAME_PAUSED)
+            {
+                DrawGame(gameTime);
+                DrawGamePaused(gameTime);
+            }
 
             spriteBatch.End();
             base.Draw(gameTime);            
+        }
+
+        private void DrawGamePaused(GameTime gameTime)
+        {
+            mainMenu.Draw(spriteBatch, gameTime);
         }
 
         #region will be implemeted with better architecture later
@@ -611,7 +666,9 @@ namespace SpaceShip
         /// <param name="gameTime">The game time.</param>
         private void DrawCredits(GameTime gameTime)
         {
-            bgLayer2.Draw(spriteBatch);
+            if (gameState != GameState.GAME_PAUSED)
+                bgLayer2.Draw(spriteBatch);
+
             creditsView.Draw(spriteBatch, gameTime);
         }
 
@@ -621,7 +678,9 @@ namespace SpaceShip
         /// <param name="gameTime">The game time.</param>
         private void DrawSettings(GameTime gameTime)
         {
-            bgLayer2.Draw(spriteBatch);
+            if (!GameWasStated)
+                bgLayer2.Draw(spriteBatch);
+
             settingsView.Draw(spriteBatch, gameTime);
         }
 
@@ -631,7 +690,9 @@ namespace SpaceShip
         /// <param name="gameTime">The game time.</param>
         private void DrawMainMenu(GameTime gameTime)
         {
-            bgLayer2.Draw(spriteBatch);
+            if (!GameWasStated)
+                bgLayer2.Draw(spriteBatch);
+            
             mainMenu.Draw(spriteBatch, gameTime);
         }
 

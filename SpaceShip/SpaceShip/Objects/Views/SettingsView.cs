@@ -142,8 +142,6 @@ namespace SpaceShip.Objects.Views
             {
                 item.DrawText(spriteBatch);
             }
-
-
             base.Draw(spriteBatch, gameTime);
         }
 

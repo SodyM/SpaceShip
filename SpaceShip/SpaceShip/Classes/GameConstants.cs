@@ -73,7 +73,8 @@ namespace SpaceShip.Classes
         public const string GAME_OVER                       = "GAME OVER";
 
         // Credits
-        public const string LINE1 = "Programmed by Sody and Oli";
-        public const string LINE2 = "We would like to thank Heino";
+        public const string LINE1                           = "Programmed by Sody and Oli";
+        public const string LINE2                           = "We would like to thank Heino";
+        public const string LINE3                           = "You are our GOD";
     }
 }

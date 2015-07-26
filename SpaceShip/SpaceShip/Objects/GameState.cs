@@ -17,6 +17,7 @@ namespace SpaceShip.Objects
         PLAY,
         PLAYER_DIED,
         GAME_OVER,
+        GAME_PAUSED,
         QUIT
     };
 }

@@ -19,14 +19,17 @@ namespace SpaceShip.Objects.Views
         int line1_padding = 250;
         int line2_padding = 270;
         int line2_top_padding = 30;
+        int line3_padding = 180;
 
-        bool enterPressed = false;
-        bool enterReleased = false;
+        int image_left_padding = 100;
+        int image_size = 200;
 
-        //int MENU_FRAMERATE = 200;
-        //int MENU_WIDTH = 120;
-        //int MENU_HEIGHT = 20;
-        //int FRAMECOUNT = 2;
+        int top = 10;
+        int bottom = 390;
+        
+
+        Texture2D sprite_god, sprite_pray;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CreditsView"/> class.
@@ -42,14 +45,14 @@ namespace SpaceShip.Objects.Views
             credits = new List<Text>();
             
             int left = device.Viewport.Width / 2;
-            int top = device.Viewport.Height / 2;
+            int top = device.Viewport.Height / 2 - 30;
 
             credits.Add(new Text(contentManager, device, GameConstants.LINE1, left - line1_padding, top));
             credits.Add(new Text(contentManager, device, GameConstants.LINE2, left - line2_padding, top + line2_top_padding));
+            credits.Add(new Text(contentManager, device, GameConstants.LINE3, left - line3_padding, top + 2 *(line2_top_padding)));
 
-
-            //menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top),
-            //            contentManager.Load<Texture2D>(AssetsConstants.GAME_OVER), MENU_FRAMERATE));
+            sprite_god = contentManager.Load<Texture2D>(AssetsConstants.GOD);
+            sprite_pray = contentManager.Load<Texture2D>(AssetsConstants.PRAY);
         }
 
         /// <summary>
@@ -62,7 +65,11 @@ namespace SpaceShip.Objects.Views
             foreach (var item in credits)
             {
                 item.DrawText(spriteBatch, TextColor.Blue);    
-            }            
+            }
+
+            spriteBatch.Draw(sprite_god, new Rectangle(device.Viewport.Width / 2 - image_left_padding, top, image_size, image_size), Color.White);
+            spriteBatch.Draw(sprite_pray, new Rectangle(device.Viewport.Width / 2 - image_left_padding, bottom, image_size, image_size), Color.White);
+
             base.Draw(spriteBatch, gameTime);
         }        
     }

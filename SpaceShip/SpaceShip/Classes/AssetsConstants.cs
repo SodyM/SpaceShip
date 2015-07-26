@@ -62,5 +62,9 @@ namespace SpaceShip.Classes
         public const string WINNER_MUSIC                        = "winner";
         public const string CREDITS                             = "so_ein_tag_credits";
         public const string SO_EIN_TAG_SHORT                    = "so_ein_tag_short";
+
+        // settings
+        public const string GOD = "god";
+        public const string PRAY = "pray";
     }
 }

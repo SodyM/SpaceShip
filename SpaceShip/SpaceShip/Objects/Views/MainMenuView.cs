@@ -148,7 +148,7 @@ namespace SpaceShip.Objects.Views
         private void HandleSelectedMenuOption()
         {
             if (selectedItemIndex == 0)
-            {
+            {                
                 game.ChangeGameState(GameState.START_NEW_GAME);
             }
             else if (selectedItemIndex == 1)
