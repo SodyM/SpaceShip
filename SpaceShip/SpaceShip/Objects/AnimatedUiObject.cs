@@ -32,11 +32,11 @@ namespace SpaceShip.Objects
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimatedUiObject"/> class.
-        /// </summary>
+        /// </summary>        
         public AnimatedUiObject()
         {
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimatedUiObject"/> class.
         /// </summary>
@@ -212,7 +212,7 @@ namespace SpaceShip.Objects
         /// <param name="gameTime">GameTime</param>
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            spriteBatch.Draw(sprite, drawRectangle, sourceRectangle, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0);
+            spriteBatch.Draw(sprite, new Vector2(drawRectangle.X, drawRectangle.Y), sourceRectangle, Color.White, 0.0f, Vector2.Zero, ScaleLevel, SpriteEffects.None, 0.0f);
         }
     }
 }

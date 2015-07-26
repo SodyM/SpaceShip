@@ -54,12 +54,28 @@ namespace SpaceShip.Objects
         }
 
         /// <summary>
+        /// Gets or sets the scale level of our ui object - use to change zoom level of ui object
+        /// </summary>
+        /// <value>
+        /// The scale level.
+        /// </value>
+        public float ScaleLevel { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseUiObject"/> class.
+        /// </summary>
+        public BaseUiObject()
+        {
+            ScaleLevel = 1.0f;
+        }
+
+        /// <summary>
         /// Update handler
         /// </summary>
         /// <param name="gameTime">GameTime</param>
         public virtual void Update(GameTime gameTime)
         {
-        }
+        }        
 
         /// <summary>
         /// Draw handler

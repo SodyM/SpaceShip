@@ -15,6 +15,7 @@ namespace SpaceShip.Objects
         const int FRAMES_COUNT = 4;
         const int HEIGHT = 16;
         const int WIDTH = 16;
+        const float SCALE = 1.7f;
 
         // velocity information
         Vector2 velocity = new Vector2(0, 0);
@@ -52,6 +53,7 @@ namespace SpaceShip.Objects
             base.sprite = sprite;
             this.velocity = velocity;
             this.value = value;
+            this.ScaleLevel = SCALE;
 
             base.Init(FRAMES_COUNT, WIDTH, HEIGHT, position);
             base.ChangeFrameRate(START_FRAMERATE);
