@@ -29,6 +29,7 @@ namespace SpaceShip.Objects.Views
         
 
         Texture2D sprite_god, sprite_pray;
+        MusicManager musicManager;
 
 
         /// <summary>
@@ -38,10 +39,10 @@ namespace SpaceShip.Objects.Views
         /// <param name="device">The device.</param>
         /// <param name="game">The game.</param>
         /// <param name="soundBank">The sound bank.</param>
-        public CreditsView(ContentManager contentManager, GraphicsDevice device, SpaceShipGame game, SoundBank soundBank)
-            : base(contentManager, device, game, soundBank)
+        public CreditsView(ContentManager contentManager, GraphicsDevice device, SpaceShipGame game, SoundBank soundBank, MusicManager musicManager)
+            : base(contentManager, device, game, soundBank, musicManager)
         {
-            this.soundBank = soundBank;
+            this.soundBank = soundBank;            
             credits = new List<Text>();
             
             int left = device.Viewport.Width / 2;

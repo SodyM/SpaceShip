@@ -160,10 +160,10 @@ namespace SpaceShip
             lifeInfo = new LifeInfo(Content, GraphicsDevice, this);
 
             enemies = new List<Enemy>();
-            mainMenu = new MainMenuView(Content, GraphicsDevice, this, soundBank);
+            mainMenu = new MainMenuView(Content, GraphicsDevice, this, soundBank, musicManager);
             gameOverView = new GameOverView(Content, GraphicsDevice, this, soundBank);
             settingsView = new SettingsView(Content, GraphicsDevice, this, soundBank);
-            creditsView = new CreditsView(Content, GraphicsDevice, this, soundBank);
+            creditsView = new CreditsView(Content, GraphicsDevice, this, soundBank, musicManager);
             
 
             SpawnEnemy();
@@ -249,8 +249,7 @@ namespace SpaceShip
                 UpdateSettings(gameTime);
             }
             else if (gameState == GameState.MENU_CREDITS)
-            {
-                musicManager.PlayCreditsTheme();
+            {                
                 UpdateCredits(gameTime);
             }
             else if(gameState == GameState.START_NEW_GAME)

@@ -22,6 +22,8 @@ namespace SpaceShip.Objects.Views
         protected GraphicsDevice device;
         protected SpaceShipGame game;
         protected SoundBank soundBank;
+        protected MusicManager musicManager;
+
         protected List<AnimatedUiObject> menuItems;
 
         bool escPressed = false;
@@ -35,11 +37,17 @@ namespace SpaceShip.Objects.Views
         /// <param name="game">The game.</param>
         /// <param name="soundBank">The sound bank.</param>
         public BaseView(ContentManager contentManager, GraphicsDevice device, SpaceShipGame game, SoundBank soundBank)
+            : this(contentManager, device, game, soundBank, null)
+        {            
+        }
+
+        public BaseView(ContentManager contentManager, GraphicsDevice device, SpaceShipGame game, SoundBank soundBank, MusicManager musicManager)
         {
             this.contentManager = contentManager;
             this.device = device;
             this.game = game;
             this.soundBank = soundBank;
+            this.musicManager = musicManager;
 
             menuItems = new List<AnimatedUiObject>();
         }
@@ -97,6 +105,8 @@ namespace SpaceShip.Objects.Views
                 {
                     escPressed = false;
                     escReleased = false;
+
+                    musicManager.StopCreditsTheme();
 
                     GameState currentGameState = game.GetCurrentGameState();
                     if (currentGameState == GameState.MENU_MAIN)

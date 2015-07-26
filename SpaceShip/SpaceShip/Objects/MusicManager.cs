@@ -20,6 +20,7 @@ namespace SpaceShip.Objects
         Text textHelper;
 
         Cue mainCue;
+        Cue creditsCue;
         SoundBank soundBank;
         GraphicsDevice graphics;
 
@@ -117,14 +118,21 @@ namespace SpaceShip.Objects
         /// Plays the credits theme.
         /// </summary>
         public void PlayCreditsTheme()
-        {            
-            mainCue = soundBank.GetCue(AssetsConstants.CREDITS);
+        {
+            creditsCue = soundBank.GetCue(AssetsConstants.CREDITS);
             if (!musicIsActiv)
             {
-                mainCue.Play();
+                creditsCue.Play();
             }
 
             musicIsActiv = true;
-        }        
+        }   
+     
+        public void StopCreditsTheme()
+        {
+            creditsCue.Stop(AudioStopOptions.Immediate);
+
+            musicIsActiv = false;
+        }
     }
 }

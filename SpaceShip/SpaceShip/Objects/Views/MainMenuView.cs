@@ -40,8 +40,8 @@ namespace SpaceShip.Objects.Views
         /// <param name="contentManager">The content manager.</param>
         /// <param name="device">The device.</param>
         /// <param name="game">The game.</param>
-        public MainMenuView(ContentManager contentManager, GraphicsDevice device, SpaceShipGame game, SoundBank soundBank)
-            : base(contentManager, device, game, soundBank)
+        public MainMenuView(ContentManager contentManager, GraphicsDevice device, SpaceShipGame game, SoundBank soundBank, MusicManager musicmanager)
+            : base(contentManager, device, game, soundBank, musicmanager)
         {            
             int left = device.Viewport.Width / 2 - MENU_WIDTH / 2;
             int top = device.Viewport.Height / 2 - (MENU_HEIGHT + STEP * 4) / 2;
@@ -157,6 +157,7 @@ namespace SpaceShip.Objects.Views
             }
             else if (selectedItemIndex == 2)
             {
+                musicManager.PlayCreditsTheme();
                 game.ChangeGameState(GameState.MENU_CREDITS);
             }
             else if (selectedItemIndex == 3)
