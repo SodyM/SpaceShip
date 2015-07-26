@@ -91,6 +91,9 @@
     <Compile Include="Classes\CollisionUtils.cs" />
     <Compile Include="Classes\GameConstants.cs" />
     <Compile Include="Classes\RandomNumberGenerator.cs" />
+    <Compile Include="Classes\XML\EnemyInfo.cs" />
+    <Compile Include="Classes\XML\LevelInformation.cs" />
+    <Compile Include="Classes\XML\XMLParser.cs" />
     <Compile Include="Objects\AnimatedUiObject.cs" />
     <Compile Include="Objects\BaseUiObject.cs" />
     <Compile Include="Objects\Enemy.cs" />

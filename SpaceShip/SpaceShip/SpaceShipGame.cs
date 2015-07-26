@@ -800,6 +800,22 @@ namespace SpaceShip
             enemies.Add(newEnemy);
         }
 
+
+        /// <summary>
+        /// Spawns a new enemy
+        /// </summary>
+        /// <param name="enemyType">Type of the enemy</param>
+        /// <param name="position">Position</param>
+        /// <param name="velocity">Velocity</param>
+        private void SpawnEnemy(EnemyType enemyType, Vector2 position, Vector2 velocity)
+        {
+            Enemy newEnemy = new Enemy(Content, GraphicsDevice, position, velocity, enemyType, this, soundBank);
+
+            //TODO: CollisionDetection
+
+            enemies.Add(newEnemy);
+        }
+
         /// <summary>
         /// Returns the rectangles from all objects
         /// </summary>

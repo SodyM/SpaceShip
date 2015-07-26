@@ -3,11 +3,12 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShip.Classes;
+using SpaceShip.Classes.XML;
 using System;
 using System.Collections.Generic;
 
 namespace SpaceShip.Objects
-{    
+{
     /// <summary>
     /// Available types of enemies
     /// </summary>
