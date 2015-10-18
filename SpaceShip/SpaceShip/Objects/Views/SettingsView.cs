@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using SpaceShip.Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -54,6 +55,8 @@ namespace SpaceShip.Objects.Views
         AudioCategory musicCategory;
         AudioEngine engine;
 
+        ScreenResultions currentResolution = ScreenResultions.R800x600;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsView"/> class.
         /// </summary>
@@ -75,8 +78,21 @@ namespace SpaceShip.Objects.Views
 
             this.soundBank = soundBank;
 
+
+            InitSettingsPage(contentManager, device);
+
+        }
+
+        private void InitSettingsPage(ContentManager contentManager, GraphicsDevice device)
+        {
+            Trace.WriteLine("device.Viewport: " + device.Viewport);
+
             int left = device.Viewport.Width / 2 - MENU_WIDTH / 2;
             int top = device.Viewport.Height / 2 - (MENU_HEIGHT + STEP * 4) / 2;
+
+            menuItems.Clear();
+            optionSettings.Clear();
+            numberSettings.Clear();
 
             menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top),
                 contentManager.Load<Texture2D>(AssetsConstants.MENU_RESOLUTION), MENU_FRAMERATE));
@@ -91,11 +107,13 @@ namespace SpaceShip.Objects.Views
             menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top + 2 * STEP),
                 contentManager.Load<Texture2D>(AssetsConstants.MENU_SOUND), MENU_FRAMERATE));
 
+            // number for sound volume
             numberSettings.Add(new Number(contentManager, device, soundVolume, left + MENU_ITEM_VALUE_RIGHT_PADDING, top + 2 * STEP + 3));
 
             menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top + 3 * STEP),
                 contentManager.Load<Texture2D>(AssetsConstants.MENU_MUSIC), MENU_FRAMERATE));
 
+            // number for music volume
             numberSettings.Add(new Number(contentManager, device, musicVolume, left + MENU_ITEM_VALUE_RIGHT_PADDING, top + 3 * STEP + 3));
 
             menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top + 4 * STEP),
@@ -243,7 +261,12 @@ namespace SpaceShip.Objects.Views
         /// <param name="pressedRight">if set to <c>true</c> [pressed right].</param>
         void UpdateSelectedOption(bool pressedRight)
         {
-            if (selectedItemIndex == 1)
+            if (selectedItemIndex == 0)
+            {
+                UpdateTextValueOfActualMenuItem(optionSettings[selectedItemIndex], pressedRight);
+                InitSettingsPage(contentManager, device);
+            }
+            else if (selectedItemIndex == 1)
             {
                 UpdateTextValueOfActualMenuItem(optionSettings[selectedItemIndex]);
             }
@@ -257,13 +280,57 @@ namespace SpaceShip.Objects.Views
             }
         }
 
+        private void UpdateTextValueOfActualMenuItem(Text text)
+        {
+            UpdateTextValueOfActualMenuItem(text, true);
+        }
+
+        /// <summary>
+        /// Updates the resolution text - change ui resolution and change resolution text
+        /// </summary>
+        void UpdateResolutionText()
+        {
+            if (currentResolution == ScreenResultions.R800x600)
+            {
+                game.ChangeScreenResolution(800, 600);
+            }
+            else if (currentResolution == ScreenResultions.R1024x768)
+            {
+                game.ChangeScreenResolution(1024, 768);
+            }
+            else if (currentResolution == ScreenResultions.R1280x720)
+            {
+                game.ChangeScreenResolution(1280, 720);
+            }
+            else if (currentResolution == ScreenResultions.R1366x768)
+            {
+                game.ChangeScreenResolution(1366, 768);
+            }
+
+            // TODO: ! set correct text from RESOLUTIONS.PNG
+        }
+
         /// <summary>
         /// Updates the text value of actual menu item.
         /// </summary>
         /// <param name="text">The text.</param>
-        private void UpdateTextValueOfActualMenuItem(Text text)
+        private void UpdateTextValueOfActualMenuItem(Text text, bool pressedRight)
         {
-            if (selectedItemIndex == 1)
+            if (selectedItemIndex == 0)
+            {
+                if (pressedRight)
+                {
+                    if (currentResolution < ScreenResultions.R1366x768)
+                        currentResolution += 1;
+                }
+                else
+                {
+                    if (currentResolution > ScreenResultions.R800x600)
+                        currentResolution -= 1;
+                }
+                UpdateResolutionText();
+            }
+            else if (selectedItemIndex == 1)
             {                
                 if (fullScreenOn)
                     text.ChangeText("OFF");

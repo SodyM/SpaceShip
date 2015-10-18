@@ -76,7 +76,6 @@ namespace SpaceShip
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = GameConstants.WINDOW_WIDTH;
             graphics.PreferredBackBufferHeight = GameConstants.WINDOW_HEIGHT;
-            //graphics.ToggleFullScreen();
 
             Content.RootDirectory = "Content";
         }
@@ -84,6 +83,18 @@ namespace SpaceShip
         public void SetFullScreen()
         {
             graphics.ToggleFullScreen();
+        }
+
+        /// <summary>
+        /// Changes the screen resolution.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="heigh">The heigh.</param>
+        public void ChangeScreenResolution(int width, int heigh)
+        {
+            graphics.PreferredBackBufferWidth = width;
+            graphics.PreferredBackBufferHeight = heigh;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
