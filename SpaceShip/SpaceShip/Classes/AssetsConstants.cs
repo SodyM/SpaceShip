@@ -41,6 +41,7 @@ namespace SpaceShip.Classes
         public const string MENU_RESOLUTION                     = "resolution";
         public const string MENU_FULLSCREEN                     = "fullscreen";
         public const string MENU_SOUND                          = "sound";
+        public const string MENU_OPTIONS_RESOLUTIONS            = "Resolutions";
         
 
         // sounds

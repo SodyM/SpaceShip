@@ -108,6 +108,7 @@
     <Compile Include="Objects\ParallaxingBackground.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Objects\Projectile.cs" />
+    <Compile Include="Objects\Resolution.cs" />
     <Compile Include="Objects\ScreenResultions.cs" />
     <Compile Include="Objects\StaticUiObject.cs" />
     <Compile Include="Objects\Text.cs" />

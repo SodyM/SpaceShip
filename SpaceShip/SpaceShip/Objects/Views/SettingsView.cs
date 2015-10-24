@@ -50,6 +50,9 @@ namespace SpaceShip.Objects.Views
         List<Text> optionSettings;
         List<Number> numberSettings;
 
+
+        Resolution selectedResolution;
+
         bool fullScreenOn = false;
 
         AudioCategory musicCategory;
@@ -75,7 +78,7 @@ namespace SpaceShip.Objects.Views
 
             optionSettings = new List<Text>();
             numberSettings = new List<Number>();
-
+            
             this.soundBank = soundBank;
 
 
@@ -90,15 +93,23 @@ namespace SpaceShip.Objects.Views
             int left = device.Viewport.Width / 2 - MENU_WIDTH / 2;
             int top = device.Viewport.Height / 2 - (MENU_HEIGHT + STEP * 4) / 2;
 
+            
             menuItems.Clear();
             optionSettings.Clear();
             numberSettings.Clear();
 
+            // load text + texture for RESOLUTION option menu
             menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top),
                 contentManager.Load<Texture2D>(AssetsConstants.MENU_RESOLUTION), MENU_FRAMERATE));
 
-            optionSettings.Add(new Text(contentManager, device, "TODO", left + MENU_ITEM_VALUE_RIGHT_PADDING, top));
+            // load text + textures for selectec resolution
+            selectedResolution = new Resolution(contentManager, device, left + MENU_ITEM_VALUE_RIGHT_PADDING, top);
 
+            //optionSettings.Add(new Text(contentManager, device, "michal", left + MENU_ITEM_VALUE_RIGHT_PADDING, top));
+            //optionSettings.Add(new Text(contentManager, device, "michal", left + MENU_ITEM_VALUE_RIGHT_PADDING, top));
+            
+
+            // load text + texture for FULL SCREEN option menu
             menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top + STEP),
                 contentManager.Load<Texture2D>(AssetsConstants.MENU_FULLSCREEN), MENU_FRAMERATE));
 
@@ -160,6 +171,9 @@ namespace SpaceShip.Objects.Views
             {
                 item.DrawText(spriteBatch);
             }
+
+            selectedResolution.DrawResolution(spriteBatch, currentResolution);
+
             base.Draw(spriteBatch, gameTime);
         }
 
@@ -268,7 +282,7 @@ namespace SpaceShip.Objects.Views
             }
             else if (selectedItemIndex == 1)
             {
-                UpdateTextValueOfActualMenuItem(optionSettings[selectedItemIndex]);
+                UpdateTextValueOfActualMenuItem(optionSettings[selectedItemIndex - 1]);
             }
             else if (selectedItemIndex == 2)
             {                
