@@ -25,8 +25,6 @@ namespace SpaceShip.Objects.Views
         int image_size = 200;
 
         int top = 10;
-        int bottom = 390;
-        
 
         Texture2D sprite_god, sprite_pray;
         MusicManager musicManager;
@@ -43,17 +41,6 @@ namespace SpaceShip.Objects.Views
             : base(contentManager, device, game, soundBank, musicManager)
         {
             this.soundBank = soundBank;            
-            //credits = new List<Text>();
-            
-            //int left = device.Viewport.Width / 2;
-            //int top = device.Viewport.Height / 2 - 30;
-
-            //credits.Add(new Text(contentManager, device, GameConstants.LINE1, left - line1_padding, top));
-            //credits.Add(new Text(contentManager, device, GameConstants.LINE2, left - line2_padding, top + line2_top_padding));
-            //credits.Add(new Text(contentManager, device, GameConstants.LINE3, left - line3_padding, top + 2 *(line2_top_padding)));
-
-            //sprite_god = contentManager.Load<Texture2D>(AssetsConstants.GOD);
-            //sprite_pray = contentManager.Load<Texture2D>(AssetsConstants.PRAY);
             InitPage();
         }
 
@@ -84,8 +71,13 @@ namespace SpaceShip.Objects.Views
                 item.DrawText(spriteBatch, TextColor.Blue);    
             }
 
+            // draw upper image with heino
             spriteBatch.Draw(sprite_god, new Rectangle(device.Viewport.Width / 2 - image_left_padding, top, image_size, image_size), Color.White);
-            spriteBatch.Draw(sprite_pray, new Rectangle(device.Viewport.Width / 2 - image_left_padding, bottom, image_size, image_size), Color.White);
+            
+            // draw oli and sody
+            spriteBatch.Draw(sprite_pray, 
+                new Rectangle(device.Viewport.Width / 2 - image_left_padding,
+                    device.Viewport.Height - image_size - top, image_size, image_size), Color.White);
 
             base.Draw(spriteBatch, gameTime);
         }        
