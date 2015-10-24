@@ -91,10 +91,13 @@ namespace SpaceShip
         /// <param name="width">The width.</param>
         /// <param name="heigh">The heigh.</param>
         public void ChangeScreenResolution(int width, int heigh)
-        {
+        {            
             graphics.PreferredBackBufferWidth = width;
             graphics.PreferredBackBufferHeight = heigh;
             graphics.ApplyChanges();
+
+            mainMenu.InitPage();
+            creditsView.InitPage();
         }
 
         /// <summary>

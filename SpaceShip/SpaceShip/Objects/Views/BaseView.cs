@@ -106,7 +106,8 @@ namespace SpaceShip.Objects.Views
                     escPressed = false;
                     escReleased = false;
 
-                    musicManager.StopCreditsTheme();
+                    if (musicManager != null)
+                        musicManager.StopCreditsTheme();
 
                     GameState currentGameState = game.GetCurrentGameState();
                     if (currentGameState == GameState.MENU_MAIN)

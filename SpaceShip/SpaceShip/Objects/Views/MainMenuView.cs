@@ -42,21 +42,27 @@ namespace SpaceShip.Objects.Views
         /// <param name="game">The game.</param>
         public MainMenuView(ContentManager contentManager, GraphicsDevice device, SpaceShipGame game, SoundBank soundBank, MusicManager musicmanager)
             : base(contentManager, device, game, soundBank, musicmanager)
-        {            
+        {
+            InitPage();
+        }
+
+        public void InitPage()
+        {
             int left = device.Viewport.Width / 2 - MENU_WIDTH / 2;
             int top = device.Viewport.Height / 2 - (MENU_HEIGHT + STEP * 4) / 2;
 
-            menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top), 
-                contentManager.Load<Texture2D>(AssetsConstants.MENU_NEW_GAME), MENU_FRAMERATE));
+            menuItems.Clear();
+            menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top),
+               contentManager.Load<Texture2D>(AssetsConstants.MENU_NEW_GAME), MENU_FRAMERATE));
 
-            menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top + STEP), 
+            menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top + STEP),
                 contentManager.Load<Texture2D>(AssetsConstants.MENU_SETTINGS), MENU_FRAMERATE));
 
-            menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top + 2 * STEP), 
+            menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top + 2 * STEP),
                 contentManager.Load<Texture2D>(AssetsConstants.MENU_CREDITS), MENU_FRAMERATE));
 
-            menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top + 3 * STEP), 
-                contentManager.Load<Texture2D>(AssetsConstants.MENU_QUIT), MENU_FRAMERATE));           
+            menuItems.Add(new AnimatedUiObject(FRAMECOUNT, MENU_WIDTH, MENU_HEIGHT, new Vector2(left, top + 3 * STEP),
+                contentManager.Load<Texture2D>(AssetsConstants.MENU_QUIT), MENU_FRAMERATE));         
         }
 
         /// <summary>
@@ -82,8 +88,7 @@ namespace SpaceShip.Objects.Views
                 item.Update(gameTime);
             }
         }
-
-        
+              
         /// <summary>
         /// Handles the keyboard input.
         /// </summary>

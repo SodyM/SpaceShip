@@ -43,14 +43,30 @@ namespace SpaceShip.Objects.Views
             : base(contentManager, device, game, soundBank, musicManager)
         {
             this.soundBank = soundBank;            
-            credits = new List<Text>();
+            //credits = new List<Text>();
             
+            //int left = device.Viewport.Width / 2;
+            //int top = device.Viewport.Height / 2 - 30;
+
+            //credits.Add(new Text(contentManager, device, GameConstants.LINE1, left - line1_padding, top));
+            //credits.Add(new Text(contentManager, device, GameConstants.LINE2, left - line2_padding, top + line2_top_padding));
+            //credits.Add(new Text(contentManager, device, GameConstants.LINE3, left - line3_padding, top + 2 *(line2_top_padding)));
+
+            //sprite_god = contentManager.Load<Texture2D>(AssetsConstants.GOD);
+            //sprite_pray = contentManager.Load<Texture2D>(AssetsConstants.PRAY);
+            InitPage();
+        }
+
+        public void InitPage()
+        {
+            credits = new List<Text>();
+
             int left = device.Viewport.Width / 2;
             int top = device.Viewport.Height / 2 - 30;
 
             credits.Add(new Text(contentManager, device, GameConstants.LINE1, left - line1_padding, top));
             credits.Add(new Text(contentManager, device, GameConstants.LINE2, left - line2_padding, top + line2_top_padding));
-            credits.Add(new Text(contentManager, device, GameConstants.LINE3, left - line3_padding, top + 2 *(line2_top_padding)));
+            credits.Add(new Text(contentManager, device, GameConstants.LINE3, left - line3_padding, top + 2 * (line2_top_padding)));
 
             sprite_god = contentManager.Load<Texture2D>(AssetsConstants.GOD);
             sprite_pray = contentManager.Load<Texture2D>(AssetsConstants.PRAY);
